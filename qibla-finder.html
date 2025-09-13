@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qibla Finder - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="/what-is-islam.html" class="nav-link">About</a>
+                <a href="/community.html" class="nav-link">Contact</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fas fa-compass"></i>
+                </div>
+                <h1>Qibla Finder</h1>
+                <p class="page-subtitle">Find the Direction to Mecca for Prayer</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-main">
+                    <div class="content-card">
+                        <h2>What is Qibla?</h2>
+                        <p>Qibla is the direction that Muslims face when performing their prayers (Salah). It points toward the Kaaba in the Sacred Mosque (Masjid al-Haram) in Mecca, Saudi Arabia. Facing the Qibla is a fundamental requirement for valid prayer in Islam.</p>
+                        
+                        <div class="verse-highlight">
+                            <div class="arabic-verse">
+                                "فَوَلِّ وَجْهَكَ شَطْرَ الْمَسْجِدِ الْحَرَامِ"
+                            </div>
+                            <div class="verse-translation">
+                                "So turn your face toward the Sacred Mosque" - Quran 2:144
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Interactive Qibla Compass</h2>
+                        <p>Use our interactive compass to find the Qibla direction from your current location.</p>
+                        
+                        <div class="compass-container">
+                            <div class="compass-wrapper">
+                                <div class="compass-outer">
+                                    <div class="compass-inner" id="compass-needle">
+                                        <div class="compass-pointer"></div>
+                                    </div>
+                                    <div class="compass-directions">
+                                        <span class="direction north">N</span>
+                                        <span class="direction east">E</span>
+                                        <span class="direction south">S</span>
+                                        <span class="direction west">W</span>
+                                    </div>
+                                </div>
+                                <div class="qibla-indicator" id="qibla-indicator">
+                                    <i class="fas fa-kaaba"></i>
+                                </div>
+                            </div>
+                            <div class="compass-controls">
+                                <button class="compass-btn" id="get-location-btn" onclick="getCurrentLocation()">
+                                    <i class="fas fa-map-marker-alt"></i> Get My Location
+                                </button>
+                                <button class="compass-btn" id="calibrate-btn" onclick="calibrateCompass()">
+                                    <i class="fas fa-sync"></i> Calibrate Compass
+                                </button>
+                            </div>
+                            <div class="compass-info">
+                                <div class="info-item">
+                                    <strong>Qibla Direction:</strong> <span id="qibla-direction">--°</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Distance to Mecca:</strong> <span id="distance-to-mecca">-- km</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Location:</strong> <span id="current-location">Not detected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Comprehensive Methods to Find Qibla</h2>
+                        <p>There are several reliable methods to determine the Qibla direction. Choose the method that works best for your situation.</p>
+                        
+                        <div class="qibla-methods-container">
+                            <div class="method-section">
+                                <h3><i class="fas fa-mobile-alt"></i> Digital Methods</h3>
+                                
+                                <div class="method-item">
+                                    <h4><i class="fas fa-map-marked-alt"></i> GPS-Based Apps</h4>
+                                    <p><strong>Most Accurate Method</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Download a reliable Qibla app (see recommendations below)</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Enable location services on your device</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Allow the app to access your current location</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Follow the on-screen compass arrow pointing to Mecca</p>
+                                        </div>
+                                    </div>
+                                    <div class="method-pros-cons">
+                                        <div class="pros">
+                                            <strong>Pros:</strong> Highly accurate, works anywhere, easy to use
+                                        </div>
+                                        <div class="cons">
+                                            <strong>Cons:</strong> Requires internet/GPS, battery dependent
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="method-item">
+                                    <h4><i class="fas fa-globe"></i> Online Qibla Calculators</h4>
+                                    <p><strong>Web-Based Solutions</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Visit a reliable online Qibla calculator</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Enter your current location (city or coordinates)</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Get the exact compass bearing to Mecca</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Use a physical compass to align with the bearing</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="method-section">
+                                <h3><i class="fas fa-compass"></i> Traditional Methods</h3>
+                                
+                                <div class="method-item">
+                                    <h4><i class="fas fa-compass"></i> Physical Compass Method</h4>
+                                    <p><strong>Classic Navigation Tool</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Obtain a reliable magnetic compass</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Find the compass bearing to Mecca from your location</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Account for magnetic declination (varies by location)</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Align the compass needle with the calculated bearing</p>
+                                        </div>
+                                    </div>
+                                    <div class="compass-bearings">
+                                        <h5>Common Qibla Bearings (approximate):</h5>
+                                        <ul>
+                                            <li><strong>North America:</strong> 60-70° Northeast</li>
+                                            <li><strong>Europe:</strong> 120-130° Southeast</li>
+                                            <li><strong>Asia:</strong> 270-290° West</li>
+                                            <li><strong>Africa:</strong> 60-90° Northeast</li>
+                                            <li><strong>Australia:</strong> 290-310° Northwest</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="method-item">
+                                    <h4><i class="fas fa-sun"></i> Sun Shadow Method</h4>
+                                    <p><strong>Ancient Astronomical Technique</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Find a straight stick or pole (1-2 meters tall)</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Place it vertically on flat ground</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Mark the shadow tip at two different times</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Draw a line between the two marks to find East-West</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">5</span>
+                                            <p>Calculate Qibla direction based on your location</p>
+                                        </div>
+                                    </div>
+                                    <div class="method-note">
+                                        <strong>Note:</strong> This method requires knowledge of your location's Qibla bearing and works best around noon.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="method-section">
+                                <h3><i class="fas fa-star"></i> Celestial Navigation</h3>
+                                
+                                <div class="method-item">
+                                    <h4><i class="fas fa-star"></i> North Star Method</h4>
+                                    <p><strong>Traditional Star Navigation</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Find the North Star (Polaris) in the night sky</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Face the North Star (you're facing North)</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Turn to your right or left based on Qibla bearing</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Use landmarks to maintain direction during prayer</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="method-item">
+                                    <h4><i class="fas fa-moon"></i> Moon and Stars Method</h4>
+                                    <p><strong>Advanced Celestial Navigation</strong></p>
+                                    <div class="method-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <p>Learn to identify major constellations</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <p>Use Orion's Belt as a reference point</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <p>Calculate direction based on star positions</p>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <p>Practice regularly to improve accuracy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Interactive Qibla Compass</h2>
+                        <p>Use our interactive compass to find the exact direction to Mecca from your current location.</p>
+                        
+                        <div class="qibla-compass-container">
+                            <div class="compass-wrapper">
+                                <div class="compass-face">
+                                    <div class="compass-needle" id="qiblaNeedle"></div>
+                                    <div class="compass-directions">
+                                        <div class="direction north">N</div>
+                                        <div class="direction east">E</div>
+                                        <div class="direction south">S</div>
+                                        <div class="direction west">W</div>
+                                    </div>
+                                    <div class="qibla-indicator">
+                                        <i class="fas fa-kaaba"></i>
+                                        <span>Qibla</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="compass-controls">
+                                <button class="btn-primary" id="getLocationBtn" onclick="getCurrentLocation()">
+                                    <i class="fas fa-location-arrow"></i>
+                                    Find My Qibla Direction
+                                </button>
+                                
+                                <div class="manual-input">
+                                    <h4>Or Enter Your Location Manually</h4>
+                                    <div class="input-group">
+                                        <input type="text" id="cityInput" placeholder="Enter your city name">
+                                        <button class="btn-secondary" onclick="getQiblaByCity()">Find Qibla</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="compass-results" id="compassResults" style="display: none;">
+                                <div class="result-card">
+                                    <h4><i class="fas fa-compass"></i> Qibla Direction</h4>
+                                    <div class="result-info">
+                                        <div class="direction-display">
+                                            <span class="direction-text" id="directionText">Northeast</span>
+                                            <span class="degrees" id="degrees">45°</span>
+                                        </div>
+                                        <div class="distance-info">
+                                            <p><strong>Distance to Mecca:</strong> <span id="distanceKm">8,347 km</span></p>
+                                            <p><strong>Your Location:</strong> <span id="userLocation">New York, USA</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accuracy-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <p>This direction is calculated using the Great Circle method, which is the most accurate for navigation purposes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="compass-instructions">
+                            <h4>How to Use This Compass</h4>
+                            <ol>
+                                <li>Click "Find My Qibla Direction" and allow location access</li>
+                                <li>The red needle will point toward the Qibla direction</li>
+                                <li>Face the direction indicated by the needle</li>
+                                <li>Use landmarks to maintain this direction during prayer</li>
+                                <li>For manual entry, type your city name and click "Find Qibla"</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Recommended Qibla Apps</h2>
+                        <p>Here are some highly-rated and reliable Qibla compass apps for different platforms:</p>
+                        
+                        <div class="apps-grid">
+                            <div class="app-item">
+                                <div class="app-icon">
+                                    <i class="fab fa-android"></i>
+                                </div>
+                                <div class="app-info">
+                                    <h4>Qibla Compass</h4>
+                                    <p><strong>Platform:</strong> Android</p>
+                                    <p><strong>Features:</strong> GPS-based, offline maps, prayer times</p>
+                                    <div class="app-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="app-item">
+                                <div class="app-icon">
+                                    <i class="fab fa-apple"></i>
+                                </div>
+                                <div class="app-info">
+                                    <h4>Muslim Pro</h4>
+                                    <p><strong>Platform:</strong> iOS & Android</p>
+                                    <p><strong>Features:</strong> Qibla compass, prayer times, Quran, offline</p>
+                                    <div class="app-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.9/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="app-item">
+                                <div class="app-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="app-info">
+                                    <h4>Qibla Direction</h4>
+                                    <p><strong>Platform:</strong> Universal</p>
+                                    <p><strong>Features:</strong> Simple interface, accurate GPS, AR mode</p>
+                                    <div class="app-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>4.6/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="app-item">
+                                <div class="app-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="app-info">
+                                    <h4>Islamic Compass</h4>
+                                    <p><strong>Platform:</strong> Web & Mobile</p>
+                                    <p><strong>Features:</strong> Works offline, multiple methods, educational</p>
+                                    <div class="app-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.7/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="app-tips">
+                            <h4>Tips for Choosing a Qibla App</h4>
+                            <ul>
+                                <li><strong>Accuracy:</strong> Look for apps that use GPS and calculate Great Circle distance</li>
+                                <li><strong>Offline Functionality:</strong> Choose apps that work without internet connection</li>
+                                <li><strong>User Reviews:</strong> Check user ratings and reviews for reliability</li>
+                                <li><strong>Additional Features:</strong> Consider apps with prayer times and Islamic calendar</li>
+                                <li><strong>Regular Updates:</strong> Ensure the app is regularly updated for accuracy</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Historical Significance of Qibla</h2>
+                        <p>The Qibla has a rich history in Islam, with significant changes that reflect the evolution of Islamic worship.</p>
+                        
+                        <div class="qibla-history">
+                            <div class="history-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <h4>Pre-Islamic Period</h4>
+                                        <p>Various directions were used for prayer, including toward Jerusalem and other sacred sites.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <h4>Early Islamic Period (610-622 CE)</h4>
+                                        <p>Muslims initially prayed facing Jerusalem (Bayt al-Maqdis), following Jewish tradition.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <h4>The Change (622 CE)</h4>
+                                        <p>During the second year of Hijrah in Medina, Allah revealed the command to change the Qibla direction to Mecca.</p>
+                                        <div class="verse-highlight">
+                                            <div class="arabic-verse">
+                                                "قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ ۖ فَلَنُوَلِّيَنَّكَ قِبْلَةً تَرْضَاهَا"
+                                            </div>
+                                            <div class="verse-translation">
+                                                "We have certainly seen the turning of your face toward heaven. So We will surely turn you to a qibla with which you will be pleased." - Quran 2:144
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <h4>Present Day</h4>
+                                        <p>All Muslims worldwide face the Kaaba in Mecca for their prayers, creating unity in worship direction.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="qibla-significance">
+                            <h4>Why the Kaaba?</h4>
+                            <div class="significance-grid">
+                                <div class="significance-item">
+                                    <h5><i class="fas fa-heart"></i> Spiritual Unity</h5>
+                                    <p>The Kaaba represents the spiritual center of Islam, uniting all Muslims in worship regardless of their physical location.</p>
+                                </div>
+                                
+                                <div class="significance-item">
+                                    <h5><i class="fas fa-history"></i> Historical Connection</h5>
+                                    <p>Built by Prophet Ibrahim (Abraham) and his son Ismail, the Kaaba connects Muslims to their prophetic heritage.</p>
+                                </div>
+                                
+                                <div class="significance-item">
+                                    <h5><i class="fas fa-globe"></i> Universal Symbol</h5>
+                                    <p>Facing the Kaaba creates a sense of global Muslim community, with millions praying toward the same sacred point.</p>
+                                </div>
+                                
+                                <div class="significance-item">
+                                    <h5><i class="fas fa-pray"></i> Divine Command</h5>
+                                    <p>It's a direct commandment from Allah in the Quran, making it an essential part of Islamic worship.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Global Qibla Directions</h2>
+                        <p>Understanding Qibla directions from major cities around the world helps Muslims prepare for travel and prayer.</p>
+                        
+                        <div class="global-qibla-grid">
+                            <div class="region-section">
+                                <h4><i class="fas fa-flag-usa"></i> North America</h4>
+                                <div class="city-directions">
+                                    <div class="city-item">
+                                        <strong>New York:</strong> Northeast (58°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Los Angeles:</strong> Northeast (18°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Toronto:</strong> Northeast (52°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Vancouver:</strong> Northeast (27°)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="region-section">
+                                <h4><i class="fas fa-flag"></i> Europe</h4>
+                                <div class="city-directions">
+                                    <div class="city-item">
+                                        <strong>London:</strong> Southeast (118°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Paris:</strong> Southeast (122°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Berlin:</strong> Southeast (130°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Madrid:</strong> Southeast (115°)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="region-section">
+                                <h4><i class="fas fa-flag"></i> Asia</h4>
+                                <div class="city-directions">
+                                    <div class="city-item">
+                                        <strong>Tokyo:</strong> West (293°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Beijing:</strong> West (270°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Mumbai:</strong> West (280°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Jakarta:</strong> Northwest (295°)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="region-section">
+                                <h4><i class="fas fa-flag"></i> Africa</h4>
+                                <div class="city-directions">
+                                    <div class="city-item">
+                                        <strong>Cairo:</strong> Southeast (135°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Lagos:</strong> Northeast (65°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Casablanca:</strong> Southeast (100°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Nairobi:</strong> Northeast (45°)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="region-section">
+                                <h4><i class="fas fa-flag"></i> Australia & Oceania</h4>
+                                <div class="city-directions">
+                                    <div class="city-item">
+                                        <strong>Sydney:</strong> Northwest (297°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Melbourne:</strong> Northwest (296°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Auckland:</strong> Northwest (301°)
+                                    </div>
+                                    <div class="city-item">
+                                        <strong>Perth:</strong> Northwest (290°)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="travel-tips">
+                            <h4>Travel Tips for Finding Qibla</h4>
+                            <ul>
+                                <li><strong>Before Travel:</strong> Download a reliable Qibla app that works offline</li>
+                                <li><strong>At Airport:</strong> Look for prayer rooms - they usually have Qibla indicators</li>
+                                <li><strong>In Hotel:</strong> Ask the concierge or check if there's a Qibla indicator in your room</li>
+                                <li><strong>Local Mosques:</strong> Visit nearby mosques to confirm the correct direction</li>
+                                <li><strong>Landmarks:</strong> Use permanent landmarks to maintain direction during your stay</li>
+                                <li><strong>Multiple Methods:</strong> Cross-reference different methods for accuracy</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Common Qibla Finding Issues & Solutions</h2>
+                        <p>Here are solutions to common problems Muslims face when trying to find the Qibla direction.</p>
+                        
+                        <div class="troubleshooting-grid">
+                            <div class="issue-item">
+                                <h4><i class="fas fa-exclamation-triangle"></i> GPS Not Working</h4>
+                                <p><strong>Problem:</strong> GPS signal is weak or unavailable indoors or in remote areas.</p>
+                                <div class="solutions">
+                                    <strong>Solutions:</strong>
+                                    <ul>
+                                        <li>Move to an open area with clear sky view</li>
+                                        <li>Wait a few minutes for GPS to lock onto satellites</li>
+                                        <li>Use offline Qibla apps with pre-calculated directions</li>
+                                        <li>Check with local mosque or Islamic center</li>
+                                        <li>Use traditional compass with known bearing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <h4><i class="fas fa-mobile-alt"></i> Phone Compass Inaccurate</h4>
+                                <p><strong>Problem:</strong> Phone compass shows different readings or seems unreliable.</p>
+                                <div class="solutions">
+                                    <strong>Solutions:</strong>
+                                    <ul>
+                                        <li>Calibrate your phone's compass by moving it in figure-8 pattern</li>
+                                        <li>Avoid using near metal objects or electronic devices</li>
+                                        <li>Check for magnetic interference from speakers, computers</li>
+                                        <li>Use a dedicated physical compass for verification</li>
+                                        <li>Cross-reference with multiple compass apps</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <h4><i class="fas fa-question-circle"></i> Conflicting Directions</h4>
+                                <p><strong>Problem:</strong> Different sources show different Qibla directions.</p>
+                                <div class="solutions">
+                                    <strong>Solutions:</strong>
+                                    <ul>
+                                        <li>Check the calculation method used (Great Circle vs Rhumb Line)</li>
+                                        <li>Verify if magnetic declination is accounted for</li>
+                                        <li>Use the most accurate GPS-based calculation</li>
+                                        <li>Consult local Islamic authorities or mosque</li>
+                                        <li>When in doubt, choose the direction closest to the majority</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <h4><i class="fas fa-wifi"></i> No Internet Connection</h4>
+                                <p><strong>Problem:</strong> Can't access online Qibla calculators or apps requiring internet.</p>
+                                <div class="solutions">
+                                    <strong>Solutions:</strong>
+                                    <ul>
+                                        <li>Download offline Qibla apps before traveling</li>
+                                        <li>Save Qibla directions for your destination in advance</li>
+                                        <li>Use traditional methods like sun position or stars</li>
+                                        <li>Carry a physical compass with pre-calculated bearings</li>
+                                        <li>Ask locals or hotel staff for direction</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <h4><i class="fas fa-building"></i> Indoor/Underground Locations</h4>
+                                <p><strong>Problem:</strong> GPS doesn't work well inside buildings or underground.</p>
+                                <div class="solutions">
+                                    <strong>Solutions:</strong>
+                                    <ul>
+                                        <li>Find the Qibla direction before entering the building</li>
+                                        <li>Use landmarks visible from your location</li>
+                                        <li>Ask building management for Qibla direction</li>
+                                        <li>Look for prayer room indicators in the building</li>
+                                        <li>Use your last known GPS reading as reference</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-sidebar">
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-info-circle"></i> Kaaba Quick Facts</h3>
+                        <ul class="facts-list">
+                            <li><strong>Location:</strong> Mecca, Saudi Arabia</li>
+                            <li><strong>Building:</strong> Sacred Mosque (Masjid al-Haram)</li>
+                            <li><strong>Coordinates:</strong> 21.4225°N, 39.8262°E</li>
+                            <li><strong>Height:</strong> 13.1 meters (43 feet)</li>
+                            <li><strong>Built by:</strong> Prophet Ibrahim & Ismail</li>
+                            <li><strong>Required for:</strong> All five daily prayers</li>
+                            <li><strong>Accuracy:</strong> Best effort required</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-compass"></i> Quick Qibla Tips</h3>
+                        <ul class="tips-list">
+                            <li><i class="fas fa-check"></i> Use multiple methods to verify direction</li>
+                            <li><i class="fas fa-check"></i> Check local mosque orientation</li>
+                            <li><i class="fas fa-check"></i> Mark direction on prayer rug</li>
+                            <li><i class="fas fa-check"></i> Use permanent landmarks as reference</li>
+                            <li><i class="fas fa-check"></i> Download offline Qibla apps</li>
+                            <li><i class="fas fa-check"></i> Calibrate phone compass regularly</li>
+                            <li><i class="fas fa-check"></i> Avoid magnetic interference</li>
+                            <li><i class="fas fa-check"></i> Cross-reference with local mosques</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Major City Bearings</h3>
+                        <div class="city-bearings">
+                            <div class="bearing-item">
+                                <strong>New York:</strong> 58° NE
+                            </div>
+                            <div class="bearing-item">
+                                <strong>London:</strong> 118° SE
+                            </div>
+                            <div class="bearing-item">
+                                <strong>Tokyo:</strong> 293° W
+                            </div>
+                            <div class="bearing-item">
+                                <strong>Sydney:</strong> 297° NW
+                            </div>
+                            <div class="bearing-item">
+                                <strong>Dubai:</strong> 180° S
+                            </div>
+                            <div class="bearing-item">
+                                <strong>Istanbul:</strong> 130° SE
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-mobile-alt"></i> Best Qibla Apps</h3>
+                        <div class="app-recommendations">
+                            <div class="app-rec">
+                                <strong>Muslim Pro</strong>
+                                <span class="rating">★★★★★</span>
+                                <p>Most popular, works offline</p>
+                            </div>
+                            <div class="app-rec">
+                                <strong>Qibla Compass</strong>
+                                <span class="rating">★★★★☆</span>
+                                <p>Simple and accurate</p>
+                            </div>
+                            <div class="app-rec">
+                                <strong>Islamic Compass</strong>
+                                <span class="rating">★★★★☆</span>
+                                <p>Educational features</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-clock"></i> Emergency Methods</h3>
+                        <div class="emergency-methods">
+                            <div class="method-item">
+                                <strong>Sun Position:</strong> Face sun at sunrise (East)
+                            </div>
+                            <div class="method-item">
+                                <strong>North Star:</strong> Find Polaris for North reference
+                            </div>
+                            <div class="method-item">
+                                <strong>Shadow Method:</strong> Use stick shadow at noon
+                            </div>
+                            <div class="method-item">
+                                <strong>Local Mosque:</strong> Ask locals for direction
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card action-card">
+                        <h3><i class="fas fa-pray"></i> Learn Prayer</h3>
+                        <p>Master the complete prayer guide to complement your Qibla knowledge.</p>
+                        <button class="btn-primary" onclick="window.location.href='prayer-guide.html'">Prayer Guide</button>
+                        <button class="btn-secondary" onclick="window.location.href='wudu-guide.html'">Wudu Guide</button>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-book"></i> Related Topics</h3>
+                        <ul class="related-links">
+                            <li><a href="prayer-guide.html"><i class="fas fa-pray"></i> Prayer Guide</a></li>
+                            <li><a href="wudu-guide.html"><i class="fas fa-hands-wash"></i> Wudu Guide</a></li>
+                            <li><a href="islamic-calendar.html"><i class="fas fa-calendar"></i> Prayer Times</a></li>
+                            <li><a href="new-muslims.html"><i class="fas fa-star"></i> New Muslim Guide</a></li>
+                            <li><a href="quran.html"><i class="fas fa-book-open"></i> Quran Reading</a></li>
+                            <li><a href="subjects.html"><i class="fas fa-graduation-cap"></i> All Subjects</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Prayer Tools</h4>
+                    <ul>
+                        <li><a href="qibla-finder.html">Qibla Compass</a></li>
+                        <li><a href="prayer-guide.html">Prayer Guide</a></li>
+                        <li><a href="islamic-calendar.html">Prayer Times</a></li>
+                        <li><a href="wudu-guide.html">Wudu Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Learning</h4>
+                    <ul>
+                        <li><a href="subjects.html">All Subjects</a></li>
+                        <li><a href="quran.html">Quran Study</a></li>
+                        <li><a href="what-is-islam.html">What is Islam?</a></li>
+                        <li><a href="new-muslims.html">New Muslims</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script src="islamic-interactive.js"></script>
+    <script>
+        // Qibla Compass Functionality
+        let currentLocation = null;
+        let qiblaDirection = 0;
+        let compassCalibrated = false;
+
+        // Mecca coordinates
+        const MECCA_LAT = 21.4225;
+        const MECCA_LNG = 39.8262;
+
+        function getCurrentLocation() {
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by this browser.');
+                return;
+            }
+
+            const btn = document.getElementById('get-location-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+            btn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    currentLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    
+                    calculateQiblaDirection();
+                    updateLocationDisplay();
+                    
+                    btn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Location Found';
+                    btn.disabled = false;
+                },
+                function(error) {
+                    alert('Error getting location: ' + error.message);
+                    btn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Get My Location';
+                    btn.disabled = false;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000
+                }
+            );
+        }
+
+        function calculateQiblaDirection() {
+            if (!currentLocation) return;
+
+            // Calculate bearing from current location to Mecca
+            const lat1 = currentLocation.lat * Math.PI / 180;
+            const lat2 = MECCA_LAT * Math.PI / 180;
+            const deltaLng = (MECCA_LNG - currentLocation.lng) * Math.PI / 180;
+
+            const y = Math.sin(deltaLng) * Math.cos(lat2);
+            const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(deltaLng);
+
+            let bearing = Math.atan2(y, x) * 180 / Math.PI;
+            bearing = (bearing + 360) % 360;
+
+            qiblaDirection = bearing;
+            updateCompass();
+            updateQiblaInfo();
+        }
+
+        function updateCompass() {
+            const needle = document.getElementById('compass-needle');
+            const qiblaIndicator = document.getElementById('qibla-indicator');
+            
+            if (needle) {
+                needle.style.transform = `rotate(${qiblaDirection}deg)`;
+            }
+            
+            if (qiblaIndicator) {
+                qiblaIndicator.style.transform = `rotate(${qiblaDirection}deg)`;
+            }
+        }
+
+        function updateQiblaInfo() {
+            document.getElementById('qibla-direction').textContent = Math.round(qiblaDirection) + '°';
+            
+            if (currentLocation) {
+                const distance = calculateDistance(currentLocation.lat, currentLocation.lng, MECCA_LAT, MECCA_LNG);
+                document.getElementById('distance-to-mecca').textContent = Math.round(distance) + ' km';
+            }
+        }
+
+        function updateLocationDisplay() {
+            if (currentLocation) {
+                document.getElementById('current-location').textContent = 
+                    `${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`;
+            }
+        }
+
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in kilometers
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function calibrateCompass() {
+            const btn = document.getElementById('calibrate-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calibrating...';
+            btn.disabled = true;
+
+            // Simulate compass calibration
+            setTimeout(() => {
+                compassCalibrated = true;
+                btn.innerHTML = '<i class="fas fa-check"></i> Calibrated';
+                btn.disabled = false;
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-sync"></i> Calibrate Compass';
+                }, 2000);
+            }, 2000);
+        }
+
+        // Device orientation for compass
+        function handleOrientation(event) {
+            if (!compassCalibrated) return;
+            
+            const alpha = event.alpha; // Compass direction
+            if (alpha !== null) {
+                const needle = document.getElementById('compass-needle');
+                if (needle) {
+                    needle.style.transform = `rotate(${-alpha}deg)`;
+                }
+            }
+        }
+
+        // Request permission for device orientation
+        function requestOrientationPermission() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation, true);
+                        }
+                    });
+            } else {
+                window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            requestOrientationPermission();
+        });
+    </script>
+</body>
+</html>

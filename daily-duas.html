@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Duas - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="new-muslims.html" class="nav-link">New Muslims</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="dua-hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Daily <span class="highlight">Duas</span> & <span class="highlight">Quranic Quotes</span>
+                </h1>
+                <p class="hero-description">
+                    Strengthen your connection with Allah through daily supplications and find inspiration in the beautiful words of the Quran.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-pray"></i>
+                        <span>Daily Duas</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-book-quran"></i>
+                        <span>Quranic Verses</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <span>Spiritual Growth</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Quote Section -->
+    <section class="daily-quote-section">
+        <div class="container">
+            <div class="quote-header">
+                <h2><i class="fas fa-star"></i> Today's Inspirational Quote</h2>
+                <p>Start your day with wisdom from the Quran</p>
+            </div>
+            
+            <div class="daily-quote-card">
+                <div class="quote-content">
+                    <div class="arabic-verse" id="dailyArabic">
+                        "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا"
+                    </div>
+                    <div class="verse-translation" id="dailyTranslation">
+                        "And whoever fears Allah - He will make for him a way out"
+                    </div>
+                    <div class="verse-reference" id="dailyReference">
+                        Quran 65:2
+                    </div>
+                </div>
+                <div class="quote-actions">
+                    <button class="quote-btn" onclick="shareQuote()">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                    <button class="quote-btn" onclick="getNewQuote()">
+                        <i class="fas fa-refresh"></i> New Quote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dua Categories -->
+    <section class="dua-categories">
+        <div class="container">
+            <h2 class="section-title">Daily Duas by Category</h2>
+            
+            <div class="category-tabs">
+                <button class="tab-btn active" onclick="showCategory('morning')">
+                    <i class="fas fa-sun"></i> Morning
+                </button>
+                <button class="tab-btn" onclick="showCategory('evening')">
+                    <i class="fas fa-moon"></i> Evening
+                </button>
+                <button class="tab-btn" onclick="showCategory('prayer')">
+                    <i class="fas fa-praying-hands"></i> Prayer
+                </button>
+                <button class="tab-btn" onclick="showCategory('general')">
+                    <i class="fas fa-hands-praying"></i> General
+                </button>
+                <button class="tab-btn" onclick="showCategory('protection')">
+                    <i class="fas fa-shield-alt"></i> Protection
+                </button>
+            </div>
+
+            <!-- Morning Duas -->
+            <div class="dua-category" id="morning-duas">
+                <h3 class="category-title">
+                    <i class="fas fa-sun"></i> Morning Duas
+                </h3>
+                <p class="category-description">Start your day with these beautiful supplications</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Waking Up</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ"
+                        </div>
+                        <div class="translation">
+                            "Praise be to Allah who gave us life after causing us to die, and to Him is the resurrection."
+                        </div>
+                        <div class="reference">Bukhari</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Protection in the Morning</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ"
+                        </div>
+                        <div class="translation">
+                            "I seek refuge in the perfect words of Allah from the evil of what He has created."
+                        </div>
+                        <div class="reference">Muslim</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Good in This World and Next</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ"
+                        </div>
+                        <div class="translation">
+                            "Our Lord, give us good in this world and good in the hereafter, and protect us from the punishment of the Fire."
+                        </div>
+                        <div class="reference">Quran 2:201</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Forgiveness</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ"
+                        </div>
+                        <div class="translation">
+                            "My Lord, forgive me and accept my repentance, for You are the Accepter of Repentance, the Merciful."
+                        </div>
+                        <div class="reference">Tirmidhi</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evening Duas -->
+            <div class="dua-category" id="evening-duas" style="display: none;">
+                <h3 class="category-title">
+                    <i class="fas fa-moon"></i> Evening Duas
+                </h3>
+                <p class="category-description">End your day with these peaceful supplications</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua Before Sleeping</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا"
+                        </div>
+                        <div class="translation">
+                            "In Your name, O Allah, I die and I live."
+                        </div>
+                        <div class="reference">Bukhari</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Evening Protection</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ"
+                        </div>
+                        <div class="translation">
+                            "We have reached the evening and the dominion belongs to Allah, and praise be to Allah. There is no god but Allah."
+                        </div>
+                        <div class="reference">Muslim</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prayer Duas -->
+            <div class="dua-category" id="prayer-duas" style="display: none;">
+                <h3 class="category-title">
+                    <i class="fas fa-praying-hands"></i> Prayer Duas
+                </h3>
+                <p class="category-description">Duas to recite during and after prayers</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua After Prayer</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ"
+                        </div>
+                        <div class="translation">
+                            "Glory be to Allah, and praise be to Allah, and there is no god but Allah, and Allah is the Greatest."
+                        </div>
+                        <div class="reference">Muslim</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Duas -->
+            <div class="dua-category" id="general-duas" style="display: none;">
+                <h3 class="category-title">
+                    <i class="fas fa-hands-praying"></i> General Duas
+                </h3>
+                <p class="category-description">Versatile duas for everyday use</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Guidance</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي"
+                        </div>
+                        <div class="translation">
+                            "My Lord, expand for me my breast and make easy for me my affair."
+                        </div>
+                        <div class="reference">Quran 20:25-26</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protection Duas -->
+            <div class="dua-category" id="protection-duas" style="display: none;">
+                <h3 class="category-title">
+                    <i class="fas fa-shield-alt"></i> Protection Duas
+                </h3>
+                <p class="category-description">Duas seeking Allah's protection and safety</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Protection from Evil</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ"
+                        </div>
+                        <div class="translation">
+                            "I seek refuge in Allah from Satan, the accursed."
+                        </div>
+                        <div class="reference">Quran 16:98</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motivational Quranic Verses -->
+    <section class="quranic-verses">
+        <div class="container">
+            <h2 class="section-title">Motivational Quranic Verses</h2>
+            <p class="section-subtitle">Find strength and inspiration in the words of Allah</p>
+            
+            <div class="verses-grid">
+                <div class="verse-card">
+                    <div class="verse-number">Quran 94:5-6</div>
+                    <div class="arabic-verse">
+                        "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا"
+                    </div>
+                    <div class="verse-translation">
+                        "For indeed, with hardship comes ease. Indeed, with hardship comes ease."
+                    </div>
+                    <div class="verse-theme">Hope & Patience</div>
+                </div>
+
+                <div class="verse-card">
+                    <div class="verse-number">Quran 65:3</div>
+                    <div class="arabic-verse">
+                        "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"
+                    </div>
+                    <div class="verse-translation">
+                        "And whoever relies upon Allah - then He is sufficient for him."
+                    </div>
+                    <div class="verse-theme">Trust in Allah</div>
+                </div>
+
+                <div class="verse-card">
+                    <div class="verse-number">Quran 13:28</div>
+                    <div class="arabic-verse">
+                        "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"
+                    </div>
+                    <div class="verse-translation">
+                        "Unquestionably, by the remembrance of Allah hearts are assured."
+                    </div>
+                    <div class="verse-theme">Peace & Tranquility</div>
+                </div>
+
+                <div class="verse-card">
+                    <div class="verse-number">Quran 2:286</div>
+                    <div class="arabic-verse">
+                        "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا"
+                    </div>
+                    <div class="verse-translation">
+                        "Allah does not burden a soul beyond that it can bear."
+                    </div>
+                    <div class="verse-theme">Strength & Capability</div>
+                </div>
+
+                <div class="verse-card">
+                    <div class="verse-number">Quran 55:13</div>
+                    <div class="arabic-verse">
+                        "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ"
+                    </div>
+                    <div class="verse-translation">
+                        "So which of the favors of your Lord would you deny?"
+                    </div>
+                    <div class="verse-theme">Gratitude</div>
+                </div>
+
+                <div class="verse-card">
+                    <div class="verse-number">Quran 39:53</div>
+                    <div class="arabic-verse">
+                        "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ"
+                    </div>
+                    <div class="verse-translation">
+                        "Say, 'O My servants who have transgressed against themselves, do not despair of the mercy of Allah.'"
+                    </div>
+                    <div class="verse-theme">Forgiveness & Mercy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorites Section -->
+    <section class="favorites-section">
+        <div class="container">
+            <h2 class="section-title">Your Favorite Duas</h2>
+            <div class="favorites-grid" id="favoritesGrid">
+                <div class="empty-favorites">
+                    <i class="fas fa-heart"></i>
+                    <h3>No favorites yet</h3>
+                    <p>Start adding your favorite duas by clicking the heart icon</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Daily Practice</h4>
+                    <ul>
+                        <li><a href="daily-duas.html">Daily Duas</a></li>
+                        <li><a href="prayer-guide.html">Prayer Guide</a></li>
+                        <li><a href="wudu-guide.html">Wudu Guide</a></li>
+                        <li><a href="qibla-finder.html">Qibla Finder</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Islamic Knowledge</h4>
+                    <ul>
+                        <li><a href="quran.html">Quran Study</a></li>
+                        <li><a href="hadiths.html">Hadiths</a></li>
+                        <li><a href="sunnah.html">Sunnah</a></li>
+                        <li><a href="seerah.html">Seerah</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script>
+        // Daily Duas functionality
+        const dailyQuotes = [
+            {
+                arabic: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا",
+                translation: "And whoever fears Allah - He will make for him a way out",
+                reference: "Quran 65:2"
+            },
+            {
+                arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+                translation: "For indeed, with hardship comes ease. Indeed, with hardship comes ease.",
+                reference: "Quran 94:5-6"
+            },
+            {
+                arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+                translation: "And whoever relies upon Allah - then He is sufficient for him.",
+                reference: "Quran 65:3"
+            },
+            {
+                arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                translation: "Unquestionably, by the remembrance of Allah hearts are assured.",
+                reference: "Quran 13:28"
+            },
+            {
+                arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+                translation: "Allah does not burden a soul beyond that it can bear.",
+                reference: "Quran 2:286"
+            }
+        ];
+
+        function getNewQuote() {
+            const randomIndex = Math.floor(Math.random() * dailyQuotes.length);
+            const quote = dailyQuotes[randomIndex];
+            
+            document.getElementById('dailyArabic').textContent = quote.arabic;
+            document.getElementById('dailyTranslation').textContent = quote.translation;
+            document.getElementById('dailyReference').textContent = quote.reference;
+            
+            // Add animation
+            const quoteCard = document.querySelector('.daily-quote-card');
+            quoteCard.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                quoteCard.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function shareQuote() {
+            const arabic = document.getElementById('dailyArabic').textContent;
+            const translation = document.getElementById('dailyTranslation').textContent;
+            const reference = document.getElementById('dailyReference').textContent;
+            
+            const text = `${arabic}\n\n${translation}\n\n- ${reference}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Daily Quranic Quote',
+                    text: text
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Quote copied to clipboard!', 'success');
+                });
+            }
+        }
+
+        function showCategory(category) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Hide all categories
+            document.querySelectorAll('.dua-category').forEach(cat => {
+                cat.style.display = 'none';
+            });
+            
+            // Show selected category
+            document.getElementById(category + '-duas').style.display = 'block';
+        }
+
+        function toggleFavorite(button) {
+            const icon = button.querySelector('i');
+            const duaCard = button.closest('.dua-card');
+            
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#dc3545';
+                addToFavorites(duaCard);
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '';
+                removeFromFavorites(duaCard);
+            }
+        }
+
+        function addToFavorites(duaCard) {
+            const favoritesGrid = document.getElementById('favoritesGrid');
+            const emptyMessage = favoritesGrid.querySelector('.empty-favorites');
+            
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+            
+            const favoriteCard = duaCard.cloneNode(true);
+            favoriteCard.classList.add('favorite-card');
+            
+            // Update the favorite button
+            const favBtn = favoriteCard.querySelector('.favorite-btn i');
+            favBtn.classList.remove('far');
+            favBtn.classList.add('fas');
+            favoriteCard.querySelector('.favorite-btn').style.color = '#dc3545';
+            
+            favoritesGrid.appendChild(favoriteCard);
+        }
+
+        function removeFromFavorites(duaCard) {
+            const favoritesGrid = document.getElementById('favoritesGrid');
+            const favoriteCards = favoritesGrid.querySelectorAll('.favorite-card');
+            
+            // Find and remove the matching favorite card
+            favoriteCards.forEach(card => {
+                const title = card.querySelector('h4').textContent;
+                const originalTitle = duaCard.querySelector('h4').textContent;
+                
+                if (title === originalTitle) {
+                    card.remove();
+                }
+            });
+            
+            // Show empty message if no favorites
+            if (favoritesGrid.children.length === 0) {
+                favoritesGrid.innerHTML = `
+                    <div class="empty-favorites">
+                        <i class="fas fa-heart"></i>
+                        <h3>No favorites yet</h3>
+                        <p>Start adding your favorite duas by clicking the heart icon</p>
+                    </div>
+                `;
+            }
+        }
+
+        function playAudio(button) {
+            // Simulate audio play
+            button.innerHTML = '<i class="fas fa-pause"></i>';
+            button.style.background = 'var(--light-green)';
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-play"></i>';
+                button.style.background = '';
+            }, 3000);
+        }
+
+        function copyDua(button) {
+            const duaCard = button.closest('.dua-card');
+            const arabic = duaCard.querySelector('.arabic-text').textContent;
+            const translation = duaCard.querySelector('.translation').textContent;
+            const reference = duaCard.querySelector('.reference').textContent;
+            
+            const text = `${arabic}\n\n${translation}\n\n- ${reference}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Dua copied to clipboard!', 'success');
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set random daily quote
+            getNewQuote();
+            
+            // Add animation to cards
+            const cards = document.querySelectorAll('.dua-card, .verse-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

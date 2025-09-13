@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="subjects.html" class="nav-link" data-i18n="nav.subjects">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link" data-i18n="nav.about">About Islam</a>
+                <a href="community.html" class="nav-link" data-i18n="nav.community">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'" data-i18n="nav.getStarted">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span data-i18n="home.title">Your Journey to <span class="highlight">Islamic Knowledge</span> Begins Here</span>
+                </h1>
+                <p class="hero-description" data-i18n="home.subtitle">
+                    Discover, learn, and grow in your Islamic faith with our comprehensive learning companion. 
+                    Access authentic Islamic teachings, interactive lessons, and personalized guidance from 
+                    verified Islamic scholars and authentic sources.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="window.location.href='subjects.html'" data-i18n="home.startLearning">Start Learning</button>
+                    <button class="btn-secondary" onclick="window.location.href='quran-reader.html'" data-i18n="home.readQuran">Read Quran</button>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="global-search" placeholder="Search Islamic topics, verses, hadiths..." data-i18n="home.searchPlaceholder" />
+                        <button class="search-btn" onclick="performSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-suggestions" id="search-suggestions">
+                        <div class="suggestion-item" onclick="searchFor('prayer')">Prayer Guide</div>
+                        <div class="suggestion-item" onclick="searchFor('quran')">Quran Study</div>
+                        <div class="suggestion-item" onclick="searchFor('hadith')">Hadith Collection</div>
+                        <div class="suggestion-item" onclick="searchFor('ramadan')">Ramadan Guide</div>
+                    </div>
+                </div>
+                
+                <!-- Learning Progress Dashboard -->
+                <div class="progress-dashboard">
+                    <h3><i class="fas fa-chart-line"></i> Your Learning Progress</h3>
+                    <div class="progress-stats">
+                        <div class="progress-item">
+                            <div class="progress-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="progress-content">
+                                <h4>Quran Study</h4>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="progress-text">65% Complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-icon">
+                                <i class="fas fa-hands-praying"></i>
+                            </div>
+                            <div class="progress-content">
+                                <h4>Prayer Practice</h4>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%"></div>
+                                </div>
+                                <span class="progress-text">80% Complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="progress-content">
+                                <h4>Islamic Knowledge</h4>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="progress-text">45% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="achievements">
+                        <h4><i class="fas fa-trophy"></i> Recent Achievements</h4>
+                        <div class="achievement-list">
+                            <div class="achievement-item">
+                                <i class="fas fa-star"></i>
+                                <span>Completed 30 Days of Prayer</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-star"></i>
+                                <span>Read 5 Surahs</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-star"></i>
+                                <span>Learned 50 Arabic Words</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1.8B+</div>
+                        <div class="stat-label">Muslims Worldwide</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">114</div>
+                        <div class="stat-label">Quran Chapters</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">25K+</div>
+                        <div class="stat-label">Active Learners</div>
+                    </div>
+                </div>
+                
+                <!-- Prayer Times Widget -->
+                <div class="prayer-times-widget">
+                    <h3><i class="fas fa-clock"></i> Today's Prayer Times</h3>
+                    <div class="prayer-times-grid">
+                        <div class="prayer-time">
+                            <span class="prayer-name">Fajr</span>
+                            <span class="prayer-time-value" id="fajr-time">05:30</span>
+                        </div>
+                        <div class="prayer-time">
+                            <span class="prayer-name">Dhuhr</span>
+                            <span class="prayer-time-value" id="dhuhr-time">12:30</span>
+                        </div>
+                        <div class="prayer-time">
+                            <span class="prayer-name">Asr</span>
+                            <span class="prayer-time-value" id="asr-time">15:45</span>
+                        </div>
+                        <div class="prayer-time">
+                            <span class="prayer-name">Maghrib</span>
+                            <span class="prayer-time-value" id="maghrib-time">18:20</span>
+                        </div>
+                        <div class="prayer-time">
+                            <span class="prayer-name">Isha</span>
+                            <span class="prayer-time-value" id="isha-time">19:50</span>
+                        </div>
+                    </div>
+                    <div class="next-prayer">
+                        <p>Next Prayer: <strong id="next-prayer-name">Fajr</strong> in <span id="next-prayer-countdown">2h 15m</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="islamic-pattern">
+                    <i class="fas fa-star-and-crescent"></i>
+                </div>
+                <!-- Floating Islamic Elements -->
+                <div class="floating-elements">
+                    <div class="floating-element" style="top: 20%; left: 10%; animation-delay: 0s;">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <div class="floating-element" style="top: 60%; right: 15%; animation-delay: 1s;">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="floating-element" style="bottom: 30%; left: 20%; animation-delay: 2s;">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Hadith Section -->
+    <section class="daily-hadith">
+        <div class="container">
+            <div class="hadith-container">
+                <div class="hadith-header">
+                    <h2><i class="fas fa-quote-left"></i> Daily Hadith</h2>
+                    <p>Authentic sayings of Prophet Muhammad (peace be upon him)</p>
+                </div>
+                <div class="hadith-content">
+                    <div class="arabic-hadith">
+                        "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ"
+                    </div>
+                    <div class="hadith-translation">
+                        "Whoever believes in Allah and the Last Day should speak good or remain silent"
+                    </div>
+                    <div class="hadith-reference">
+                        <span class="reference">Sahih al-Bukhari 6018</span>
+                        <button class="hadith-btn" onclick="showNextHadith()">Next Hadith</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayer Times Widget -->
+    <section class="prayer-times-section">
+        <div class="container">
+            <div id="prayer-times-widget" class="prayer-times-widget">
+                <div class="prayer-widget-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading prayer times...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Comprehensive Islamic Learning</h2>
+            <p class="section-subtitle">Your complete guide to Islamic knowledge, practice, and community</p>
+            <div class="features-grid">
+                <div class="feature-card" onclick="window.location.href='quran.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <h3>Quran Study</h3>
+                    <p>Interactive Quran reading with translations, tafsir, and audio recitations from renowned qaris. Study verse by verse with authentic scholarly commentary and learn proper pronunciation with tajweed rules.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-book"></i> 114 Surahs</span>
+                        <span><i class="fas fa-language"></i> 20+ Languages</span>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='prayer-guide.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <h3>Prayer Guide</h3>
+                    <p>Complete prayer guidance with proper timing, direction, and step-by-step instructions. Learn the five daily prayers with their specific times, Qibla direction, and the correct movements and recitations for each prayer.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-clock"></i> 5 Daily Prayers</span>
+                        <span><i class="fas fa-compass"></i> Qibla Finder</span>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='subjects.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Islamic Education</h3>
+                    <p>Structured courses on Islamic history, theology, and practical Islamic living. Explore the rich heritage of Islam, learn about the Prophet's companions, Islamic civilization, and how to apply Islamic principles in modern life.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-book-open"></i> 50+ Courses</span>
+                        <span><i class="fas fa-users"></i> Expert Teachers</span>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='islamic-calendar.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Islamic Calendar</h3>
+                    <p>Stay connected with important Islamic dates, events, and daily supplications. Track Ramadan, Eid celebrations, the Day of Arafah, and other significant Islamic occasions with their historical significance and recommended practices.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-moon"></i> Lunar Calendar</span>
+                        <span><i class="fas fa-bell"></i> Event Reminders</span>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='qibla-finder.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3>Qibla Finder</h3>
+                    <p>Accurate Qibla direction finder using your location for proper prayer orientation. Get precise direction to the Kaaba in Mecca from anywhere in the world, with distance calculations and alternative methods for finding Qibla.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-map-marker-alt"></i> GPS Enabled</span>
+                        <span><i class="fas fa-globe"></i> Worldwide</span>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='community.html'" style="cursor: pointer;">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community</h3>
+                    <p>Connect with fellow Muslims, join study groups, and participate in discussions. Find local mosque information, join online study circles, ask questions to knowledgeable mentors, and build lasting friendships with Muslims worldwide.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-globe"></i> 150+ Countries</span>
+                        <span><i class="fas fa-comments"></i> 25K+ Members</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Paths Section -->
+    <section class="learning-paths">
+        <div class="container">
+            <h2 class="section-title">Choose Your Learning Path</h2>
+            <p class="section-subtitle">Structured learning journeys designed for every level of Islamic knowledge</p>
+            <div class="paths-grid">
+                <div class="path-card">
+                    <div class="path-header">
+                        <i class="fas fa-seedling"></i>
+                        <h3>New to Islam</h3>
+                    </div>
+                    <div class="path-content">
+                        <p>Perfect for those who have recently embraced Islam or are exploring the faith</p>
+                        <ul>
+                            <li>Basic Islamic beliefs and practices</li>
+                            <li>Learning to pray step-by-step</li>
+                            <li>Essential duas and supplications</li>
+                            <li>Community support and mentorship</li>
+                        </ul>
+                        <button class="btn-outline" onclick="window.location.href='new-muslims.html'">Start Journey</button>
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-header">
+                        <i class="fas fa-book-reader"></i>
+                        <h3>Quran Study</h3>
+                    </div>
+                    <div class="path-content">
+                        <p>Deep dive into the Holy Quran with comprehensive study materials</p>
+                        <ul>
+                            <li>Arabic text with translations</li>
+                            <li>Detailed tafsir and commentary</li>
+                            <li>Audio recitations by renowned qaris</li>
+                            <li>Tajweed rules and pronunciation</li>
+                        </ul>
+                        <button class="btn-outline" onclick="window.location.href='quran.html'">Begin Study</button>
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-header">
+                        <i class="fas fa-scroll"></i>
+                        <h3>Hadith Study</h3>
+                    </div>
+                    <div class="path-content">
+                        <p>Explore the authentic sayings and teachings of Prophet Muhammad (PBUH)</p>
+                        <ul>
+                            <li>Sahih al-Bukhari and Muslim</li>
+                            <li>Hadith classification and authenticity</li>
+                            <li>Practical applications in daily life</li>
+                            <li>Scholarly commentary and analysis</li>
+                        </ul>
+                        <button class="btn-outline" onclick="window.location.href='hadiths.html'">Explore Hadiths</button>
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Advanced Learning</h3>
+                    </div>
+                    <div class="path-content">
+                        <p>For those seeking deeper Islamic knowledge and scholarship</p>
+                        <ul>
+                            <li>Islamic jurisprudence (Fiqh)</li>
+                            <li>Islamic history and civilization</li>
+                            <li>Arabic language studies</li>
+                            <li>Scholarly research methods</li>
+                        </ul>
+                        <button class="btn-outline" onclick="window.location.href='subjects.html'">Advanced Studies</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Features Section -->
+    <section class="daily-features">
+        <div class="container">
+            <h2 class="section-title">Daily Islamic Features</h2>
+            <div class="daily-grid">
+                <div class="daily-card">
+                    <div class="daily-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Prayer Times</h3>
+                    <p>Accurate prayer times for your location with notifications</p>
+                    <div class="prayer-times">
+                        <div class="prayer-item">
+                            <span class="prayer-name">Fajr</span>
+                            <span class="prayer-time">5:23 AM</span>
+                        </div>
+                        <div class="prayer-item">
+                            <span class="prayer-name">Dhuhr</span>
+                            <span class="prayer-time">12:15 PM</span>
+                        </div>
+                        <div class="prayer-item">
+                            <span class="prayer-name">Asr</span>
+                            <span class="prayer-time">3:45 PM</span>
+                        </div>
+                        <div class="prayer-item">
+                            <span class="prayer-name">Maghrib</span>
+                            <span class="prayer-time">6:30 PM</span>
+                        </div>
+                        <div class="prayer-item">
+                            <span class="prayer-name">Isha</span>
+                            <span class="prayer-time">8:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="daily-card">
+                    <div class="daily-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3>Today's Islamic Date</h3>
+                    <div class="islamic-date">
+                        <div class="date-main">15 Safar 1446 AH</div>
+                        <div class="date-gregorian">January 15, 2025</div>
+                        <div class="date-events">
+                            <p><i class="fas fa-info-circle"></i> No special events today</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="daily-card">
+                    <div class="daily-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <h3>Daily Hadith</h3>
+                    <div class="daily-hadith">
+                        <p class="hadith-text">"The best of people are those who benefit others."</p>
+                        <p class="hadith-source">- Prophet Muhammad ﷺ (Reported by Ahmad)</p>
+                    </div>
+                </div>
+                <div class="daily-card">
+                    <div class="daily-icon">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <h3>Verse of the Day</h3>
+                    <div class="daily-verse">
+                        <p class="verse-arabic">"وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا"</p>
+                        <p class="verse-translation">"And whoever fears Allah - He will make for him a way out"</p>
+                        <p class="verse-reference">- Quran 65:2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Islamic Content Section -->
+    <section class="daily-content">
+        <div class="container">
+            <h2 class="section-title">Today's Islamic Content</h2>
+            <div class="daily-grid">
+                <div class="daily-card">
+                    <div class="daily-header">
+                        <i class="fas fa-book-quran"></i>
+                        <h3>Verse of the Day</h3>
+                    </div>
+                    <div class="daily-content-text">
+                        <div class="arabic-verse">
+                            "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا"
+                        </div>
+                        <div class="verse-translation">
+                            "And whoever fears Allah - He will make for him a way out"
+                        </div>
+                        <div class="verse-reference">Quran 65:2</div>
+                    </div>
+                </div>
+                
+                <div class="daily-card">
+                    <div class="daily-header">
+                        <i class="fas fa-scroll"></i>
+                        <h3>Hadith of the Day</h3>
+                    </div>
+                    <div class="daily-content-text">
+                        <div class="hadith-text">
+                            "The best of people are those who benefit others."
+                        </div>
+                        <div class="hadith-reference">- Prophet Muhammad ﷺ (Reported by Ahmad)</div>
+                    </div>
+                </div>
+                
+                <div class="daily-card">
+                    <div class="daily-header">
+                        <i class="fas fa-pray"></i>
+                        <h3>Prayer Times</h3>
+                    </div>
+                    <div class="daily-content-text">
+                        <div class="prayer-times">
+                            <div class="prayer-item">
+                                <span class="prayer-name">Fajr</span>
+                                <span class="prayer-time">5:30 AM</span>
+                            </div>
+                            <div class="prayer-item">
+                                <span class="prayer-name">Dhuhr</span>
+                                <span class="prayer-time">12:15 PM</span>
+                            </div>
+                            <div class="prayer-item">
+                                <span class="prayer-name">Asr</span>
+                                <span class="prayer-time">3:45 PM</span>
+                            </div>
+                            <div class="prayer-item">
+                                <span class="prayer-name">Maghrib</span>
+                                <span class="prayer-time">6:20 PM</span>
+                            </div>
+                            <div class="prayer-item">
+                                <span class="prayer-name">Isha</span>
+                                <span class="prayer-time">7:50 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Authentic Islamic Learning</h2>
+                    <p>Our Islamic Learning Companion is designed to provide authentic, scholarly-verified Islamic content sourced from the Quran and authentic Hadith traditions. We ensure that every piece of information is verified by qualified Islamic scholars and follows the principles of Ahlus-Sunnah wal-Jama'ah.</p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check"></i> Verified by Islamic scholars</li>
+                        <li><i class="fas fa-check"></i> Multiple language support</li>
+                        <li><i class="fas fa-check"></i> Progressive learning paths</li>
+                        <li><i class="fas fa-check"></i> Regular content updates</li>
+                        <li><i class="fas fa-check"></i> Interactive learning tools</li>
+                        <li><i class="fas fa-check"></i> Community support</li>
+                    </ul>
+                    <div class="about-buttons">
+                        <button class="btn-primary" onclick="window.location.href='subjects.html'">Explore Subjects</button>
+                        <button class="btn-outline" onclick="window.location.href='community.html'">Join Community</button>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="islamic-calligraphy">
+                        <span class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</span>
+                        <span class="translation">In the name of Allah, the Most Gracious, the Most Merciful</span>
+                    </div>
+                    <div class="about-features">
+                        <div class="feature-highlight">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Authentic Sources</span>
+                        </div>
+                        <div class="feature-highlight">
+                            <i class="fas fa-users"></i>
+                            <span>Community Driven</span>
+                        </div>
+                        <div class="feature-highlight">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Mobile Friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Begin Your Islamic Learning Journey?</h2>
+                <p>Join thousands of Muslims worldwide who are deepening their faith through our comprehensive learning platform.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="window.location.href='subjects.html'">Get Started Free</button>
+                    <button class="btn-outline">Download App</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="/what-is-islam.html">About Us</a></li>
+                        <li><a href="/community.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadiths.html">Hadith</a></li>
+                        <li><a href="prayer-guide.html">Prayer Guide</a></li>
+                        <li><a href="islamic-calendar.html">Islamic Calendar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/language-config.js"></script>
+    <script src="js/translation-manager.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Daily Hadith Collection
+        const hadithCollection = [
+            {
+                arabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+                translation: "Whoever believes in Allah and the Last Day should speak good or remain silent",
+                reference: "Sahih al-Bukhari 6018"
+            },
+            {
+                arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+                translation: "Actions are according to intentions",
+                reference: "Sahih al-Bukhari 1"
+            },
+            {
+                arabic: "مَنْ لَا يَرْحَمِ النَّاسَ لَا يَرْحَمْهُ اللَّهُ",
+                translation: "Whoever does not show mercy to people, Allah will not show mercy to him",
+                reference: "Sahih al-Bukhari 6013"
+            },
+            {
+                arabic: "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا",
+                translation: "A believer to another believer is like a building whose different parts enforce each other",
+                reference: "Sahih al-Bukhari 2446"
+            },
+            {
+                arabic: "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ",
+                translation: "The best of people are those who are most beneficial to others",
+                reference: "Sahih al-Jami' 3289"
+            }
+        ];
+
+        let currentHadithIndex = 0;
+
+        function showNextHadith() {
+            currentHadithIndex = (currentHadithIndex + 1) % hadithCollection.length;
+            const hadith = hadithCollection[currentHadithIndex];
+            
+            document.querySelector('.arabic-hadith').textContent = hadith.arabic;
+            document.querySelector('.hadith-translation').textContent = hadith.translation;
+            document.querySelector('.reference').textContent = hadith.reference;
+        }
+
+        // Prayer Times Calculation (simplified)
+        function updatePrayerTimes() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+
+            // Simplified prayer times (in minutes from midnight)
+            const prayerTimes = {
+                fajr: 5 * 60 + 30,    // 05:30
+                dhuhr: 12 * 60 + 30,  // 12:30
+                asr: 15 * 60 + 45,    // 15:45
+                maghrib: 18 * 60 + 20, // 18:20
+                isha: 19 * 60 + 50    // 19:50
+            };
+
+            const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+            let nextPrayer = null;
+            let nextPrayerTime = Infinity;
+
+            for (const prayer of prayerNames) {
+                if (prayerTimes[prayer] > currentTime && prayerTimes[prayer] < nextPrayerTime) {
+                    nextPrayer = prayer;
+                    nextPrayerTime = prayerTimes[prayer];
+                }
+            }
+
+            // If no prayer found for today, use tomorrow's Fajr
+            if (!nextPrayer) {
+                nextPrayer = 'fajr';
+                nextPrayerTime = prayerTimes.fajr + 24 * 60; // Next day
+            }
+
+            const timeUntilNext = nextPrayerTime - currentTime;
+            const hours = Math.floor(timeUntilNext / 60);
+            const minutes = timeUntilNext % 60;
+
+            document.getElementById('next-prayer-name').textContent = nextPrayer.charAt(0).toUpperCase() + nextPrayer.slice(1);
+            document.getElementById('next-prayer-countdown').textContent = `${hours}h ${minutes}m`;
+        }
+
+        // Search Functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('global-search').value.toLowerCase();
+            if (!searchTerm) return;
+
+            // Simple search logic - redirect to appropriate pages
+            if (searchTerm.includes('prayer') || searchTerm.includes('salah')) {
+                window.location.href = 'prayer-guide.html';
+            } else if (searchTerm.includes('quran') || searchTerm.includes('surah')) {
+                window.location.href = 'quran.html';
+            } else if (searchTerm.includes('hadith') || searchTerm.includes('sunnah')) {
+                window.location.href = 'hadiths.html';
+            } else if (searchTerm.includes('ramadan') || searchTerm.includes('fasting')) {
+                window.location.href = 'islamic-calendar.html';
+            } else if (searchTerm.includes('wudu') || searchTerm.includes('ablution')) {
+                window.location.href = 'wudu-guide.html';
+            } else if (searchTerm.includes('arabic') || searchTerm.includes('language')) {
+                window.location.href = 'basic-arabic.html';
+            } else if (searchTerm.includes('new muslim') || searchTerm.includes('convert')) {
+                window.location.href = 'new-muslims.html';
+            } else {
+                // Default to subjects page
+                window.location.href = 'subjects.html';
+            }
+        }
+
+        function searchFor(term) {
+            document.getElementById('global-search').value = term;
+            performSearch();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePrayerTimes();
+            // Update prayer times every minute
+            setInterval(updatePrayerTimes, 60000);
+        });
+
+        // Search suggestions toggle
+        document.getElementById('global-search').addEventListener('focus', function() {
+            document.getElementById('search-suggestions').style.display = 'block';
+        });
+
+        document.getElementById('global-search').addEventListener('blur', function() {
+            setTimeout(() => {
+                document.getElementById('search-suggestions').style.display = 'none';
+            }, 200);
+        });
+    </script>
+    <script src="prayer-times.js"></script>
+    <script>
+        // Initialize prayer times widget on homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(async () => {
+                if (window.prayerTimesCalculator) {
+                    await window.prayerTimesCalculator.initialize();
+                    window.prayerTimesCalculator.createPrayerWidget('prayer-times-widget');
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Calendar - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="/what-is-islam.html" class="nav-link">About</a>
+                <a href="/community.html" class="nav-link">Contact</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h1>Islamic Calendar</h1>
+                <p class="page-subtitle">Important Islamic Dates and Events</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-main">
+                    <div class="content-card">
+                        <h2>The Hijri Calendar</h2>
+                        <p>The Islamic calendar, also known as the Hijri calendar, is a lunar calendar consisting of 12 months in a year of 354 or 355 days. It marks the migration (Hijra) of Prophet Muhammad ﷺ from Mecca to Medina in 622 CE.</p>
+                        
+                        <div class="verse-highlight">
+                            <div class="arabic-verse">
+                                "إِنَّ عِدَّةَ الشُّهُورِ عِندَ اللَّهِ اثْنَا عَشَرَ شَهْرًا"
+                            </div>
+                            <div class="verse-translation">
+                                "Indeed, the number of months with Allah is twelve months" - Quran 9:36
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Islamic Months</h2>
+                        <div class="famous-hadiths">
+                            <div class="hadith-item">
+                                <div class="hadith-number">1</div>
+                                <div class="hadith-content">
+                                    <p><strong>Muharram</strong></p>
+                                    <small>Sacred month - Day of Ashura (10th)</small>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">2</div>
+                                <div class="hadith-content">
+                                    <p><strong>Safar</strong></p>
+                                    <small>Second month of the Islamic year</small>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">3</div>
+                                <div class="hadith-content">
+                                    <p><strong>Rabi' al-Awwal</strong></p>
+                                    <small>Birth month of Prophet Muhammad ﷺ</small>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">9</div>
+                                <div class="hadith-content">
+                                    <p><strong>Ramadan</strong></p>
+                                    <small>Holy month of fasting</small>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">12</div>
+                                <div class="hadith-content">
+                                    <p><strong>Dhul Hijjah</strong></p>
+                                    <small>Month of Hajj pilgrimage</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Interactive Islamic Calendar</h2>
+                        <p>Explore important Islamic dates and events with our interactive calendar.</p>
+                        
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button class="calendar-nav" onclick="previousMonth()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h3 id="current-month-year">January 2025</h3>
+                                <button class="calendar-nav" onclick="nextMonth()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="calendar-grid">
+                                <div class="calendar-day-header">Sun</div>
+                                <div class="calendar-day-header">Mon</div>
+                                <div class="calendar-day-header">Tue</div>
+                                <div class="calendar-day-header">Wed</div>
+                                <div class="calendar-day-header">Thu</div>
+                                <div class="calendar-day-header">Fri</div>
+                                <div class="calendar-day-header">Sat</div>
+                                
+                                <div id="calendar-days" class="calendar-days">
+                                    <!-- Calendar days will be generated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="calendar-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color prayer-time"></span>
+                                    <span>Prayer Times</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color islamic-event"></span>
+                                    <span>Islamic Events</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color ramadan"></span>
+                                    <span>Ramadan</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color today"></span>
+                                    <span>Today</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Today's Islamic Information</h2>
+                        <div class="today-info">
+                            <div class="info-card">
+                                <h4><i class="fas fa-calendar"></i> Islamic Date</h4>
+                                <p id="islamic-date">Loading...</p>
+                            </div>
+                            <div class="info-card">
+                                <h4><i class="fas fa-moon"></i> Moon Phase</h4>
+                                <p id="moon-phase">Loading...</p>
+                            </div>
+                            <div class="info-card">
+                                <h4><i class="fas fa-clock"></i> Prayer Times</h4>
+                                <div id="today-prayer-times">
+                                    <div class="prayer-time-item">
+                                        <span>Fajr:</span>
+                                        <span id="today-fajr">05:30</span>
+                                    </div>
+                                    <div class="prayer-time-item">
+                                        <span>Dhuhr:</span>
+                                        <span id="today-dhuhr">12:30</span>
+                                    </div>
+                                    <div class="prayer-time-item">
+                                        <span>Asr:</span>
+                                        <span id="today-asr">15:45</span>
+                                    </div>
+                                    <div class="prayer-time-item">
+                                        <span>Maghrib:</span>
+                                        <span id="today-maghrib">18:20</span>
+                                    </div>
+                                    <div class="prayer-time-item">
+                                        <span>Isha:</span>
+                                        <span id="today-isha">19:50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Major Islamic Events</h2>
+                        <div class="categories-list">
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                                <div>
+                                    <h4>Ramadan</h4>
+                                    <p>Month of fasting, increased prayer, and spiritual reflection</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div>
+                                    <h4>Eid al-Fitr</h4>
+                                    <p>Festival of breaking the fast at the end of Ramadan</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-kaaba"></i>
+                                </div>
+                                <div>
+                                    <h4>Hajj</h4>
+                                    <p>Annual pilgrimage to Mecca during Dhul Hijjah</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <div>
+                                    <h4>Day of Arafah</h4>
+                                    <p>9th of Dhul Hijjah - most important day of Hajj</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div>
+                                    <h4>Eid al-Adha</h4>
+                                    <p>Festival of sacrifice commemorating Ibrahim's devotion</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div>
+                                    <h4>Day of Ashura</h4>
+                                    <p>10th of Muharram - day of fasting and remembrance</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Sacred Months</h2>
+                        <div class="collections-grid">
+                            <div class="collection-item">
+                                <h4>Muharram</h4>
+                                <p>First sacred month - fighting is prohibited</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Rajab</h4>
+                                <p>Seventh month - time for increased worship</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Dhul Qi'dah</h4>
+                                <p>Eleventh month - preparation for Hajj</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Dhul Hijjah</h4>
+                                <p>Twelfth month - month of pilgrimage</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Current Islamic Date</h3>
+                        <div id="currentIslamicDate" style="text-align: center; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 10px; margin-bottom: 1rem;">
+                            <div style="font-size: 1.5rem; color: var(--gold); font-weight: 700;" id="hijriDate">Loading...</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;" id="gregorianDate"></div>
+                        </div>
+                        <ul class="facts-list">
+                            <li><strong>Calendar Type:</strong> Lunar</li>
+                            <li><strong>Year Length:</strong> 354-355 days</li>
+                            <li><strong>Started:</strong> 622 CE (Hijra)</li>
+                            <li><strong>Current Year:</strong> <span id="currentYear">1446</span> AH</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Upcoming Events</h3>
+                        <ul class="tips-list">
+                            <li>Ramadan 2025</li>
+                            <li>Eid al-Fitr</li>
+                            <li>Day of Arafah</li>
+                            <li>Eid al-Adha</li>
+                            <li>Islamic New Year</li>
+                            <li>Day of Ashura</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card action-card">
+                        <h3>Set Reminders</h3>
+                        <p>Never miss important Islamic dates with personalized calendar notifications.</p>
+                        <button class="btn-primary">Setup Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Calendar Features</h4>
+                    <ul>
+                        <li><a href="#">Islamic Months</a></li>
+                        <li><a href="#">Important Dates</a></li>
+                        <li><a href="#">Event Reminders</a></li>
+                        <li><a href="#">Hijri Converter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Special Days</h4>
+                    <ul>
+                        <li><a href="#">Ramadan</a></li>
+                        <li><a href="#">Eid Celebrations</a></li>
+                        <li><a href="#">Day of Arafah</a></li>
+                        <li><a href="#">Day of Ashura</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script src="islamic-interactive.js"></script>
+    <script>
+        // Interactive Islamic Calendar
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        // Islamic months
+        const islamicMonths = [
+            'Muharram', 'Safar', 'Rabi\' al-Awwal', 'Rabi\' al-Thani',
+            'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
+            'Ramadan', 'Shawwal', 'Dhul Qa\'dah', 'Dhul Hijjah'
+        ];
+
+        // Gregorian months
+        const gregorianMonths = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Islamic events data (simplified)
+        const islamicEvents = {
+            '1-1': 'Islamic New Year',
+            '1-10': 'Day of Ashura',
+            '3-12': 'Prophet\'s Birthday',
+            '7-27': 'Night of Ascension',
+            '8-15': 'Night of Power',
+            '9-1': 'Ramadan Begins',
+            '9-27': 'Night of Power',
+            '10-1': 'Eid al-Fitr',
+            '12-8': 'Hajj Begins',
+            '12-9': 'Day of Arafat',
+            '12-10': 'Eid al-Adha'
+        };
+
+        function generateCalendar() {
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+
+            const calendarDays = document.getElementById('calendar-days');
+            calendarDays.innerHTML = '';
+
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarDays.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                // Check if it's today
+                const today = new Date();
+                if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+
+                // Check for Islamic events
+                const eventKey = `${currentMonth + 1}-${day}`;
+                if (islamicEvents[eventKey]) {
+                    dayElement.classList.add('has-event');
+                    dayElement.title = islamicEvents[eventKey];
+                }
+
+                // Check if it's Ramadan (simplified - 9th month)
+                if (currentMonth === 8) { // September (approximate Ramadan month)
+                    dayElement.classList.add('ramadan');
+                }
+
+                calendarDays.appendChild(dayElement);
+            }
+
+            // Update month/year display
+            document.getElementById('current-month-year').textContent = 
+                `${gregorianMonths[currentMonth]} ${currentYear}`;
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        function updateTodayInfo() {
+            const today = new Date();
+            const islamicDate = getIslamicDate(today);
+            
+            document.getElementById('islamic-date').textContent = islamicDate;
+            document.getElementById('moon-phase').textContent = getMoonPhase(today);
+            
+            // Update prayer times (simplified)
+            updatePrayerTimes();
+        }
+
+        function getIslamicDate(date) {
+            // Simplified Islamic date calculation
+            // In a real implementation, you would use a proper Islamic calendar library
+            const islamicYear = 1446; // Approximate
+            const islamicMonth = islamicMonths[Math.floor(Math.random() * 12)];
+            const islamicDay = Math.floor(Math.random() * 30) + 1;
+            
+            return `${islamicDay} ${islamicMonth} ${islamicYear} AH`;
+        }
+
+        function getMoonPhase(date) {
+            // Simplified moon phase calculation
+            const phases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 
+                          'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+            return phases[Math.floor(Math.random() * phases.length)];
+        }
+
+        async function updatePrayerTimes() {
+            // Use the prayer times calculator for accurate times
+            if (window.prayerTimesCalculator && window.prayerTimesCalculator.prayerTimes) {
+                const times = window.prayerTimesCalculator.prayerTimes;
+                const formatTime = (time) => window.prayerTimesCalculator.formatTime(time, true);
+                
+                document.getElementById('today-fajr').textContent = formatTime(times.fajr);
+                document.getElementById('today-dhuhr').textContent = formatTime(times.dhuhr);
+                document.getElementById('today-asr').textContent = formatTime(times.asr);
+                document.getElementById('today-maghrib').textContent = formatTime(times.maghrib);
+                document.getElementById('today-isha').textContent = formatTime(times.isha);
+            } else {
+                // Fallback to simplified prayer times
+                const prayerTimes = {
+                    fajr: '05:30',
+                    dhuhr: '12:30',
+                    asr: '15:45',
+                    maghrib: '18:20',
+                    isha: '19:50'
+                };
+
+                document.getElementById('today-fajr').textContent = prayerTimes.fajr;
+                document.getElementById('today-dhuhr').textContent = prayerTimes.dhuhr;
+                document.getElementById('today-asr').textContent = prayerTimes.asr;
+                document.getElementById('today-maghrib').textContent = prayerTimes.maghrib;
+                document.getElementById('today-isha').textContent = prayerTimes.isha;
+            }
+        }
+
+        // Initialize calendar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+            updateTodayInfo();
+            
+            // Initialize prayer times after a delay
+            setTimeout(async () => {
+                if (window.prayerTimesCalculator) {
+                    await window.prayerTimesCalculator.initialize();
+                    updatePrayerTimes();
+                }
+            }, 2000);
+        });
+    </script>
+    <script src="prayer-times.js"></script>
+</body>
+</html>

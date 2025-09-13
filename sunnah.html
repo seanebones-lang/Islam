@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunnah Study - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="/what-is-islam.html" class="nav-link">About</a>
+                <a href="/community.html" class="nav-link">Contact</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h1>Sunnah Study</h1>
+                <p class="page-subtitle">The Way of Life of Prophet Muhammad ﷺ</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-main">
+                    <div class="content-card">
+                        <h2>What is Sunnah?</h2>
+                        <p>The Sunnah refers to the practices, actions, and way of life of Prophet Muhammad (peace be upon him). It serves as the second source of Islamic guidance after the Quran and provides practical examples of how to implement Islamic teachings in daily life.</p>
+                        
+                        <div class="verse-highlight">
+                            <div class="arabic-verse">
+                                "لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ"
+                            </div>
+                            <div class="verse-translation">
+                                "There has certainly been for you in the Messenger of Allah an excellent pattern" - Quran 33:21
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Categories of Sunnah</h2>
+                        <div class="categories-list">
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-pray"></i>
+                                </div>
+                                <div>
+                                    <h4>Ibadah (Worship)</h4>
+                                    <p>How the Prophet performed prayers, fasting, charity, and other acts of worship</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div>
+                                    <h4>Mu'amalat (Social Relations)</h4>
+                                    <p>How he interacted with family, friends, neighbors, and the community</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h4>Adab (Etiquette)</h4>
+                                    <p>Manners, behavior, and daily habits of the Prophet</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <div>
+                                    <h4>Ahkam (Legal Rulings)</h4>
+                                    <p>Judicial decisions and legal precedents established by the Prophet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="daily-practices">
+                        <h2>Daily Sunnah Practices</h2>
+                        <div class="famous-hadiths">
+                            <div class="hadith-item">
+                                <div class="hadith-number">1</div>
+                                <div class="hadith-content">
+                                    <p><strong>Waking Up</strong></p>
+                                    <div class="arabic-text">الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور</div>
+                                    <small><strong>Alhamdulillah alladhi ahyana ba'da ma amatana wa ilayhi al-nushur</strong></small>
+                                    <p>Praise be to Allah who gave us life after death and to Him is the resurrection. (Sahih Bukhari 6314)</p>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">2</div>
+                                <div class="hadith-content">
+                                    <p><strong>Eating</strong></p>
+                                    <div class="arabic-text">بسم الله</div>
+                                    <small><strong>Bismillah</strong> - In the name of Allah</small>
+                                    <p>Start with Bismillah, eat with right hand, take small bites, and finish with "Alhamdulillah" (Sahih Muslim 2022)</p>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">3</div>
+                                <div class="hadith-content">
+                                    <p><strong>Sleeping</strong></p>
+                                    <div class="arabic-text">باسمك ربي وضعت جنبي وبك أرفعه</div>
+                                    <small><strong>Bismika Rabbi wada'tu janbi wa bika arfa'uhu</strong></small>
+                                    <p>In Your name, my Lord, I lie down and in Your name I rise. Sleep on right side and recite Ayat al-Kursi (Sahih Bukhari 6320)</p>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">4</div>
+                                <div class="hadith-content">
+                                    <p><strong>Entering Home</strong></p>
+                                    <div class="arabic-text">بسم الله ولجنا وبسم الله خرجنا وعلى ربنا توكلنا</div>
+                                    <small><strong>Bismillah walajna wa bismillah kharajna wa 'ala rabbina tawakkalna</strong></small>
+                                    <p>In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust. (Abu Dawood 2605)</p>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">5</div>
+                                <div class="hadith-content">
+                                    <p><strong>Wearing Clothes</strong></p>
+                                    <div class="arabic-text">الحمد لله الذي كساني هذا ورزقنيه من غير حول مني ولا قوة</div>
+                                    <small><strong>Alhamdulillah alladhi kasani hadha wa razaqanihi min ghayri hawlin minni wa la quwwa</strong></small>
+                                    <p>Praise be to Allah who has clothed me with this and provided it for me without any power or strength from me. (Abu Dawood 4023)</p>
+                                </div>
+                            </div>
+                            <div class="hadith-item">
+                                <div class="hadith-number">6</div>
+                                <div class="hadith-content">
+                                    <p><strong>Looking in Mirror</strong></p>
+                                    <div class="arabic-text">اللهم كما حسنت خلقي فحسن خلقي</div>
+                                    <small><strong>Allahumma kama hasanta khalqi fa hasin khuluqi</strong></small>
+                                    <p>O Allah, as You have made my creation good, make my character good. (Ahmad 1/391)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="character-traits">
+                        <h2>Prophet's Character Traits</h2>
+                        <div class="collections-grid">
+                            <div class="collection-item">
+                                <h4>Truthfulness (Sidq)</h4>
+                                <p>He was known as "Al-Amin" (the trustworthy) even before prophethood. Even his enemies testified to his truthfulness. (Sahih Bukhari 3)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Mercy (Rahma)</h4>
+                                <p>Allah described him as "a mercy to all the worlds" (Quran 21:107). He showed mercy to children, animals, and even enemies. (Sahih Muslim 2319)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Patience (Sabr)</h4>
+                                <p>He endured 13 years of persecution in Mecca with remarkable patience, never seeking revenge. (Sahih Bukhari 3231)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Forgiveness (Afw)</h4>
+                                <p>He forgave even his worst enemies when he had the power to retaliate, including those who persecuted him for years. (Sahih Muslim 1792)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Humility (Tawadu')</h4>
+                                <p>He would sit on the ground, mend his own clothes, and serve his family. (Sahih Bukhari 5374)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Generosity (Karam)</h4>
+                                <p>He was the most generous of people, especially during Ramadan. (Sahih Bukhari 6)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Justice (Adl)</h4>
+                                <p>He established justice for all, regardless of social status, wealth, or family connections. (Sahih Muslim 1718)</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Modesty (Haya)</h4>
+                                <p>He was more modest than a virgin in her chamber. (Sahih Bukhari 6119)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="supplications">
+                        <h2>Essential Supplications (Du'a)</h2>
+                        <div class="supplications-grid">
+                            <div class="supplication-item">
+                                <h4>Morning Supplication</h4>
+                                <div class="arabic-text">أصبحنا وأصبح الملك لله والحمد لله لا إله إلا الله وحده لا شريك له</div>
+                                <small><strong>Asbahna wa asbah al-mulku lillah wal-hamdu lillah la ilaha illa Allah wahdahu la sharika lah</strong></small>
+                                <p>We have reached the morning and the dominion belongs to Allah, and all praise is due to Allah. There is no deity except Allah alone, without partner. (Sahih Muslim 2723)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Evening Supplication</h4>
+                                <div class="arabic-text">أمسينا وأمسى الملك لله والحمد لله لا إله إلا الله وحده لا شريك له</div>
+                                <small><strong>Amsayna wa amsa al-mulku lillah wal-hamdu lillah la ilaha illa Allah wahdahu la sharika lah</strong></small>
+                                <p>We have reached the evening and the dominion belongs to Allah, and all praise is due to Allah. There is no deity except Allah alone, without partner. (Sahih Muslim 2723)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Before Eating</h4>
+                                <div class="arabic-text">اللهم بارك لنا فيه وأطعمنا خيراً منه</div>
+                                <small><strong>Allahumma barik lana fihi wa at'imna khayran minhu</strong></small>
+                                <p>O Allah, bless it for us and feed us with better than it. (Abu Dawood 3730)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>After Eating</h4>
+                                <div class="arabic-text">الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة</div>
+                                <small><strong>Alhamdulillah alladhi at'amani hadha wa razaqanihi min ghayri hawlin minni wa la quwwa</strong></small>
+                                <p>Praise be to Allah who fed me this and provided it for me without any power or strength from me. (Abu Dawood 4023)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Entering the Mosque</h4>
+                                <div class="arabic-text">اللهم افتح لي أبواب رحمتك</div>
+                                <small><strong>Allahumma iftah li abwaba rahmatik</strong></small>
+                                <p>O Allah, open for me the doors of Your mercy. (Sahih Muslim 713)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Leaving the Mosque</h4>
+                                <div class="arabic-text">اللهم إني أسألك من فضلك</div>
+                                <small><strong>Allahumma inni as'aluka min fadlik</strong></small>
+                                <p>O Allah, I ask You from Your bounty. (Sahih Muslim 713)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Before Sleeping</h4>
+                                <div class="arabic-text">باسمك ربي وضعت جنبي وبك أرفعه</div>
+                                <small><strong>Bismika Rabbi wada'tu janbi wa bika arfa'uhu</strong></small>
+                                <p>In Your name, my Lord, I lie down and in Your name I rise. (Sahih Bukhari 6320)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>When in Distress</h4>
+                                <div class="arabic-text">لا إله إلا أنت سبحانك إني كنت من الظالمين</div>
+                                <small><strong>La ilaha illa anta subhanaka inni kuntu min al-zalimin</strong></small>
+                                <p>There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers. (Sahih Muslim 2730)</p>
+                            </div>
+                            <div class="supplication-item">
+                                <h4>Seeking Forgiveness</h4>
+                                <div class="arabic-text">أستغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه</div>
+                                <small><strong>Astaghfirullah al-azim alladhi la ilaha illa huwa al-hayy al-qayyum wa atubu ilayh</strong></small>
+                                <p>I seek forgiveness from Allah, the Most Great, there is no deity except Him, the Ever-Living, the Sustainer of existence, and I repent to Him. (Abu Dawood 1517)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Prophet's Physical Appearance & Mannerisms</h2>
+                        <div class="appearance-grid">
+                            <div class="appearance-item">
+                                <h4>Physical Description</h4>
+                                <p>He was of medium height, neither very tall nor short. His complexion was fair with a reddish tinge. His hair was neither curly nor straight, and he had a broad forehead. (Sahih Bukhari 3549)</p>
+                            </div>
+                            <div class="appearance-item">
+                                <h4>Walking Style</h4>
+                                <p>He walked with firm steps, as if descending from a high place. When he turned, he would turn his whole body. (Sahih Muslim 2339)</p>
+                            </div>
+                            <div class="appearance-item">
+                                <h4>Smile & Laughter</h4>
+                                <p>He had a beautiful smile and would laugh rarely, but when he did, his teeth would show like hailstones. (Sahih Bukhari 245)</p>
+                            </div>
+                            <div class="appearance-item">
+                                <h4>Hand Gestures</h4>
+                                <p>He would point with his whole hand when speaking, and when he was surprised, he would turn his palm upward. (Sahih Muslim 2339)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="etiquette">
+                        <h2>Etiquette & Manners (Adab)</h2>
+                        <div class="etiquette-grid">
+                            <div class="etiquette-item">
+                                <h4>Greeting Others</h4>
+                                <p>He would greet everyone, including children and slaves. He was the first to greet others and would shake hands with both hands. (Sahih Bukhari 6243)</p>
+                            </div>
+                            <div class="etiquette-item">
+                                <h4>Speaking</h4>
+                                <p>He spoke clearly and distinctly, repeating important points three times. He would pause between sentences to ensure understanding. (Sahih Bukhari 95)</p>
+                            </div>
+                            <div class="etiquette-item">
+                                <h4>Listening</h4>
+                                <p>He would give his full attention to whoever was speaking, never interrupting. He would face the speaker completely. (Sahih Muslim 2494)</p>
+                            </div>
+                            <div class="etiquette-item">
+                                <h4>Visiting the Sick</h4>
+                                <p>He would visit the sick regularly, place his hand on their forehead, and make supplications for their recovery. (Sahih Bukhari 5675)</p>
+                            </div>
+                            <div class="etiquette-item">
+                                <h4>Attending Funerals</h4>
+                                <p>He would attend funerals of both Muslims and non-Muslims, showing respect for all humanity. (Sahih Bukhari 1312)</p>
+                            </div>
+                            <div class="etiquette-item">
+                                <h4>Respect for Elders</h4>
+                                <p>He would stand up for elderly people, give them priority in seating, and speak to them with utmost respect. (Sahih Bukhari 2442)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="family-life">
+                        <h2>Family Life & Relationships</h2>
+                        <div class="family-grid">
+                            <div class="family-item">
+                                <h4>Treatment of Wives</h4>
+                                <p>He would help with household chores, mend his own clothes, and treat his wives with kindness and respect. (Sahih Bukhari 676)</p>
+                            </div>
+                            <div class="family-item">
+                                <h4>Children's Rights</h4>
+                                <p>He would play with children, carry them on his shoulders, and never hit a child. He emphasized the importance of treating children with love. (Sahih Bukhari 5995)</p>
+                            </div>
+                            <div class="family-item">
+                                <h4>Neighbors</h4>
+                                <p>He emphasized the rights of neighbors so much that it was thought they might inherit from each other. He would visit and help neighbors in need. (Sahih Bukhari 6014)</p>
+                            </div>
+                            <div class="family-item">
+                                <h4>Servants & Workers</h4>
+                                <p>He would eat with his servants, share the same food, and never treated them as inferior. He said, "They are your brothers whom Allah has put under your authority." (Sahih Bukhari 30)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="business">
+                        <h2>Business & Social Interactions</h2>
+                        <div class="business-grid">
+                            <div class="business-item">
+                                <h4>Honest Trading</h4>
+                                <p>He was known for his honesty in business even before prophethood. He never cheated, lied, or broke promises in trade. (Sahih Bukhari 3)</p>
+                            </div>
+                            <div class="business-item">
+                                <h4>Fair Dealing</h4>
+                                <p>He would weigh goods himself to ensure fairness and would give extra when selling, never taking advantage of others. (Sahih Muslim 1601)</p>
+                            </div>
+                            <div class="business-item">
+                                <h4>Debt Management</h4>
+                                <p>He would pay debts promptly and would help others pay their debts if they were unable. He never delayed payment. (Sahih Bukhari 2391)</p>
+                            </div>
+                            <div class="business-item">
+                                <h4>Charity & Generosity</h4>
+                                <p>He would give charity regularly and would never refuse anyone who asked for help. He was especially generous during Ramadan. (Sahih Bukhari 6)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="health-hygiene">
+                        <h2>Health & Hygiene Practices</h2>
+                        <div class="health-grid">
+                            <div class="health-item">
+                                <h4>Oral Hygiene</h4>
+                                <p>He emphasized the use of miswak (tooth stick) and said, "If it were not difficult for my Ummah, I would have commanded them to use the miswak before every prayer." (Sahih Bukhari 887)</p>
+                            </div>
+                            <div class="health-item">
+                                <h4>Regular Bathing</h4>
+                                <p>He would take a bath every Friday and encouraged regular bathing. He said, "It is the right of Allah upon every Muslim to take a bath at least once every seven days." (Sahih Bukhari 898)</p>
+                            </div>
+                            <div class="health-item">
+                                <h4>Nail Care</h4>
+                                <p>He would trim his nails regularly and advised others to do the same. He would cut his nails on Fridays as part of his weekly grooming routine. (Sunan Abu Dawood 4201)</p>
+                            </div>
+                            <div class="health-item">
+                                <h4>Hair Care</h4>
+                                <p>He would comb his hair regularly and apply oil to it. He said, "Whoever has hair should honor it." (Sunan Abu Dawood 4163)</p>
+                            </div>
+                            <div class="health-item">
+                                <h4>Clean Clothing</h4>
+                                <p>He always wore clean clothes and emphasized cleanliness. He said, "Cleanliness is half of faith." (Sahih Muslim 223)</p>
+                            </div>
+                            <div class="health-item">
+                                <h4>Moderate Eating</h4>
+                                <p>He would eat moderately and never overeat. He said, "The son of Adam does not fill any vessel worse than his stomach." (Sunan Tirmidhi 2380)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Sunnah Importance</h3>
+                        <ul class="facts-list">
+                            <li><strong>Second Source</strong> After Quran</li>
+                            <li><strong>Practical Guide</strong> For daily life</li>
+                            <li><strong>Prophet's Example</strong> Perfect role model</li>
+                            <li><strong>Divine Inspiration</strong> From Allah</li>
+                            <li><strong>Eternal Relevance</strong> For all times</li>
+                            <li><strong>Authentic Sources</strong> Bukhari & Muslim</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Study Approach</h3>
+                        <ul class="study-tips">
+                            <li>Start with basic daily practices</li>
+                            <li>Learn the Prophet's supplications</li>
+                            <li>Study his character traits</li>
+                            <li>Apply gradually in daily life</li>
+                            <li>Seek authentic sources</li>
+                            <li>Focus on one area at a time</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Authentic Hadith Collections</h3>
+                        <ul class="hadith-sources">
+                            <li><strong>Sahih al-Bukhari</strong> - Most authentic</li>
+                            <li><strong>Sahih Muslim</strong> - Highly reliable</li>
+                            <li><strong>Sunan Abu Dawood</strong> - Comprehensive</li>
+                            <li><strong>Sunan al-Tirmidhi</strong> - Detailed</li>
+                            <li><strong>Sunan al-Nasa'i</strong> - Precise</li>
+                            <li><strong>Sunan Ibn Majah</strong> - Complete</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Key Sunnah Areas</h3>
+                        <ul class="sunnah-areas">
+                            <li><a href="#daily-practices">Daily Practices</a></li>
+                            <li><a href="#character-traits">Character & Ethics</a></li>
+                            <li><a href="#supplications">Supplications</a></li>
+                            <li><a href="#etiquette">Etiquette & Manners</a></li>
+                            <li><a href="#family-life">Family Relations</a></li>
+                            <li><a href="#business">Business Practices</a></li>
+                            <li><a href="#health-hygiene">Health & Hygiene</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card action-card">
+                        <h3>Begin Learning</h3>
+                        <p>Start incorporating the Prophet's beautiful way of life into your daily routine.</p>
+                        <button class="btn-primary" onclick="startSunnahLearning()">Start Learning Sunnah</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="subjects.html">Subjects</a></li>
+                        <li><a href="hadiths.html">Hadiths</a></li>
+                        <li><a href="sunnah.html">Sunnah</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sunnah Resources</h4>
+                    <ul>
+                        <li><a href="#daily-practices">Daily Practices</a></li>
+                        <li><a href="#character-traits">Prophet's Character</a></li>
+                        <li><a href="#supplications">Supplications</a></li>
+                        <li><a href="#etiquette">Etiquette Guide</a></li>
+                        <li><a href="#family-life">Family Life</a></li>
+                        <li><a href="#business">Business Ethics</a></li>
+                        <li><a href="#health-hygiene">Health & Hygiene</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script>
+        // Sunnah Learning functionality
+        function startSunnahLearning() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+                    color: var(--white);
+                    padding: 2rem;
+                    border-radius: 20px;
+                    max-width: 600px;
+                    width: 90%;
+                    text-align: center;
+                    border: 2px solid var(--gold);
+                ">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                    <h2 style="color: var(--gold); margin-bottom: 1rem;">Begin Your Sunnah Journey</h2>
+                    <p style="margin-bottom: 2rem;">Start with these essential daily practices from the Prophet's life:</p>
+                    <div style="text-align: left; margin-bottom: 2rem;">
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                            <strong>1. Morning Supplications</strong><br>
+                            <small>Start each day with the Prophet's morning duas</small>
+                        </div>
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                            <strong>2. Eating Etiquette</strong><br>
+                            <small>Follow the Prophet's way of eating and drinking</small>
+                        </div>
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                            <strong>3. Daily Supplications</strong><br>
+                            <small>Learn essential duas for different times of day</small>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="this.closest('.modal').remove()" style="
+                            background: var(--gold);
+                            color: var(--dark-green);
+                            border: none;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 8px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">Start Today</button>
+                        <button onclick="this.closest('.modal').remove()" style="
+                            background: transparent;
+                            color: var(--white);
+                            border: 2px solid var(--white);
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 8px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">Learn More</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+    </script>
+    <script src="islamic-interactive.js"></script>
+</body>
+</html>

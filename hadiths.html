@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadith Study - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="/what-is-islam.html" class="nav-link">About</a>
+                <a href="/community.html" class="nav-link">Contact</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <h1>Hadith Study</h1>
+                <p class="page-subtitle">Sayings and Teachings of Prophet Muhammad ﷺ</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-main">
+                    <div class="content-card">
+                        <h2>What are Hadiths?</h2>
+                        <p>Hadiths are the recorded sayings, actions, and approvals of Prophet Muhammad (peace be upon him). They serve as the second most important source of Islamic guidance after the Quran, providing practical examples of how to live according to Islamic principles.</p>
+                        
+                        <div class="hadith-highlight">
+                            <div class="hadith-text">
+                                "The best of people are those who benefit others."
+                            </div>
+                            <div class="hadith-source">
+                                - Prophet Muhammad ﷺ (Reported by Ahmad)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Major Hadith Collections</h2>
+                        <div class="collections-grid">
+                            <div class="collection-item">
+                                <h4>Sahih al-Bukhari</h4>
+                                <p>Compiled by Imam Bukhari, considered the most authentic collection</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Sahih Muslim</h4>
+                                <p>Compiled by Imam Muslim, second most authentic collection</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Sunan Abu Dawood</h4>
+                                <p>Focus on Islamic jurisprudence and legal matters</p>
+                            </div>
+                            <div class="collection-item">
+                                <h4>Jami' at-Tirmidhi</h4>
+                                <p>Known for its detailed commentary and grading system</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Categories of Hadiths</h2>
+                        <div class="categories-list">
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div>
+                                    <h4>Qudsi Hadiths</h4>
+                                    <p>Divine sayings where the Prophet conveys Allah's words</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div>
+                                    <h4>Qawli (Sayings)</h4>
+                                    <p>Direct statements and teachings of the Prophet</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-hand-paper"></i>
+                                </div>
+                                <div>
+                                    <h4>Fi'li (Actions)</h4>
+                                    <p>Recorded actions and behaviors of the Prophet</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h4>Taqriri (Approvals)</h4>
+                                    <p>Things the Prophet approved of or did not object to</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Essential Hadiths for Daily Life</h2>
+                        <div class="hadith-search">
+                            <input type="text" id="hadithSearch" placeholder="Search hadiths by topic or keyword..." class="search-input">
+                            <button onclick="searchHadiths()" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="hadith-filters">
+                            <button class="filter-btn active" onclick="filterHadiths('all')">All</button>
+                            <button class="filter-btn" onclick="filterHadiths('faith')">Faith</button>
+                            <button class="filter-btn" onclick="filterHadiths('character')">Character</button>
+                            <button class="filter-btn" onclick="filterHadiths('worship')">Worship</button>
+                            <button class="filter-btn" onclick="filterHadiths('family')">Family</button>
+                        </div>
+                        <div class="book-filters">
+                            <h4>Filter by Collection:</h4>
+                            <div class="book-filter-buttons">
+                                <button class="book-filter-btn active" onclick="filterByBook('all')">All Books</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Sahih al-Bukhari')">Sahih al-Bukhari</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Sahih Muslim')">Sahih Muslim</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Sunan Abu Dawood')">Sunan Abu Dawood</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Jami at-Tirmidhi')">Jami' at-Tirmidhi</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Sunan an-Nasai')">Sunan an-Nasa'i</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Sunan Ibn Majah')">Sunan Ibn Majah</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Muwatta Malik')">Muwatta Malik</button>
+                                <button class="book-filter-btn" onclick="filterByBook('Musnad Ahmad')">Musnad Ahmad</button>
+                            </div>
+                        </div>
+                        <div class="hadith-controls">
+                            <div class="hadith-stats">
+                                <span id="totalHadiths">100</span> Hadiths Available
+                            </div>
+                            <div class="hadith-pagination">
+                                <button onclick="previousPage()" class="page-btn" id="prevBtn">Previous</button>
+                                <span id="pageInfo">Page 1 of 10</span>
+                                <button onclick="nextPage()" class="page-btn" id="nextBtn">Next</button>
+                            </div>
+                        </div>
+                        <div class="famous-hadiths" id="hadithContainer">
+                            <!-- Hadiths will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Hadiths on Prayer and Worship</h2>
+                        <div class="prayer-hadiths">
+                            <div class="hadith-section">
+                                <h4>Importance of Prayer</h4>
+                                <div class="arabic-text">الصَّلَاةُ عِمَادُ الدِّينِ</div>
+                                <p><strong>"Prayer is the pillar of religion."</strong></p>
+                                <small><strong>Source:</strong> Various collections<br>
+                                <strong>Meaning:</strong> Prayer is the foundation that supports the entire structure of Islamic faith.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Prayer Times</h4>
+                                <div class="arabic-text">مَنْ صَلَّى الصُّبْحَ فَهُوَ فِي ذِمَّةِ اللَّهِ</div>
+                                <p><strong>"Whoever prays the dawn prayer is under Allah's protection."</strong></p>
+                                <small><strong>Source:</strong> Sahih Muslim<br>
+                                <strong>Blessing:</strong> Performing Fajr prayer brings Allah's protection throughout the day.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Mosque Attendance</h4>
+                                <div class="arabic-text">مَنْ غَدَا إِلَى الْمَسْجِدِ وَرَاحَ أَعَدَّ اللَّهُ لَهُ نُزُلًا فِي الْجَنَّةِ</div>
+                                <p><strong>"Whoever goes to the mosque in the morning and evening, Allah will prepare for him a place in Paradise."</strong></p>
+                                <small><strong>Source:</strong> Sahih al-Bukhari & Muslim<br>
+                                <strong>Reward:</strong> Regular mosque attendance is rewarded with Paradise.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Hadiths on Character and Morals</h2>
+                        <div class="character-hadiths">
+                            <div class="hadith-section">
+                                <h4>Good Character</h4>
+                                <div class="arabic-text">إِنَّ مِنْ أَكْمَلِ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا</div>
+                                <p><strong>"The most complete believer in faith is the one with the best character."</strong></p>
+                                <small><strong>Source:</strong> Sunan at-Tirmidhi<br>
+                                <strong>Teaching:</strong> Good character is a sign of complete faith.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Truthfulness</h4>
+                                <div class="arabic-text">عَلَيْكُمْ بِالصِّدْقِ فَإِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ</div>
+                                <p><strong>"You must be truthful, for truthfulness leads to righteousness."</strong></p>
+                                <small><strong>Source:</strong> Sahih al-Bukhari & Muslim<br>
+                                <strong>Guidance:</strong> Truthfulness is a path to righteousness and goodness.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Patience</h4>
+                                <div class="arabic-text">الصَّبْرُ نِصْفُ الْإِيمَان</div>
+                                <p><strong>"Patience is half of faith."</strong></p>
+                                <small><strong>Source:</strong> Various collections<br>
+                                <strong>Wisdom:</strong> Patience is an essential component of faith.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Hadiths on Family and Relationships</h2>
+                        <div class="family-hadiths">
+                            <div class="hadith-section">
+                                <h4>Parents' Rights</h4>
+                                <div class="arabic-text">رِضَا الرَّبِّ فِي رِضَا الْوَالِدَيْنِ</div>
+                                <p><strong>"Allah's pleasure is in the pleasure of parents."</strong></p>
+                                <small><strong>Source:</strong> Various collections<br>
+                                <strong>Teaching:</strong> Honoring and pleasing parents is a way to gain Allah's pleasure.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Kindness to Children</h4>
+                                <div class="arabic-text">مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَيُوَقِّرْ كَبِيرَنَا فَلَيْسَ مِنَّا</div>
+                                <p><strong>"Whoever does not show mercy to our young and respect our elders is not one of us."</strong></p>
+                                <small><strong>Source:</strong> Sunan at-Tirmidhi<br>
+                                <strong>Guidance:</strong> Mercy to children and respect for elders are essential Islamic values.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Marriage and Spouse</h4>
+                                <div class="arabic-text">خَيْرُكُمْ خَيْرُكُمْ لِأَهْلِهِ وَأَنَا خَيْرُكُمْ لِأَهْلِي</div>
+                                <p><strong>"The best of you are those who are best to their families, and I am the best to my family."</strong></p>
+                                <small><strong>Source:</strong> Sunan at-Tirmidhi<br>
+                                <strong>Example:</strong> The Prophet set the example for treating family with kindness and respect.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Hadiths on Business and Ethics</h2>
+                        <div class="business-hadiths">
+                            <div class="hadith-section">
+                                <h4>Honest Trade</h4>
+                                <div class="arabic-text">التَّاجِرُ الصَّدُوقُ الأَمِينُ مَعَ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ</div>
+                                <p><strong>"The honest and trustworthy merchant will be with the prophets, the truthful, and the martyrs."</strong></p>
+                                <small><strong>Source:</strong> Sunan at-Tirmidhi<br>
+                                <strong>Reward:</strong> Honest business dealings lead to high spiritual status.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Fair Dealing</h4>
+                                <div class="arabic-text">مَنْ غَشَّنَا فَلَيْسَ مِنَّا</div>
+                                <p><strong>"Whoever deceives us is not one of us."</strong></p>
+                                <small><strong>Source:</strong> Sahih Muslim<br>
+                                <strong>Warning:</strong> Deception and fraud are completely against Islamic principles.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Charity and Wealth</h4>
+                                <div class="arabic-text">مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ</div>
+                                <p><strong>"Charity does not decrease wealth."</strong></p>
+                                <small><strong>Source:</strong> Sahih Muslim<br>
+                                <strong>Blessing:</strong> Giving charity actually increases and purifies wealth.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Hadiths on Health and Well-being</h2>
+                        <div class="health-hadiths">
+                            <div class="hadith-section">
+                                <h4>Prevention is Better</h4>
+                                <div class="arabic-text">مَنْ تَوَضَّأَ فَأَحْسَنَ الْوُضُوءَ خَرَجَتْ خَطَايَاهُ مِنْ جَسَدِهِ</div>
+                                <p><strong>"Whoever performs ablution properly, his sins will leave his body."</strong></p>
+                                <small><strong>Source:</strong> Sahih Muslim<br>
+                                <strong>Benefit:</strong> Physical cleanliness leads to spiritual purification.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Moderation in Eating</h4>
+                                <div class="arabic-text">مَا مَلَأَ آدَمِيٌّ وِعَاءً شَرًّا مِنْ بَطْنٍ</div>
+                                <p><strong>"No human being has filled a vessel worse than his stomach."</strong></p>
+                                <small><strong>Source:</strong> Sunan at-Tirmidhi<br>
+                                <strong>Guidance:</strong> Moderation in eating is essential for good health.</small>
+                            </div>
+
+                            <div class="hadith-section">
+                                <h4>Seeking Treatment</h4>
+                                <div class="arabic-text">تَدَاوَوْا فَإِنَّ اللَّهَ لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً</div>
+                                <p><strong>"Seek treatment, for Allah has not created a disease without creating its cure."</strong></p>
+                                <small><strong>Source:</strong> Sunan Abu Dawood<br>
+                                <strong>Encouragement:</strong> Islam encourages seeking medical treatment and healing.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Understanding Hadith Narrators</h2>
+                        <div class="narrators-section">
+                            <p>Hadith science (Ilm al-Hadith) involves studying the chain of narrators (Isnad) and the text (Matn) to verify authenticity. Here are some key narrators and their contributions:</p>
+                            
+                            <div class="narrators-grid">
+                                <div class="narrator-card">
+                                    <h4>Abu Bakr as-Siddiq</h4>
+                                    <p><strong>Status:</strong> First Caliph, Close Companion</p>
+                                    <p><strong>Narrated:</strong> 142 hadiths</p>
+                                    <p><strong>Known for:</strong> Truthfulness, leadership, and being the Prophet's closest friend</p>
+                                </div>
+                                
+                                <div class="narrator-card">
+                                    <h4>Aisha bint Abi Bakr</h4>
+                                    <p><strong>Status:</strong> Prophet's Wife, Scholar</p>
+                                    <p><strong>Narrated:</strong> 2,210 hadiths</p>
+                                    <p><strong>Known for:</strong> Deep knowledge of Islamic law, women's issues, and family matters</p>
+                                </div>
+                                
+                                <div class="narrator-card">
+                                    <h4>Abu Hurairah</h4>
+                                    <p><strong>Status:</strong> Companion, Dedicated Student</p>
+                                    <p><strong>Narrated:</strong> 5,374 hadiths</p>
+                                    <p><strong>Known for:</strong> Exceptional memory, spending most time with the Prophet</p>
+                                </div>
+                                
+                                <div class="narrator-card">
+                                    <h4>Ibn Abbas</h4>
+                                    <p><strong>Status:</strong> Cousin of Prophet, Scholar</p>
+                                    <p><strong>Narrated:</strong> 1,660 hadiths</p>
+                                    <p><strong>Known for:</strong> Quranic interpretation, deep understanding of Islamic teachings</p>
+                                </div>
+                            </div>
+                            
+                            <div class="chain-example">
+                                <h4>Example of Hadith Chain (Isnad)</h4>
+                                <div class="chain-flow">
+                                    <div class="chain-item">Prophet Muhammad ﷺ</div>
+                                    <div class="chain-arrow">↓</div>
+                                    <div class="chain-item">Abu Bakr as-Siddiq</div>
+                                    <div class="chain-arrow">↓</div>
+                                    <div class="chain-item">Umar ibn al-Khattab</div>
+                                    <div class="chain-arrow">↓</div>
+                                    <div class="chain-item">Ibn Abbas</div>
+                                    <div class="chain-arrow">↓</div>
+                                    <div class="chain-item">Imam Bukhari</div>
+                                </div>
+                                <p class="chain-note">Each narrator must be trustworthy, reliable, and have met the previous narrator in the chain.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h2>Daily Hadith Feature</h2>
+                        <div class="daily-hadith">
+                            <div class="daily-hadith-header">
+                                <h3>Hadith of the Day</h3>
+                                <button onclick="getRandomHadith()" class="refresh-btn">
+                                    <i class="fas fa-sync-alt"></i> New Hadith
+                                </button>
+                            </div>
+                            <div class="daily-hadith-content" id="dailyHadith">
+                                <div class="arabic-text">إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ</div>
+                                <p><strong>"Actions are but by intention, and every person will have only what they intended."</strong></p>
+                                <small><strong>Source:</strong> Sahih al-Bukhari & Muslim</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Hadith Classifications</h3>
+                        <ul class="classification-list">
+                            <li><span class="status sahih">Sahih</span> - Authentic</li>
+                            <li><span class="status hasan">Hasan</span> - Good</li>
+                            <li><span class="status daif">Da'if</span> - Weak</li>
+                            <li><span class="status mawdu">Mawdu'</span> - Fabricated</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Study Approach</h3>
+                        <ul class="study-tips">
+                            <li>Start with Sahih collections</li>
+                            <li>Learn about the narrator chain</li>
+                            <li>Understand the context</li>
+                            <li>Study scholarly commentary</li>
+                            <li>Apply teachings in daily life</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Memorization Tool</h3>
+                        <div class="memorization-feature">
+                            <p>Track your hadith memorization progress:</p>
+                            <div class="progress-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" id="memorizedCount">0</span>
+                                    <span class="stat-label">Memorized</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="totalCount">10</span>
+                                    <span class="stat-label">Total</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <button onclick="markAsMemorized()" class="memorize-btn">
+                                <i class="fas fa-check"></i> Mark as Memorized
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Quick Quiz</h3>
+                        <div class="quiz-feature">
+                            <p>Test your hadith knowledge:</p>
+                            <div class="quiz-question" id="quizQuestion">
+                                <p>What does the hadith "Actions are but by intention" teach us?</p>
+                            </div>
+                            <div class="quiz-options">
+                                <button class="quiz-option" onclick="selectAnswer(this, false)">A) Intentions don't matter</button>
+                                <button class="quiz-option" onclick="selectAnswer(this, true)">B) Rewards depend on intentions</button>
+                                <button class="quiz-option" onclick="selectAnswer(this, false)">C) Only actions count</button>
+                            </div>
+                            <div class="quiz-result" id="quizResult"></div>
+                            <button onclick="nextQuestion()" class="next-question-btn" style="display: none;">
+                                Next Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card action-card">
+                        <h3>Begin Hadith Study</h3>
+                        <p>Explore authentic sayings of the Prophet with detailed explanations and context.</p>
+                        <button class="btn-primary">Start Learning</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mosque"></i>
+                        <span>Islamic Learning Companion</span>
+                    </div>
+                    <p>Empowering Muslims worldwide with authentic Islamic knowledge and guidance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="subjects.html">Subjects</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadiths.html">Hadiths</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hadith Collections</h4>
+                    <ul>
+                        <li><a href="#">Sahih al-Bukhari</a></li>
+                        <li><a href="#">Sahih Muslim</a></li>
+                        <li><a href="#">Sunan Abu Dawood</a></li>
+                        <li><a href="#">Jami' at-Tirmidhi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script src="hadiths.js"></script>
+</body>
+</html>
