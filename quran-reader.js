@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Use complete Quran data from external file
     // The surahData will be replaced with completeQuranData from complete-quran-data.js
+    const surahData = {
         1: { 
             name: 'Al-Fatihah', 
             english: 'The Opening', 
@@ -1567,5 +1568,7 @@ window.addEventListener('load', function() {
             setTimeout(() => greeting.remove(), 500);
         }, 3000);
     }, 1000);
+    
+    // Close the surahData object
 });
 

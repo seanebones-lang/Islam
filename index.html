@@ -18,11 +18,69 @@
                 <span>Islamic Learning Companion</span>
             </div>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="subjects.html" class="nav-link">Subjects</a>
-                <a href="what-is-islam.html" class="nav-link">About Islam</a>
-                <a href="community-board.html" class="nav-link">Community</a>
-                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="learn.html" class="nav-link">
+                    <i class="fas fa-book-open"></i>
+                    <span>Learn</span>
+                </a>
+                <a href="practice.html" class="nav-link">
+                    <i class="fas fa-hands-praying"></i>
+                    <span>Practice</span>
+                </a>
+                <a href="community.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <button class="nav-btn" onclick="showQuickStart()">
+                    <i class="fas fa-play"></i>
+                    <span>Quick Start</span>
+                </button>
+            </div>
+            <div class="nav-actions">
+                <div class="accessibility-controls">
+                    <button class="accessibility-btn" onclick="toggleHighContrast()" title="High Contrast">
+                        <i class="fas fa-adjust"></i>
+                    </button>
+                    <button class="accessibility-btn" onclick="increaseTextSize()" title="Increase Text Size">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="accessibility-btn" onclick="decreaseTextSize()" title="Decrease Text Size">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="accessibility-btn" onclick="toggleReadingMode()" title="Reading Mode">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="accessibility-btn" onclick="showVisualSettings()" title="Visual Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                <button class="help-btn" onclick="showHelp()" title="Help & Tutorial">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="notification-btn" onclick="toggleNotifications()" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-nav-link active">Home</a>
+                <a href="learn.html" class="mobile-nav-link">Learn</a>
+                <a href="practice.html" class="mobile-nav-link">Practice</a>
+                <a href="community.html" class="mobile-nav-link">Community</a>
+                <a href="notifications.html" class="mobile-nav-link">
+                    <i class="fas fa-bell"></i> Notifications
+                    <span class="notification-count" id="mobileNotificationCount">0</span>
+                </a>
+                <button class="mobile-nav-btn" onclick="window.location.href='learn.html'">Get Started</button>
             </div>
         </div>
     </nav>
@@ -42,7 +100,7 @@
                 <div class="hero-buttons">
                     <button class="btn-primary" onclick="window.location.href='learn.html'" data-i18n="home.startLearning">Start Learning</button>
                     <button class="btn-secondary" onclick="window.location.href='practice.html'" data-i18n="home.practice">Practice</button>
-                    <button class="btn-secondary" onclick="window.location.href='community-board.html'" style="background: var(--light-green); color: var(--dark-green);">
+                    <button class="btn-secondary" onclick="window.location.href='community.html'" style="background: var(--light-green); color: var(--dark-green);">
                         <i class="fas fa-comments"></i> Join Community
                     </button>
                 </div>
@@ -327,7 +385,7 @@
                         <span><i class="fas fa-globe"></i> Worldwide</span>
                     </div>
                 </div>
-                <div class="feature-card" onclick="window.location.href='community-board.html'" style="cursor: pointer;">
+                <div class="feature-card" onclick="window.location.href='community.html'" style="cursor: pointer;">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
@@ -541,7 +599,7 @@
                     </ul>
                     <div class="about-buttons">
                         <button class="btn-primary" onclick="window.location.href='subjects.html'">Explore Subjects</button>
-                        <button class="btn-outline" onclick="window.location.href='community-board.html'">Join Community</button>
+                        <button class="btn-outline" onclick="window.location.href='community.html'">Join Community</button>
                     </div>
                 </div>
                 <div class="about-image">
@@ -598,7 +656,7 @@
                     <ul>
                         <li><a href="#features">Features</a></li>
                         <li><a href="/what-is-islam.html">About Us</a></li>
-                        <li><a href="community-board.html">Community</a></li>
+                        <li><a href="community.html">Community</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
                 </div>
@@ -676,7 +734,30 @@
         // Prayer Times Calculation (simplified)
         async function updatePrayerTimes() {
             // Use the accurate prayer times calculator if available
-            if (window.prayerTimesCalculator && window.prayerTimesCalculator.prayerTimes) {
+            if (window.accuratePrayerTimesCalculator && window.accuratePrayerTimesCalculator.prayerTimes) {
+                const times = window.accuratePrayerTimesCalculator.prayerTimes;
+                const formatTime = (time) => window.accuratePrayerTimesCalculator.formatTime(time, true);
+                
+                document.getElementById('fajr-time').textContent = formatTime(times.fajr);
+                document.getElementById('dhuhr-time').textContent = formatTime(times.dhuhr);
+                document.getElementById('asr-time').textContent = formatTime(times.asr);
+                document.getElementById('maghrib-time').textContent = formatTime(times.maghrib);
+                document.getElementById('isha-time').textContent = formatTime(times.isha);
+
+                // Get next prayer using accurate calculator
+                const nextPrayer = window.accuratePrayerTimesCalculator.getNextPrayer();
+                document.getElementById('next-prayer-name').textContent = nextPrayer.name;
+                document.getElementById('next-prayer-countdown').textContent = nextPrayer.timeUntilText;
+                
+                // Update status to show accurate times are active
+                const statusElement = document.getElementById('prayer-status');
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-map-marker-alt" style="color: var(--gold);"></i>
+                        <span style="color: var(--light-green);">Accurate prayer times based on your location</span>
+                    `;
+                }
+            } else if (window.prayerTimesCalculator && window.prayerTimesCalculator.prayerTimes) {
                 const times = window.prayerTimesCalculator.prayerTimes;
                 const formatTime = (time) => window.prayerTimesCalculator.formatTime(time, true);
                 
@@ -1275,7 +1356,10 @@
             
             // Also update when accurate prayer times become available
             setTimeout(async () => {
-                if (window.prayerTimesCalculator) {
+                if (window.accuratePrayerTimesCalculator) {
+                    await window.accuratePrayerTimesCalculator.initialize();
+                    updatePrayerTimes(); // Update with accurate times
+                } else if (window.prayerTimesCalculator) {
                     await window.prayerTimesCalculator.initialize();
                     updatePrayerTimes(); // Update with accurate times
                 }
@@ -1294,6 +1378,7 @@
         });
     </script>
     <script src="prayer-times.js"></script>
+    <script src="js/accurate-prayer-times.js"></script>
     <script src="prayer-notifications.js"></script>
     <script src="daily-content.js"></script>
     <script>
@@ -1321,6 +1406,258 @@
                 }
             }, 1500);
         });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Notifications Functions
+        function toggleNotifications() {
+            // Redirect to notifications page
+            window.location.href = 'notifications.html';
+        }
+
+        function updateNotificationBadge() {
+            // Get notification count from localStorage or API
+            const notificationCount = localStorage.getItem('notificationCount') || 0;
+            const badge = document.getElementById('notificationBadge');
+            const mobileCount = document.getElementById('mobileNotificationCount');
+            
+            if (badge) {
+                badge.textContent = notificationCount;
+                badge.style.display = notificationCount > 0 ? 'flex' : 'none';
+            }
+            
+            if (mobileCount) {
+                mobileCount.textContent = notificationCount;
+                mobileCount.style.display = notificationCount > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Initialize notifications
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNotificationBadge();
+            
+            // Check for new notifications every 30 seconds
+            setInterval(updateNotificationBadge, 30000);
+        });
+
+        // Global functions
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.toggleNotifications = toggleNotifications;
     </script>
+
+    <!-- Quick Start Modal -->
+    <div class="modal" id="quickStartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-rocket"></i> Quick Start Guide</h2>
+                <button class="modal-close" onclick="closeQuickStart()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="quick-start-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Check Prayer Times</h3>
+                            <p>View today's prayer times and set up location-based notifications</p>
+                            <button class="step-btn" onclick="scrollToSection('prayer-times')">View Prayer Times</button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Start Learning</h3>
+                            <p>Explore Quran, Hadith, and Islamic teachings</p>
+                            <button class="step-btn" onclick="window.location.href='learn.html'">Go to Learn</button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Practice Daily</h3>
+                            <p>Use prayer guides, Qibla finder, and daily duas</p>
+                            <button class="step-btn" onclick="window.location.href='practice.html'">Go to Practice</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-question-circle"></i> Help & Tutorial</h2>
+                <button class="modal-close" onclick="closeHelp()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-sections">
+                    <div class="help-section">
+                        <h3><i class="fas fa-home"></i> Home Page</h3>
+                        <p>Your daily Islamic companion with prayer times, daily content, and quick access to all features.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-book-open"></i> Learn</h3>
+                        <p>Study Quran, Hadith, Prophet's life, and Islamic knowledge in an organized way.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-hands-praying"></i> Practice</h3>
+                        <p>Prayer guides, Qibla finder, Islamic calendar, and daily supplications.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-users"></i> Community</h3>
+                        <p>Connect with other Muslims, ask questions, and share knowledge.</p>
+                    </div>
+                </div>
+                <div class="help-tips">
+                    <h3>💡 Tips for Better Experience</h3>
+                    <ul>
+                        <li>Use the accessibility controls to adjust text size and contrast</li>
+                        <li>Enable notifications for prayer times and daily reminders</li>
+                        <li>Bookmark your favorite sections for quick access</li>
+                        <li>Use the search feature to find specific content quickly</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visual Settings Modal -->
+    <div class="modal" id="visualSettingsModal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-eye"></i> Visual Accessibility Settings</h2>
+                <button class="modal-close" onclick="closeVisualSettings()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-grid">
+                    <!-- Text Size Settings -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-text-height"></i> Text Size</h3>
+                        <div class="setting-controls">
+                            <button class="size-btn" onclick="setTextSize(80)">Small</button>
+                            <button class="size-btn" onclick="setTextSize(100)">Normal</button>
+                            <button class="size-btn" onclick="setTextSize(125)">Large</button>
+                            <button class="size-btn" onclick="setTextSize(150)">Extra Large</button>
+                            <button class="size-btn" onclick="setTextSize(200)">Huge</button>
+                        </div>
+                        <div class="current-size">
+                            Current: <span id="currentTextSize">100%</span>
+                        </div>
+                    </div>
+
+                    <!-- Font Weight Settings -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-bold"></i> Font Weight</h3>
+                        <div class="setting-controls">
+                            <button class="weight-btn" onclick="setFontWeight('normal')">Normal</button>
+                            <button class="weight-btn" onclick="setFontWeight('bold')">Bold</button>
+                            <button class="weight-btn" onclick="setFontWeight('bolder')">Extra Bold</button>
+                        </div>
+                    </div>
+
+                    <!-- Color Themes -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-palette"></i> Color Themes</h3>
+                        <div class="theme-options">
+                            <button class="theme-btn" onclick="setTheme('default')" data-theme="default">
+                                <div class="theme-preview default"></div>
+                                <span>Default</span>
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('high-contrast')" data-theme="high-contrast">
+                                <div class="theme-preview high-contrast"></div>
+                                <span>High Contrast</span>
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('dark')" data-theme="dark">
+                                <div class="theme-preview dark"></div>
+                                <span>Dark Mode</span>
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('light')" data-theme="light">
+                                <div class="theme-preview light"></div>
+                                <span>Light Mode</span>
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('sepia')" data-theme="sepia">
+                                <div class="theme-preview sepia"></div>
+                                <span>Sepia</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Reading Mode -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-book-open"></i> Reading Mode</h3>
+                        <div class="setting-controls">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="readingMode" onchange="toggleReadingMode()">
+                                <span>Enable Reading Mode (Simplified layout, larger text)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="reduceMotion" onchange="toggleReduceMotion()">
+                                <span>Reduce Motion (Disable animations)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="focusMode" onchange="toggleFocusMode()">
+                                <span>Focus Mode (Highlight current section)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Line Spacing -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-align-left"></i> Line Spacing</h3>
+                        <div class="setting-controls">
+                            <button class="spacing-btn" onclick="setLineSpacing(1.2)">Tight</button>
+                            <button class="spacing-btn" onclick="setLineSpacing(1.5)">Normal</button>
+                            <button class="spacing-btn" onclick="setLineSpacing(1.8)">Relaxed</button>
+                            <button class="spacing-btn" onclick="setLineSpacing(2.2)">Very Relaxed</button>
+                        </div>
+                    </div>
+
+                    <!-- Text-to-Speech -->
+                    <div class="setting-group">
+                        <h3><i class="fas fa-volume-up"></i> Text-to-Speech</h3>
+                        <div class="setting-controls">
+                            <button class="speech-btn" onclick="speakPage()">
+                                <i class="fas fa-play"></i>
+                                <span>Read This Page</span>
+                            </button>
+                            <button class="speech-btn" onclick="stopSpeaking()">
+                                <i class="fas fa-stop"></i>
+                                <span>Stop Reading</span>
+                            </button>
+                        </div>
+                        <div class="speech-controls">
+                            <label>Speech Rate:</label>
+                            <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="1" onchange="setSpeechRate(this.value)">
+                            <span id="rateValue">1.0x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn-primary" onclick="saveVisualSettings()">Save Settings</button>
+                    <button class="btn-secondary" onclick="resetVisualSettings()">Reset to Default</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="ux-enhancements.js"></script>
 </body>
 </html>

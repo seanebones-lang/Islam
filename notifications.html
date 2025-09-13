@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .notifications-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .notifications-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .notifications-title {
+            color: var(--gold);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .notifications-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .notification-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gold);
+        }
+        
+        .filter-btn.active {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+        
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .notification-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .notification-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .notification-item.unread {
+            border-left: 4px solid var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .notification-title {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-time {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .notification-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .notification-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .notification-btn:hover {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+        
+        .notification-btn.primary {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+        
+        .notification-btn.primary:hover {
+            background: var(--gold-light);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .notification-settings {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .settings-title {
+            color: var(--gold);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            color: var(--white);
+            font-weight: 500;
+        }
+        
+        .setting-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: var(--gold);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background: var(--white);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(25px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+            <div class="nav-actions">
+                <button class="notification-btn" onclick="toggleNotifications()" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="subjects.html" class="mobile-nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="mobile-nav-link">About Islam</a>
+                <a href="community-board.html" class="mobile-nav-link">Community</a>
+                <a href="notifications.html" class="mobile-nav-link active">
+                    <i class="fas fa-bell"></i> Notifications
+                    <span class="notification-count" id="mobileNotificationCount">0</span>
+                </a>
+                <button class="mobile-nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Notifications Page -->
+    <div class="notifications-container">
+        <div class="notifications-header">
+            <h1 class="notifications-title">
+                <i class="fas fa-bell"></i> Notifications
+            </h1>
+            <p class="notifications-subtitle">
+                Stay updated with prayer times, community activities, and Islamic reminders
+            </p>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="notification-settings">
+            <h3 class="settings-title">
+                <i class="fas fa-cog"></i> Notification Settings
+            </h3>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">Prayer Time Notifications</div>
+                    <div class="setting-description">Get notified 10 minutes before each prayer</div>
+                </div>
+                <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">Community Updates</div>
+                    <div class="setting-description">Notifications for new posts and replies</div>
+                </div>
+                <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">Daily Reminders</div>
+                    <div class="setting-description">Daily hadith and Islamic reminders</div>
+                </div>
+                <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">Learning Progress</div>
+                    <div class="setting-description">Updates on your learning achievements</div>
+                </div>
+                <div class="toggle-switch" onclick="toggleSetting(this)"></div>
+            </div>
+        </div>
+
+        <!-- Notification Filters -->
+        <div class="notification-filters">
+            <button class="filter-btn active" onclick="filterNotifications('all')">All</button>
+            <button class="filter-btn" onclick="filterNotifications('prayer')">Prayer Times</button>
+            <button class="filter-btn" onclick="filterNotifications('community')">Community</button>
+            <button class="filter-btn" onclick="filterNotifications('learning')">Learning</button>
+            <button class="filter-btn" onclick="filterNotifications('reminders')">Reminders</button>
+        </div>
+
+        <!-- Notification List -->
+        <div class="notification-list" id="notificationList">
+            <!-- Sample Notifications -->
+            <div class="notification-item unread" data-type="prayer">
+                <div class="notification-header">
+                    <div class="notification-title">
+                        <i class="fas fa-mosque"></i> Maghrib Prayer Time
+                    </div>
+                    <div class="notification-time">2 minutes ago</div>
+                </div>
+                <div class="notification-content">
+                    Maghrib prayer time is approaching. Please prepare for prayer. May Allah accept your prayers.
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-btn primary" onclick="markAsRead(this)">Mark as Read</button>
+                    <button class="notification-btn" onclick="viewPrayerTimes()">View Prayer Times</button>
+                </div>
+            </div>
+
+            <div class="notification-item unread" data-type="community">
+                <div class="notification-header">
+                    <div class="notification-title">
+                        <i class="fas fa-comments"></i> New Community Post
+                    </div>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+                <div class="notification-content">
+                    Brother Ahmed shared a new post in the Quran & Tafseer forum: "Understanding Surah Al-Fatihah"
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-btn primary" onclick="markAsRead(this)">Mark as Read</button>
+                    <button class="notification-btn" onclick="viewPost()">View Post</button>
+                </div>
+            </div>
+
+            <div class="notification-item" data-type="learning">
+                <div class="notification-header">
+                    <div class="notification-title">
+                        <i class="fas fa-trophy"></i> Achievement Unlocked
+                    </div>
+                    <div class="notification-time">3 hours ago</div>
+                </div>
+                <div class="notification-content">
+                    Congratulations! You've completed reading 5 surahs. Keep up the great work in your Quran study.
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-btn primary" onclick="markAsRead(this)">Mark as Read</button>
+                    <button class="notification-btn" onclick="viewAchievements()">View Achievements</button>
+                </div>
+            </div>
+
+            <div class="notification-item" data-type="reminders">
+                <div class="notification-header">
+                    <div class="notification-title">
+                        <i class="fas fa-heart"></i> Daily Reminder
+                    </div>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+                <div class="notification-content">
+                    "And whoever relies upon Allah - then He is sufficient for him. Indeed, Allah will accomplish His purpose." - Quran 65:3
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-btn primary" onclick="markAsRead(this)">Mark as Read</button>
+                    <button class="notification-btn" onclick="shareReminder()">Share</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-bell-slash"></i>
+            <h3>No Notifications</h3>
+            <p>You're all caught up! New notifications will appear here when they arrive.</p>
+        </div>
+    </div>
+
+    <script>
+        // Notifications Page Functionality
+        let currentFilter = 'all';
+        let notifications = [];
+
+        // Initialize notifications
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+            updateNotificationBadge();
+        });
+
+        function loadNotifications() {
+            // Load notifications from localStorage or API
+            const savedNotifications = localStorage.getItem('notifications');
+            if (savedNotifications) {
+                notifications = JSON.parse(savedNotifications);
+            } else {
+                // Sample notifications
+                notifications = [
+                    {
+                        id: 1,
+                        type: 'prayer',
+                        title: 'Maghrib Prayer Time',
+                        content: 'Maghrib prayer time is approaching. Please prepare for prayer.',
+                        time: '2 minutes ago',
+                        unread: true
+                    },
+                    {
+                        id: 2,
+                        type: 'community',
+                        title: 'New Community Post',
+                        content: 'Brother Ahmed shared a new post in the Quran & Tafseer forum.',
+                        time: '1 hour ago',
+                        unread: true
+                    },
+                    {
+                        id: 3,
+                        type: 'learning',
+                        title: 'Achievement Unlocked',
+                        content: 'Congratulations! You\'ve completed reading 5 surahs.',
+                        time: '3 hours ago',
+                        unread: false
+                    },
+                    {
+                        id: 4,
+                        type: 'reminders',
+                        title: 'Daily Reminder',
+                        content: 'And whoever relies upon Allah - then He is sufficient for him.',
+                        time: '1 day ago',
+                        unread: false
+                    }
+                ];
+                saveNotifications();
+            }
+            
+            renderNotifications();
+        }
+
+        function saveNotifications() {
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        function renderNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredNotifications = notifications;
+            if (currentFilter !== 'all') {
+                filteredNotifications = notifications.filter(n => n.type === currentFilter);
+            }
+            
+            if (filteredNotifications.length === 0) {
+                notificationList.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                notificationList.style.display = 'block';
+                emptyState.style.display = 'none';
+                
+                // Render notifications
+                notificationList.innerHTML = filteredNotifications.map(notification => `
+                    <div class="notification-item ${notification.unread ? 'unread' : ''}" data-type="${notification.type}">
+                        <div class="notification-header">
+                            <div class="notification-title">
+                                <i class="fas fa-${getNotificationIcon(notification.type)}"></i> ${notification.title}
+                            </div>
+                            <div class="notification-time">${notification.time}</div>
+                        </div>
+                        <div class="notification-content">
+                            ${notification.content}
+                        </div>
+                        <div class="notification-actions">
+                            <button class="notification-btn primary" onclick="markAsRead(${notification.id})">Mark as Read</button>
+                            <button class="notification-btn" onclick="viewNotification(${notification.id})">View</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                prayer: 'mosque',
+                community: 'comments',
+                learning: 'trophy',
+                reminders: 'heart'
+            };
+            return icons[type] || 'bell';
+        }
+
+        function filterNotifications(filter) {
+            currentFilter = filter;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderNotifications();
+        }
+
+        function markAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.unread = false;
+                saveNotifications();
+                renderNotifications();
+                updateNotificationBadge();
+            }
+        }
+
+        function viewNotification(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                // Handle notification click
+                console.log('Viewing notification:', notification);
+            }
+        }
+
+        function toggleSetting(toggle) {
+            toggle.classList.toggle('active');
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = notifications.filter(n => n.unread).length;
+            const badge = document.getElementById('notificationBadge');
+            const mobileCount = document.getElementById('mobileNotificationCount');
+            
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+            
+            if (mobileCount) {
+                mobileCount.textContent = unreadCount;
+                mobileCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        function toggleNotifications() {
+            // Already on notifications page
+            console.log('Already on notifications page');
+        }
+
+        // Global functions
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.toggleNotifications = toggleNotifications;
+    </script>
+</body>
+</html>

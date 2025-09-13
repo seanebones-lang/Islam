@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times Test - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .test-title {
+            color: var(--gold);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .prayer-times-test {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .prayer-times-test h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .prayer-times-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .prayer-time {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .prayer-time:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--gold);
+        }
+        
+        .prayer-name {
+            display: block;
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prayer-time-value {
+            display: block;
+            color: var(--light-green);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .test-results {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-results h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .test-item.success {
+            border-left: 4px solid var(--light-green);
+        }
+        
+        .test-item.error {
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .test-item.warning {
+            border-left: 4px solid #ffd93d;
+        }
+        
+        .test-status {
+            font-weight: 600;
+        }
+        
+        .test-status.success {
+            color: var(--light-green);
+        }
+        
+        .test-status.error {
+            color: #ff6b6b;
+        }
+        
+        .test-status.warning {
+            color: #ffd93d;
+        }
+        
+        .location-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .location-info h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .location-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .location-detail {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .location-detail h4 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .location-detail p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            background: var(--gold);
+            color: var(--dark-green);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        
+        .test-btn.secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        
+        .test-btn.secondary:hover {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test Page -->
+    <div class="test-container">
+        <div class="test-header">
+            <h1 class="test-title">
+                <i class="fas fa-clock"></i> Prayer Times Test
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem;">
+                Test the accuracy of prayer times calculation for your location
+            </p>
+        </div>
+
+        <!-- Location Info -->
+        <div class="location-info">
+            <h3><i class="fas fa-map-marker-alt"></i> Location Information</h3>
+            <div class="location-details">
+                <div class="location-detail">
+                    <h4>Latitude</h4>
+                    <p id="latitude">Loading...</p>
+                </div>
+                <div class="location-detail">
+                    <h4>Longitude</h4>
+                    <p id="longitude">Loading...</p>
+                </div>
+                <div class="location-detail">
+                    <h4>Timezone</h4>
+                    <p id="timezone">Loading...</p>
+                </div>
+                <div class="location-detail">
+                    <h4>Calculation Method</h4>
+                    <p id="method">MWL (Muslim World League)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Times Test -->
+        <div class="prayer-times-test">
+            <h3><i class="fas fa-mosque"></i> Today's Prayer Times</h3>
+            <div class="prayer-times-grid">
+                <div class="prayer-time">
+                    <span class="prayer-name">Fajr</span>
+                    <span class="prayer-time-value" id="fajr-time">Loading...</span>
+                </div>
+                <div class="prayer-time">
+                    <span class="prayer-name">Dhuhr</span>
+                    <span class="prayer-time-value" id="dhuhr-time">Loading...</span>
+                </div>
+                <div class="prayer-time">
+                    <span class="prayer-name">Asr</span>
+                    <span class="prayer-time-value" id="asr-time">Loading...</span>
+                </div>
+                <div class="prayer-time">
+                    <span class="prayer-name">Maghrib</span>
+                    <span class="prayer-time-value" id="maghrib-time">Loading...</span>
+                </div>
+                <div class="prayer-time">
+                    <span class="prayer-name">Isha</span>
+                    <span class="prayer-time-value" id="isha-time">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-results">
+            <h3><i class="fas fa-clipboard-check"></i> Test Results</h3>
+            <div id="testResults">
+                <div class="test-item">
+                    <div>Location Permission</div>
+                    <div class="test-status warning">Checking...</div>
+                </div>
+                <div class="test-item">
+                    <div>Prayer Times Calculation</div>
+                    <div class="test-status warning">Checking...</div>
+                </div>
+                <div class="test-item">
+                    <div>Timezone Detection</div>
+                    <div class="test-status warning">Checking...</div>
+                </div>
+                <div class="test-item">
+                    <div>Time Accuracy</div>
+                    <div class="test-status warning">Checking...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Buttons -->
+        <div class="test-buttons">
+            <button class="test-btn" onclick="testPrayerTimes()">Test Prayer Times</button>
+            <button class="test-btn secondary" onclick="refreshLocation()">Refresh Location</button>
+            <button class="test-btn secondary" onclick="testAccuracy()">Test Accuracy</button>
+        </div>
+    </div>
+
+    <script src="js/accurate-prayer-times.js"></script>
+    <script>
+        // Prayer Times Test Functions
+        let testResults = {
+            locationPermission: false,
+            prayerTimesCalculation: false,
+            timezoneDetection: false,
+            timeAccuracy: false
+        };
+
+        // Initialize test page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Prayer Times Test Page Loaded');
+            testPrayerTimes();
+        });
+
+        async function testPrayerTimes() {
+            console.log('Testing prayer times...');
+            
+            try {
+                // Test location permission
+                const position = await getCurrentPosition();
+                testResults.locationPermission = true;
+                updateTestResult('Location Permission', 'success', 'Location access granted');
+                
+                // Update location info
+                document.getElementById('latitude').textContent = position.coords.latitude.toFixed(6);
+                document.getElementById('longitude').textContent = position.coords.longitude.toFixed(6);
+                
+                // Test prayer times calculation
+                if (window.accuratePrayerTimesCalculator) {
+                    await window.accuratePrayerTimesCalculator.initialize();
+                    const times = window.accuratePrayerTimesCalculator.prayerTimes;
+                    
+                    if (times && times.fajr) {
+                        testResults.prayerTimesCalculation = true;
+                        updateTestResult('Prayer Times Calculation', 'success', 'Prayer times calculated successfully');
+                        
+                        // Update prayer times display
+                        updatePrayerTimesDisplay(times);
+                        
+                        // Test time accuracy
+                        testTimeAccuracy(times);
+                    } else {
+                        updateTestResult('Prayer Times Calculation', 'error', 'Failed to calculate prayer times');
+                    }
+                } else {
+                    updateTestResult('Prayer Times Calculation', 'error', 'Prayer times calculator not available');
+                }
+                
+                // Test timezone detection
+                const timezone = new Date().getTimezoneOffset() / -60;
+                document.getElementById('timezone').textContent = `UTC${timezone >= 0 ? '+' : ''}${timezone}`;
+                testResults.timezoneDetection = true;
+                updateTestResult('Timezone Detection', 'success', `Timezone detected: UTC${timezone >= 0 ? '+' : ''}${timezone}`);
+                
+            } catch (error) {
+                console.error('Error testing prayer times:', error);
+                updateTestResult('Location Permission', 'error', 'Location access denied or failed');
+                updateTestResult('Prayer Times Calculation', 'error', 'Failed to initialize prayer times');
+            }
+        }
+
+        function getCurrentPosition() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocation not supported'));
+                    return;
+                }
+                
+                navigator.geolocation.getCurrentPosition(
+                    resolve,
+                    reject,
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 300000
+                    }
+                );
+            });
+        }
+
+        function updatePrayerTimesDisplay(times) {
+            const formatTime = (time) => {
+                const hours = Math.floor(time);
+                const minutes = Math.round((time - hours) * 60);
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            };
+            
+            document.getElementById('fajr-time').textContent = formatTime(times.fajr);
+            document.getElementById('dhuhr-time').textContent = formatTime(times.dhuhr);
+            document.getElementById('asr-time').textContent = formatTime(times.asr);
+            document.getElementById('maghrib-time').textContent = formatTime(times.maghrib);
+            document.getElementById('isha-time').textContent = formatTime(times.isha);
+        }
+
+        function testTimeAccuracy(times) {
+            // Check if prayer times are reasonable
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            let accuracyIssues = [];
+            
+            // Check Fajr time (should be early morning, not 2am)
+            if (times.fajr < 3 || times.fajr > 7) {
+                accuracyIssues.push(`Fajr time (${formatTime(times.fajr)}) seems unusual`);
+            }
+            
+            // Check Dhuhr time (should be around noon)
+            if (times.dhuhr < 11 || times.dhuhr > 14) {
+                accuracyIssues.push(`Dhuhr time (${formatTime(times.dhuhr)}) seems unusual`);
+            }
+            
+            // Check Maghrib time (should be evening)
+            if (times.maghrib < 17 || times.maghrib > 21) {
+                accuracyIssues.push(`Maghrib time (${formatTime(times.maghrib)}) seems unusual`);
+            }
+            
+            if (accuracyIssues.length === 0) {
+                testResults.timeAccuracy = true;
+                updateTestResult('Time Accuracy', 'success', 'Prayer times appear accurate');
+            } else {
+                updateTestResult('Time Accuracy', 'warning', accuracyIssues.join(', '));
+            }
+        }
+
+        function formatTime(time) {
+            const hours = Math.floor(time);
+            const minutes = Math.round((time - hours) * 60);
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        function updateTestResult(testName, status, message) {
+            const testItems = document.querySelectorAll('.test-item');
+            testItems.forEach(item => {
+                if (item.textContent.includes(testName)) {
+                    item.className = `test-item ${status}`;
+                    const statusElement = item.querySelector('.test-status');
+                    statusElement.className = `test-status ${status}`;
+                    statusElement.textContent = status === 'success' ? '✓ Pass' : 
+                                              status === 'error' ? '✗ Fail' : '⚠ Warning';
+                    
+                    // Add message if provided
+                    if (message) {
+                        const messageElement = document.createElement('div');
+                        messageElement.style.fontSize = '0.9rem';
+                        messageElement.style.color = 'var(--text-secondary)';
+                        messageElement.style.marginTop = '0.5rem';
+                        messageElement.textContent = message;
+                        item.appendChild(messageElement);
+                    }
+                }
+            });
+        }
+
+        function refreshLocation() {
+            testPrayerTimes();
+        }
+
+        function testAccuracy() {
+            if (window.accuratePrayerTimesCalculator && window.accuratePrayerTimesCalculator.prayerTimes) {
+                const times = window.accuratePrayerTimesCalculator.prayerTimes;
+                testTimeAccuracy(times);
+            } else {
+                updateTestResult('Time Accuracy', 'error', 'Prayer times not available');
+            }
+        }
+    </script>
+</body>
+</html>
