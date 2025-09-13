@@ -18,10 +18,10 @@
             </div>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="subjects.html" class="nav-link">Subjects</a>
-                <a href="/what-is-islam.html" class="nav-link">About</a>
-                <a href="/community.html" class="nav-link">Contact</a>
-                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="practice.html" class="nav-link">Practice</a>
+                <a href="community.html" class="nav-link active">Community</a>
+                <button class="nav-btn" onclick="window.location.href='learn.html'">Get Started</button>
             </div>
         </div>
     </nav>
@@ -42,6 +42,23 @@
                     <div class="content-card">
                         <h2>Join Our Global Ummah</h2>
                         <p>Connect with Muslims from around the world in our supportive online community. Share knowledge, ask questions, and build meaningful relationships while strengthening your Islamic faith together.</p>
+                        
+                        <!-- Direct Access to Community Board -->
+                        <div class="community-board-access">
+                            <div class="board-access-card">
+                                <div class="access-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="access-content">
+                                    <h3>Community Discussion Board</h3>
+                                    <p>Join discussions, ask questions, and connect with fellow Muslims in our active community forum.</p>
+                                    <a href="community-board.html" class="board-access-btn">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Open Community Board
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         
                         <!-- Community Stats -->
                         <div class="community-stats">
@@ -202,11 +219,14 @@
                         </div>
                         
                         <div class="forum-actions">
-                            <button class="btn-primary" onclick="joinCommunity()">
-                                <i class="fas fa-plus"></i> Join Community
-                            </button>
-                            <button class="btn-secondary" onclick="createTopic()">
+                        <button class="btn-primary" onclick="window.location.href='community-board.html'">
+                            <i class="fas fa-plus"></i> Join Community
+                        </button>
+                            <button class="btn-secondary" onclick="window.location.href='create-topic.html'">
                                 <i class="fas fa-edit"></i> Start Discussion
+                            </button>
+                            <button class="btn-secondary" onclick="window.location.href='community-board.html'">
+                                <i class="fas fa-comments"></i> View All Discussions
                             </button>
                         </div>
                     </div>
@@ -337,7 +357,7 @@
                     <div class="sidebar-card action-card">
                         <h3>Join Today</h3>
                         <p>Become part of our supportive Islamic community and start building meaningful connections.</p>
-                        <button class="btn-primary">Join Community</button>
+                        <button class="btn-primary" onclick="window.location.href='community-board.html'">Join Community</button>
                     </div>
                 </div>
             </div>

@@ -19,8 +19,8 @@
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="subjects.html" class="nav-link">Subjects</a>
-                <a href="quran.html" class="nav-link">Quran Study</a>
-                <a href="/community.html" class="nav-link">Contact</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
                 <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
             </div>
         </div>
@@ -34,19 +34,38 @@
                 <h1 class="page-title">
                     <i class="fas fa-book-quran"></i>
                     Al-Quran Al-Kareem
+                    <span class="complete-indicator">Complete - All 114 Surahs</span>
                 </h1>
+                <div class="reading-progress">
+                    <div class="progress-info">
+                        <span id="currentSurahInfo">Surah 1: Al-Fatihah</span>
+                        <span id="readingProgress">0% Complete</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="readingProgressBar"></div>
+                    </div>
+                    <div class="continue-reading" id="continueReading" style="display: none;">
+                        <button class="continue-btn" onclick="continueReading()">
+                            <i class="fas fa-play"></i> Continue Reading
+                        </button>
+                    </div>
+                </div>
                 <div class="navigation-controls">
-                    <select id="surahSelect" class="surah-selector">
-                        <option value="1">1. Al-Fatihah (The Opening)</option>
-                        <option value="2">2. Al-Baqarah (The Cow)</option>
-                        <option value="3">3. Ali Imran (Family of Imran)</option>
-                        <option value="4">4. An-Nisa (The Women)</option>
-                        <option value="5">5. Al-Maidah (The Table Spread)</option>
-                        <option value="6">6. Al-An'am (The Cattle)</option>
-                        <option value="7">7. Al-A'raf (The Heights)</option>
-                        <option value="8">8. Al-Anfal (The Spoils of War)</option>
-                        <option value="9">9. At-Tawbah (The Repentance)</option>
-                        <option value="10">10. Yunus (Jonah)</option>
+                    <div class="surah-navigation">
+                        <button class="nav-btn" id="prevSurah" onclick="previousSurah()" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <select id="surahSelect" class="surah-selector">
+                            <option value="1">1. Al-Fatihah (The Opening)</option>
+                            <option value="2">2. Al-Baqarah (The Cow)</option>
+                            <option value="3">3. Ali Imran (Family of Imran)</option>
+                            <option value="4">4. An-Nisa (The Women)</option>
+                            <option value="5">5. Al-Maidah (The Table Spread)</option>
+                            <option value="6">6. Al-An'am (The Cattle)</option>
+                            <option value="7">7. Al-A'raf (The Heights)</option>
+                            <option value="8">8. Al-Anfal (The Spoils of War)</option>
+                            <option value="9">9. At-Tawbah (The Repentance)</option>
+                            <option value="10">10. Yunus (Jonah)</option>
                         <option value="11">11. Hud (Hud)</option>
                         <option value="12">12. Yusuf (Joseph)</option>
                         <option value="13">13. Ar-Ra'd (The Thunder)</option>
@@ -147,7 +166,11 @@
                         <option value="112">112. Al-Ikhlas (The Sincerity)</option>
                         <option value="113">113. Al-Falaq (The Daybreak)</option>
                         <option value="114">114. An-Nas (Mankind)</option>
-                    </select>
+                        </select>
+                        <button class="nav-btn" id="nextSurah" onclick="nextSurah()">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                     <div class="reading-options">
                         <button class="option-btn active" data-view="all">Arabic + Translation</button>
                         <button class="option-btn" data-view="arabic">Arabic Only</button>
@@ -3824,8 +3847,525 @@
         </div>
     </footer>
 
-    <script src="quran-reader.js"></script>
+    <script src="quran-data.js"></script>
+    <script src="complete-quran-data.js"></script>
+    <script src="js/complete-holy-quran.js"></script>
+    <script src="quran-reader-updated.js"></script>
     <script src="islamic-interactive.js"></script>
+    <script>
+        // Enhanced Quran Reader with Complete Data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update surah selector with all 114 surahs
+            const surahSelect = document.getElementById('surahSelect');
+            if (surahSelect && typeof allSurahs !== 'undefined') {
+                // Clear existing options
+                surahSelect.innerHTML = '';
+                
+                // Add all 114 surahs
+                Object.keys(allSurahs).forEach(surahNum => {
+                    const surah = allSurahs[surahNum];
+                    const option = document.createElement('option');
+                    option.value = surahNum;
+                    option.textContent = `${surahNum}. ${surah.name} (${surah.english})`;
+                    surahSelect.appendChild(option);
+                });
+            }
+
+            // Add search functionality
+            addSearchFunctionality();
+            
+            // Add bookmark functionality
+            addBookmarkFunctionality();
+            
+            // Add reading progress tracking
+            addProgressTracking();
+        });
+
+        function addSearchFunctionality() {
+            // Create search input
+            const searchContainer = document.createElement('div');
+            searchContainer.className = 'search-container';
+            searchContainer.innerHTML = `
+                <div class="search-box">
+                    <input type="text" id="quranSearch" placeholder="Search Quran..." class="search-input">
+                    <button onclick="searchQuran()" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            `;
+            
+            // Insert search container after surah navigation
+            const surahNav = document.querySelector('.surah-navigation');
+            if (surahNav) {
+                surahNav.appendChild(searchContainer);
+            }
+        }
+
+        function searchQuran() {
+            const searchTerm = document.getElementById('quranSearch').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (!searchTerm) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+            
+            let results = [];
+            
+            // Search through complete Quran data
+            if (typeof completeQuranData !== 'undefined') {
+                Object.keys(completeQuranData).forEach(surahNum => {
+                    const surah = completeQuranData[surahNum];
+                    if (surah.verses_data) {
+                        surah.verses_data.forEach((verse, index) => {
+                            if (verse.translation.toLowerCase().includes(searchTerm) ||
+                                verse.transliteration.toLowerCase().includes(searchTerm) ||
+                                verse.arabic.includes(searchTerm)) {
+                                results.push({
+                                    surahNum: surahNum,
+                                    surahName: surah.name,
+                                    verseNum: index + 1,
+                                    verse: verse
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Display results
+            if (results.length > 0) {
+                let resultsHTML = '<div class="search-results-list">';
+                results.slice(0, 10).forEach(result => {
+                    resultsHTML += `
+                        <div class="search-result-item" onclick="goToVerse(${result.surahNum}, ${result.verseNum})">
+                            <div class="result-surah">${result.surahNum}. ${result.surahName}</div>
+                            <div class="result-verse">Verse ${result.verseNum}</div>
+                            <div class="result-text">${result.verse.translation}</div>
+                        </div>
+                    `;
+                });
+                resultsHTML += '</div>';
+                resultsContainer.innerHTML = resultsHTML;
+            } else {
+                resultsContainer.innerHTML = '<div class="no-results">No verses found matching your search.</div>';
+            }
+        }
+
+        function goToVerse(surahNum, verseNum) {
+            // Switch to the surah
+            const surahSelect = document.getElementById('surahSelect');
+            if (surahSelect) {
+                surahSelect.value = surahNum;
+                showSurah(surahNum);
+            }
+            
+            // Scroll to specific verse (if implemented)
+            setTimeout(() => {
+                const verseElement = document.querySelector(`[data-verse="${verseNum}"]`);
+                if (verseElement) {
+                    verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    verseElement.classList.add('highlighted');
+                    setTimeout(() => verseElement.classList.remove('highlighted'), 3000);
+                }
+            }, 500);
+        }
+
+        function addBookmarkFunctionality() {
+            // Add bookmark button to each verse
+            const style = document.createElement('style');
+            style.textContent = `
+                .bookmark-btn {
+                    background: transparent;
+                    border: none;
+                    color: var(--text-secondary);
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    border-radius: 50%;
+                    transition: all 0.3s ease;
+                }
+                .bookmark-btn:hover {
+                    color: var(--gold);
+                    background: rgba(212, 175, 55, 0.1);
+                }
+                .bookmark-btn.bookmarked {
+                    color: var(--gold);
+                }
+                .search-container {
+                    margin-top: 2rem;
+                    padding: 1.5rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                }
+                .search-box {
+                    display: flex;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+                .search-input {
+                    flex: 1;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 8px;
+                    padding: 0.8rem;
+                    color: var(--white);
+                    font-size: 1rem;
+                }
+                .search-input::placeholder {
+                    color: var(--text-secondary);
+                }
+                .search-btn {
+                    background: var(--gold);
+                    color: var(--dark-green);
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
+                .search-results {
+                    max-height: 300px;
+                    overflow-y: auto;
+                }
+                .search-result-item {
+                    padding: 1rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 8px;
+                    margin-bottom: 0.5rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .search-result-item:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateX(5px);
+                }
+                .result-surah {
+                    color: var(--gold);
+                    font-weight: 600;
+                    margin-bottom: 0.3rem;
+                }
+                .result-verse {
+                    color: var(--text-secondary);
+                    font-size: 0.9rem;
+                    margin-bottom: 0.5rem;
+                }
+                .result-text {
+                    color: var(--white);
+                    line-height: 1.5;
+                }
+                .no-results {
+                    text-align: center;
+                    color: var(--text-secondary);
+                    padding: 2rem;
+                }
+                .highlighted {
+                    background: rgba(212, 175, 55, 0.2) !important;
+                    border-left: 4px solid var(--gold) !important;
+                }
+                
+                .surah-navigation {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .nav-btn {
+                    background: var(--gold);
+                    color: var(--dark-green);
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 25px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .nav-btn:hover:not(:disabled) {
+                    background: var(--gold-light);
+                    transform: translateY(-2px);
+                }
+                
+                .nav-btn:disabled {
+                    background: rgba(255, 255, 255, 0.2);
+                    color: rgba(255, 255, 255, 0.5);
+                    cursor: not-allowed;
+                }
+                
+                .surah-selector {
+                    flex: 1;
+                    max-width: 400px;
+                }
+                
+                .reading-progress {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .progress-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .progress-info span {
+                    color: var(--gold);
+                    font-weight: 600;
+                }
+                
+                .progress-bar {
+                    width: 100%;
+                    height: 8px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+                    width: 0%;
+                    transition: width 0.3s ease;
+                }
+                
+                .continue-reading {
+                    text-align: center;
+                    margin-top: 1rem;
+                }
+                
+                .continue-btn {
+                    background: var(--light-green);
+                    color: var(--dark-green);
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 25px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .continue-btn:hover {
+                    background: var(--gold);
+                    transform: translateY(-2px);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function addProgressTracking() {
+            // Track reading progress
+            let readSurahs = JSON.parse(localStorage.getItem('readSurahs')) || [];
+            let readVerses = JSON.parse(localStorage.getItem('readVerses')) || 0;
+            
+            // Update progress display
+            updateProgressDisplay(readSurahs.length, readVerses);
+        }
+
+        function updateProgressDisplay(surahsRead, versesRead) {
+            const totalSurahs = 114;
+            const totalVerses = 6236;
+            
+            const surahProgress = (surahsRead / totalSurahs) * 100;
+            const verseProgress = (versesRead / totalVerses) * 100;
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text');
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            if (progressFill) {
+                progressFill.style.width = `${surahProgress}%`;
+            }
+            if (progressText) {
+                progressText.textContent = `${Math.round(surahProgress)}% Complete`;
+            }
+            if (statNumbers.length >= 2) {
+                statNumbers[0].textContent = surahsRead;
+                statNumbers[1].textContent = versesRead;
+            }
+        }
+
+        // Navigation functions
+        function nextSurah() {
+            const currentSurah = parseInt(document.getElementById('surahSelect').value);
+            if (currentSurah < 114) {
+                document.getElementById('surahSelect').value = currentSurah + 1;
+                loadSurah(currentSurah + 1);
+                updateNavigationButtons();
+            }
+        }
+        
+        function previousSurah() {
+            const currentSurah = parseInt(document.getElementById('surahSelect').value);
+            if (currentSurah > 1) {
+                document.getElementById('surahSelect').value = currentSurah - 1;
+                loadSurah(currentSurah - 1);
+                updateNavigationButtons();
+            }
+        }
+        
+        function updateNavigationButtons() {
+            const currentSurah = parseInt(document.getElementById('surahSelect').value);
+            const prevBtn = document.getElementById('prevSurah');
+            const nextBtn = document.getElementById('nextSurah');
+            
+            prevBtn.disabled = currentSurah === 1;
+            nextBtn.disabled = currentSurah === 114;
+        }
+        
+        function loadSurah(surahNumber) {
+            // Hide all surahs
+            const allSurahs = document.querySelectorAll('.surah-content');
+            allSurahs.forEach(surah => {
+                surah.style.display = 'none';
+            });
+            
+            // Show selected surah
+            const selectedSurah = document.getElementById(`surah-${surahNumber}`);
+            if (selectedSurah) {
+                selectedSurah.style.display = 'block';
+                
+                // Scroll to top of surah
+                selectedSurah.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Update progress tracking
+                trackReadingProgress(surahNumber);
+                
+                // Update progress display
+                updateReadingProgress(surahNumber);
+            }
+        }
+        
+        function updateReadingProgress(surahNumber) {
+            const surahNames = {
+                1: 'Al-Fatihah', 2: 'Al-Baqarah', 3: 'Ali Imran', 4: 'An-Nisa', 5: 'Al-Maidah',
+                6: 'Al-An\'am', 7: 'Al-A\'raf', 8: 'Al-Anfal', 9: 'At-Tawbah', 10: 'Yunus',
+                11: 'Hud', 12: 'Yusuf', 13: 'Ar-Ra\'d', 14: 'Ibrahim', 15: 'Al-Hijr',
+                16: 'An-Nahl', 17: 'Al-Isra', 18: 'Al-Kahf', 19: 'Maryam', 20: 'Taha',
+                21: 'Al-Anbiya', 22: 'Al-Hajj', 23: 'Al-Mu\'minun', 24: 'An-Nur', 25: 'Al-Furqan',
+                26: 'Ash-Shu\'ara', 27: 'An-Naml', 28: 'Al-Qasas', 29: 'Al-Ankabut', 30: 'Ar-Rum',
+                31: 'Luqman', 32: 'As-Sajdah', 33: 'Al-Ahzab', 34: 'Saba', 35: 'Fatir',
+                36: 'Ya-Sin', 37: 'As-Saffat', 38: 'Sad', 39: 'Az-Zumar', 40: 'Ghafir',
+                41: 'Fussilat', 42: 'Ash-Shura', 43: 'Az-Zukhruf', 44: 'Ad-Dukhan', 45: 'Al-Jathiyah',
+                46: 'Al-Ahqaf', 47: 'Muhammad', 48: 'Al-Fath', 49: 'Al-Hujurat', 50: 'Qaf',
+                51: 'Adh-Dhariyat', 52: 'At-Tur', 53: 'An-Najm', 54: 'Al-Qamar', 55: 'Ar-Rahman',
+                56: 'Al-Waqi\'ah', 57: 'Al-Hadid', 58: 'Al-Mujadila', 59: 'Al-Hashr', 60: 'Al-Mumtahanah',
+                61: 'As-Saff', 62: 'Al-Jumu\'ah', 63: 'Al-Munafiqun', 64: 'At-Taghabun', 65: 'At-Talaq',
+                66: 'At-Tahrim', 67: 'Al-Mulk', 68: 'Al-Qalam', 69: 'Al-Haqqah', 70: 'Al-Ma\'arij',
+                71: 'Nuh', 72: 'Al-Jinn', 73: 'Al-Muzzammil', 74: 'Al-Muddaththir', 75: 'Al-Qiyamah',
+                76: 'Al-Insan', 77: 'Al-Mursalat', 78: 'An-Naba', 79: 'An-Nazi\'at', 80: 'Abasa',
+                81: 'At-Takwir', 82: 'Al-Infitar', 83: 'Al-Mutaffifin', 84: 'Al-Inshiqaq', 85: 'Al-Buruj',
+                86: 'At-Tariq', 87: 'Al-A\'la', 88: 'Al-Ghashiyah', 89: 'Al-Fajr', 90: 'Al-Balad',
+                91: 'Ash-Shams', 92: 'Al-Layl', 93: 'Ad-Duha', 94: 'Ash-Sharh', 95: 'At-Tin',
+                96: 'Al-Alaq', 97: 'Al-Qadr', 98: 'Al-Bayyinah', 99: 'Az-Zalzalah', 100: 'Al-Adiyat',
+                101: 'Al-Qari\'ah', 102: 'At-Takathur', 103: 'Al-Asr', 104: 'Al-Humazah', 105: 'Al-Fil',
+                106: 'Quraysh', 107: 'Al-Ma\'un', 108: 'Al-Kawthar', 109: 'Al-Kafirun', 110: 'An-Nasr',
+                111: 'Al-Masad', 112: 'Al-Ikhlas', 113: 'Al-Falaq', 114: 'An-Nas'
+            };
+            
+            // Update current surah info
+            const currentSurahInfo = document.getElementById('currentSurahInfo');
+            if (currentSurahInfo) {
+                currentSurahInfo.textContent = `Surah ${surahNumber}: ${surahNames[surahNumber] || 'Unknown'}`;
+            }
+            
+            // Calculate reading progress
+            const readSurahs = JSON.parse(localStorage.getItem('readSurahs')) || [];
+            const progress = (readSurahs.length / 114) * 100;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('readingProgressBar');
+            const progressText = document.getElementById('readingProgress');
+            
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+            if (progressText) {
+                progressText.textContent = `${Math.round(progress)}% Complete`;
+            }
+        }
+        
+        function trackReadingProgress(surahNumber) {
+            let readSurahs = JSON.parse(localStorage.getItem('readSurahs')) || [];
+            if (!readSurahs.includes(surahNumber)) {
+                readSurahs.push(surahNumber);
+                localStorage.setItem('readSurahs', JSON.stringify(readSurahs));
+                updateProgressDisplay(readSurahs.length, readSurahs.length * 50); // Approximate verses
+            }
+        }
+        
+        // Initialize navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up surah selector change event
+            document.getElementById('surahSelect').addEventListener('change', function() {
+                const surahNumber = parseInt(this.value);
+                loadSurah(surahNumber);
+                updateNavigationButtons();
+            });
+            
+            // Initialize navigation buttons
+            updateNavigationButtons();
+            
+            // Load first surah by default
+            loadSurah(1);
+            
+            // Check if user has previous reading progress
+            checkContinueReading();
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    nextSurah();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    previousSurah();
+                }
+            });
+        });
+        
+        function continueReading() {
+            const readSurahs = JSON.parse(localStorage.getItem('readSurahs')) || [];
+            if (readSurahs.length > 0) {
+                // Go to the last surah that was read
+                const lastSurah = readSurahs[readSurahs.length - 1];
+                document.getElementById('surahSelect').value = lastSurah;
+                loadSurah(lastSurah);
+                updateNavigationButtons();
+            } else {
+                // If no surahs have been read, start with Al-Fatihah
+                loadSurah(1);
+            }
+        }
+        
+        function checkContinueReading() {
+            const readSurahs = JSON.parse(localStorage.getItem('readSurahs')) || [];
+            const continueReadingDiv = document.getElementById('continueReading');
+            
+            if (readSurahs.length > 0) {
+                continueReadingDiv.style.display = 'block';
+            } else {
+                continueReadingDiv.style.display = 'none';
+            }
+        }
+        
+        // Global functions for search
+        window.searchQuran = searchQuran;
+        window.goToVerse = goToVerse;
+        window.nextSurah = nextSurah;
+        window.previousSurah = previousSurah;
+        window.continueReading = continueReading;
+    </script>
 </body>
 </html>
 

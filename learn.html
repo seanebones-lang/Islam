@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Learning - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link active">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="page-header-text">
+                    <h1>Islamic Learning</h1>
+                    <p>Comprehensive Islamic education for all levels</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Categories -->
+    <section class="learning-categories">
+        <div class="container">
+            <div class="categories-nav">
+                <button class="category-tab active" onclick="showCategory('quran')">
+                    <i class="fas fa-book-quran"></i>
+                    <span>Quran Study</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('hadith')">
+                    <i class="fas fa-quote-left"></i>
+                    <span>Hadith & Sunnah</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('seerah')">
+                    <i class="fas fa-user"></i>
+                    <span>Prophet's Life</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('knowledge')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Islamic Knowledge</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('arabic')">
+                    <i class="fas fa-language"></i>
+                    <span>Arabic Learning</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('new-muslim')">
+                    <i class="fas fa-seedling"></i>
+                    <span>New Muslim</span>
+                </button>
+            </div>
+
+            <!-- Quran Study Section -->
+            <div id="quran-section" class="learning-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-book-quran"></i> Quran Study</h2>
+                    <p>Read, study, and understand the Holy Quran with complete access to all 114 surahs</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Complete Quran Reader</h3>
+                                <p>Access all 114 surahs with Arabic text, transliteration, and English translation</p>
+                                <a href="quran-reader.html" class="feature-btn">Read Quran</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Verse Search</h3>
+                                <p>Search for specific verses by keywords, topics, or references</p>
+                                <button class="feature-btn" onclick="showSearchModal()">Search Verses</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bookmark"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Bookmark Verses</h3>
+                                <p>Save your favorite verses and create personal collections</p>
+                                <button class="feature-btn" onclick="showBookmarks()">View Bookmarks</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Reading Progress</h3>
+                                <p>Track your Quran reading progress and set daily goals</p>
+                                <button class="feature-btn" onclick="showProgress()">View Progress</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hadith & Sunnah Section -->
+            <div id="hadith-section" class="learning-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-quote-left"></i> Hadith & Sunnah</h2>
+                    <p>Learn from the authentic sayings and actions of Prophet Muhammad (peace be upon him)</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Hadith Collection</h3>
+                                <p>Browse authentic hadiths categorized by topics and themes</p>
+                                <a href="hadiths.html" class="feature-btn">Read Hadiths</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Sunnah Practices</h3>
+                                <p>Learn the recommended practices and traditions of the Prophet</p>
+                                <a href="sunnah.html" class="feature-btn">Learn Sunnah</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Daily Hadith</h3>
+                                <p>Receive a new authentic hadith every day for learning</p>
+                                <button class="feature-btn" onclick="showDailyHadith()">Today's Hadith</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Topic Search</h3>
+                                <p>Find hadiths by specific topics like prayer, charity, family, etc.</p>
+                                <button class="feature-btn" onclick="showHadithSearch()">Search Topics</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prophet's Life Section -->
+            <div id="seerah-section" class="learning-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user"></i> Prophet's Life (Seerah)</h2>
+                    <p>Learn about the life, character, and teachings of Prophet Muhammad (peace be upon him)</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Complete Biography</h3>
+                                <p>Detailed account of the Prophet's life from birth to death</p>
+                                <a href="seerah.html" class="feature-btn">Read Seerah</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Character & Virtues</h3>
+                                <p>Learn about the Prophet's exemplary character and moral virtues</p>
+                                <button class="feature-btn" onclick="showCharacter()">Learn Character</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Timeline of Events</h3>
+                                <p>Chronological timeline of important events in the Prophet's life</p>
+                                <button class="feature-btn" onclick="showTimeline()">View Timeline</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Companions</h3>
+                                <p>Learn about the Prophet's companions and their contributions</p>
+                                <button class="feature-btn" onclick="showCompanions()">Meet Companions</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Islamic Knowledge Section -->
+            <div id="knowledge-section" class="learning-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-lightbulb"></i> Islamic Knowledge</h2>
+                    <p>Essential Islamic knowledge including beliefs, ethics, and fundamental teachings</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mosque"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Basic Beliefs</h3>
+                                <p>Learn the fundamental beliefs and pillars of Islam</p>
+                                <a href="what-is-islam.html" class="feature-btn">Learn Beliefs</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Islamic Ethics</h3>
+                                <p>Understand Islamic moral principles and ethical guidelines</p>
+                                <a href="islamic-ethics.html" class="feature-btn">Learn Ethics</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>FAQ</h3>
+                                <p>Frequently asked questions about Islam and common misconceptions</p>
+                                <a href="faq.html" class="feature-btn">View FAQ</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Islamic History</h3>
+                                <p>Learn about Islamic civilization, achievements, and historical events</p>
+                                <button class="feature-btn" onclick="showHistory()">Learn History</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arabic Learning Section -->
+            <div id="arabic-section" class="learning-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-language"></i> Arabic Learning</h2>
+                    <p>Learn basic Arabic to better understand the Quran and Islamic prayers</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Arabic Alphabet</h3>
+                                <p>Learn the Arabic alphabet and basic pronunciation</p>
+                                <a href="basic-arabic.html" class="feature-btn">Learn Alphabet</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Common Words</h3>
+                                <p>Essential Arabic words used in Quran and Islamic practices</p>
+                                <button class="feature-btn" onclick="showArabicWords()">Learn Words</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-pray"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Arabic</h3>
+                                <p>Arabic phrases and words commonly used in Islamic prayers</p>
+                                <button class="feature-btn" onclick="showPrayerArabic()">Learn Prayer Arabic</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Pronunciation</h3>
+                                <p>Audio lessons for proper Arabic pronunciation</p>
+                                <button class="feature-btn" onclick="showPronunciation()">Practice Pronunciation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Muslim Section -->
+            <div id="new-muslim-section" class="learning-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-seedling"></i> New Muslim Guide</h2>
+                    <p>Essential knowledge and guidance for new converts to Islam</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Getting Started</h3>
+                                <p>First steps for new Muslims and essential knowledge</p>
+                                <a href="new-muslims.html" class="feature-btn">Get Started</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hands-praying"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Basic Worship</h3>
+                                <p>Learn how to perform basic Islamic worship and prayers</p>
+                                <button class="feature-btn" onclick="showBasicWorship()">Learn Worship</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Common Questions</h3>
+                                <p>Answers to frequently asked questions by new Muslims</p>
+                                <button class="feature-btn" onclick="showNewMuslimFAQ()">View Questions</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Community Support</h3>
+                                <p>Connect with other Muslims and get support</p>
+                                <a href="community.html" class="feature-btn">Join Community</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Tools -->
+    <section class="quick-access">
+        <div class="container">
+            <h3><i class="fas fa-bolt"></i> Quick Access Tools</h3>
+            <div class="quick-tools">
+                <button class="quick-tool" onclick="showSearchModal()">
+                    <i class="fas fa-search"></i>
+                    <span>Search Content</span>
+                </button>
+                <button class="quick-tool" onclick="showBookmarks()">
+                    <i class="fas fa-bookmark"></i>
+                    <span>My Bookmarks</span>
+                </button>
+                <button class="quick-tool" onclick="showProgress()">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Learning Progress</span>
+                </button>
+                <button class="quick-tool" onclick="showNotes()">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>My Notes</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Islamic Learning Companion</h4>
+                    <p>Your comprehensive guide to Islamic knowledge and practice</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="learn.html">Learn</a></li>
+                        <li><a href="practice.html">Practice</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Learning</h4>
+                    <ul>
+                        <li><a href="quran-reader.html">Quran Reader</a></li>
+                        <li><a href="hadiths.html">Hadith Collection</a></li>
+                        <li><a href="seerah.html">Prophet's Life</a></li>
+                        <li><a href="basic-arabic.html">Arabic Learning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="new-muslims.html">New Muslim Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script>
+        // Learning page functionality
+        function showCategory(category) {
+            // Hide all sections
+            document.querySelectorAll('.learning-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(category + '-section').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Quick access functions
+        function showSearchModal() {
+            alert('Search functionality will be implemented soon!');
+        }
+
+        function showBookmarks() {
+            alert('Bookmark system will be implemented soon!');
+        }
+
+        function showProgress() {
+            alert('Progress tracking will be implemented soon!');
+        }
+
+        function showNotes() {
+            alert('Note-taking system will be implemented soon!');
+        }
+
+        // Section-specific functions
+        function showDailyHadith() {
+            window.location.href = 'index.html#daily-hadith';
+        }
+
+        function showHadithSearch() {
+            window.location.href = 'hadiths.html';
+        }
+
+        function showCharacter() {
+            window.location.href = 'seerah.html';
+        }
+
+        function showTimeline() {
+            window.location.href = 'seerah.html';
+        }
+
+        function showCompanions() {
+            window.location.href = 'seerah.html';
+        }
+
+        function showHistory() {
+            alert('Islamic history section will be added soon!');
+        }
+
+        function showArabicWords() {
+            window.location.href = 'basic-arabic.html';
+        }
+
+        function showPrayerArabic() {
+            window.location.href = 'basic-arabic.html';
+        }
+
+        function showPronunciation() {
+            window.location.href = 'basic-arabic.html';
+        }
+
+        function showBasicWorship() {
+            window.location.href = 'practice.html';
+        }
+
+        function showNewMuslimFAQ() {
+            window.location.href = 'new-muslims.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Learn page initialized successfully');
+        });
+    </script>
+</body>
+</html>

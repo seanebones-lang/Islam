@@ -1,5 +1,10 @@
 // Islamic Learning Companion - Interactive Features
 
+// Global functions
+window.joinCommunity = function() {
+    window.location.href = 'community-board.html';
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');

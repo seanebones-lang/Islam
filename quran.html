@@ -19,8 +19,8 @@
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="subjects.html" class="nav-link">Subjects</a>
-                <a href="/what-is-islam.html" class="nav-link">About</a>
-                <a href="/community.html" class="nav-link">Contact</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
                 <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
             </div>
         </div>
@@ -87,35 +87,196 @@
                         </div>
                     </div>
 
-                    <div class="content-card">
-                        <h2>Popular Surahs to Begin With</h2>
-                        <div class="surah-list">
-                            <div class="surah-item">
-                                <span class="surah-number">1</span>
-                                <div class="surah-info">
-                                    <h4>Al-Fatihah (The Opening)</h4>
-                                    <p>The first chapter and most important prayer in Islam</p>
+                    <div class="content-card" id="quran-structure">
+                        <h2>Quran Structure & Organization</h2>
+                        <p>The Quran is organized into 114 chapters (Surahs) of varying lengths, revealed over 23 years. Each surah is divided into verses (Ayahs) and contains guidance for all aspects of life.</p>
+                        
+                        <div class="quran-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">114</div>
+                                <div class="stat-label">Surahs (Chapters)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">6,236</div>
+                                <div class="stat-label">Ayahs (Verses)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">23</div>
+                                <div class="stat-label">Years of Revelation</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2</div>
+                                <div class="stat-label">Revelation Periods</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="revelation-periods">
+                        <h2>Revelation Periods</h2>
+                        <div class="revelation-grid">
+                            <div class="revelation-period">
+                                <h3>Meccan Period (610-622 CE)</h3>
+                                <div class="period-details">
+                                    <p><strong>86 Surahs</strong> - Focus on faith, monotheism, and moral guidance</p>
+                                    <p><strong>Key Themes:</strong> Oneness of Allah, Day of Judgment, moral conduct</p>
+                                    <p><strong>Style:</strong> Shorter, rhythmic verses with powerful imagery</p>
                                 </div>
                             </div>
-                            <div class="surah-item">
-                                <span class="surah-number">2</span>
-                                <div class="surah-info">
-                                    <h4>Al-Baqarah (The Cow)</h4>
-                                    <p>The longest chapter containing fundamental Islamic teachings</p>
+                            <div class="revelation-period">
+                                <h3>Medinan Period (622-632 CE)</h3>
+                                <div class="period-details">
+                                    <p><strong>28 Surahs</strong> - Focus on law, community, and social justice</p>
+                                    <p><strong>Key Themes:</strong> Islamic law, community building, warfare</p>
+                                    <p><strong>Style:</strong> Longer verses with detailed legal guidance</p>
                                 </div>
                             </div>
-                            <div class="surah-item">
-                                <span class="surah-number">112</span>
-                                <div class="surah-info">
-                                    <h4>Al-Ikhlas (The Sincerity)</h4>
-                                    <p>Describes the absolute oneness of Allah</p>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="popular-surahs">
+                        <h2>Essential Surahs for Beginners</h2>
+                        <div class="surah-grid">
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">1</span>
+                                    <div class="surah-names">
+                                        <h4>Al-Fatihah</h4>
+                                        <p>The Opening</p>
+                                    </div>
                                 </div>
+                                <div class="surah-details">
+                                    <p><strong>7 verses</strong> • <strong>Meccan</strong></p>
+                                    <p>The most important surah, recited in every prayer. Contains the essence of Islamic belief.</p>
+                                </div>
+                            </div>
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">2</span>
+                                    <div class="surah-names">
+                                        <h4>Al-Baqarah</h4>
+                                        <p>The Cow</p>
+                                    </div>
+                                </div>
+                                <div class="surah-details">
+                                    <p><strong>286 verses</strong> • <strong>Medinan</strong></p>
+                                    <p>The longest surah containing comprehensive Islamic guidance and the famous Ayat al-Kursi.</p>
+                                </div>
+                            </div>
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">112</span>
+                                    <div class="surah-names">
+                                        <h4>Al-Ikhlas</h4>
+                                        <p>The Sincerity</p>
+                                    </div>
+                                </div>
+                                <div class="surah-details">
+                                    <p><strong>4 verses</strong> • <strong>Meccan</strong></p>
+                                    <p>Equivalent to one-third of the Quran. Establishes the fundamental principle of Islamic monotheism.</p>
+                                </div>
+                            </div>
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">18</span>
+                                    <div class="surah-names">
+                                        <h4>Al-Kahf</h4>
+                                        <p>The Cave</p>
+                                    </div>
+                                </div>
+                                <div class="surah-details">
+                                    <p><strong>110 verses</strong> • <strong>Meccan</strong></p>
+                                    <p>Contains powerful stories and parables. Recommended to be read every Friday.</p>
+                                </div>
+                            </div>
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">36</span>
+                                    <div class="surah-names">
+                                        <h4>Ya-Sin</h4>
+                                        <p>Ya-Sin</p>
+                                    </div>
+                                </div>
+                                <div class="surah-details">
+                                    <p><strong>83 verses</strong> • <strong>Meccan</strong></p>
+                                    <p>Known as the "Heart of the Quran" with profound spiritual guidance and wisdom.</p>
+                                </div>
+                            </div>
+                            <div class="surah-card">
+                                <div class="surah-header">
+                                    <span class="surah-number">67</span>
+                                    <div class="surah-names">
+                                        <h4>Al-Mulk</h4>
+                                        <p>The Sovereignty</p>
+                                    </div>
+                                </div>
+                                <div class="surah-details">
+                                    <p><strong>30 verses</strong> • <strong>Meccan</strong></p>
+                                    <p>Discusses Allah's sovereignty and the perfection of His creation. Often read before sleep.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="quran-features">
+                        <h2>Advanced Quran Features</h2>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h3>Search & Find</h3>
+                                <p>Search through the entire Quran by Arabic text, translation, or keywords. Find specific verses instantly.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bookmark"></i>
+                                </div>
+                                <h3>Bookmarks & Notes</h3>
+                                <p>Save your favorite verses, add personal notes, and create custom collections for easy access.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-volume-up"></i>
+                                </div>
+                                <h3>Audio Recitation</h3>
+                                <p>Listen to beautiful recitations by renowned qaris from around the world with multiple audio options.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-language"></i>
+                                </div>
+                                <h3>Multiple Translations</h3>
+                                <p>Compare different translations side by side including Sahih International, Yusuf Ali, and more.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <h3>Tafsir & Commentary</h3>
+                                <p>Access detailed explanations and commentary by Islamic scholars to deepen your understanding.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <h3>Offline Access</h3>
+                                <p>Download the complete Quran for offline reading, perfect for travel or areas with limited internet.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Quran Navigation</h3>
+                        <ul class="quran-nav">
+                            <li><a href="#quran-structure">Quran Structure</a></li>
+                            <li><a href="#revelation-periods">Revelation Periods</a></li>
+                            <li><a href="#popular-surahs">Essential Surahs</a></li>
+                            <li><a href="#quran-features">Advanced Features</a></li>
+                        </ul>
+                    </div>
+
                     <div class="sidebar-card">
                         <h3>Quick Facts</h3>
                         <ul class="facts-list">
@@ -138,10 +299,30 @@
                         </ul>
                     </div>
 
+                    <div class="sidebar-card">
+                        <h3>Reading Progress</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text">0% Complete</div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">Surahs Read</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">Verses Read</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="sidebar-card action-card">
-                        <h3>Ready to Start?</h3>
-                        <p>Begin your Quranic journey with guided lessons and authentic translations.</p>
-                        <button class="btn-primary" onclick="window.location.href='quran-reader.html'">Start Quran Study</button>
+                        <h3>Start Reading</h3>
+                        <p>Begin your Quranic journey with the complete Quran, authentic translations, and audio recitations.</p>
+                        <button class="btn-primary" onclick="window.location.href='quran-reader.html'">Open Quran Reader</button>
                     </div>
                 </div>
             </div>

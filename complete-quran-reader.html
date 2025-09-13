@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Holy Quran Reader - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .quran-reader {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--darker-green));
+            padding: 2rem 0;
+        }
+        
+        .reader-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .reader-title {
+            color: var(--gold);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .reader-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quran-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .navigation-controls {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .surah-navigation {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: var(--gold);
+            color: var(--dark-green);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+        }
+        
+        .surah-selector {
+            flex: 1;
+            max-width: 400px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            font-size: 1rem;
+        }
+        
+        .reading-progress {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-info span {
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .surah-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .surah-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .surah-name-arabic {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-family: 'Amiri', serif;
+            margin-bottom: 0.5rem;
+        }
+        
+        .surah-name-english {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .surah-details {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .surah-detail {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .verses-container {
+            margin-top: 2rem;
+        }
+        
+        .verse {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .verse-number {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--dark-green);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .verse-arabic {
+            font-size: 1.5rem;
+            color: var(--white);
+            font-family: 'Amiri', serif;
+            line-height: 2;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+        
+        .verse-transliteration {
+            font-size: 1rem;
+            color: var(--gold);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        .verse-translation {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .loading-message {
+            text-align: center;
+            color: var(--gold);
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+        
+        .error-message {
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+        
+        .authenticity-notice {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .authenticity-notice h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .authenticity-notice p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quran Reader -->
+    <div class="quran-reader">
+        <div class="container">
+            <!-- Header -->
+            <div class="reader-header">
+                <h1 class="reader-title">
+                    <i class="fas fa-book-quran"></i>
+                    Complete Holy Quran
+                </h1>
+                <p class="reader-subtitle">
+                    The complete Holy Quran with authentic Arabic text, transliteration, and translation
+                </p>
+            </div>
+
+            <!-- Authenticity Notice -->
+            <div class="authenticity-notice">
+                <h4><i class="fas fa-shield-alt"></i> Authenticity Notice</h4>
+                <p>This Quran reader contains the complete Holy Quran with authentic Arabic text, transliteration, and translation. All content is sourced from verified Islamic authorities and scholars.</p>
+            </div>
+
+            <!-- Quran Statistics -->
+            <div class="quran-stats">
+                <div class="stat-card">
+                    <div class="stat-number">114</div>
+                    <div class="stat-label">Surahs (Chapters)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6,236</div>
+                    <div class="stat-label">Verses (Ayahs)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">77,429</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">323,671</div>
+                    <div class="stat-label">Letters</div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="navigation-controls">
+                <div class="reading-progress">
+                    <div class="progress-info">
+                        <span id="currentSurahInfo">Surah 1: Al-Fatihah</span>
+                        <span id="readingProgress">0% Complete</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="readingProgressBar"></div>
+                    </div>
+                </div>
+                
+                <div class="surah-navigation">
+                    <button class="nav-btn" id="prevSurah" onclick="previousSurah()" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <select id="surahSelect" class="surah-selector" onchange="loadSurah(this.value)">
+                        <option value="1">1. Al-Fatihah (The Opening)</option>
+                        <option value="2">2. Al-Baqarah (The Cow)</option>
+                        <option value="3">3. Ali Imran (Family of Imran)</option>
+                        <option value="4">4. An-Nisa (The Women)</option>
+                        <option value="5">5. Al-Maidah (The Table Spread)</option>
+                        <option value="6">6. Al-An'am (The Cattle)</option>
+                        <option value="7">7. Al-A'raf (The Heights)</option>
+                        <option value="8">8. Al-Anfal (The Spoils of War)</option>
+                        <option value="9">9. At-Tawbah (The Repentance)</option>
+                        <option value="10">10. Yunus (Jonah)</option>
+                        <option value="11">11. Hud (Hud)</option>
+                        <option value="12">12. Yusuf (Joseph)</option>
+                        <option value="13">13. Ar-Ra'd (The Thunder)</option>
+                        <option value="14">14. Ibrahim (Abraham)</option>
+                        <option value="15">15. Al-Hijr (The Rocky Tract)</option>
+                        <option value="16">16. An-Nahl (The Bee)</option>
+                        <option value="17">17. Al-Isra (The Night Journey)</option>
+                        <option value="18">18. Al-Kahf (The Cave)</option>
+                        <option value="19">19. Maryam (Mary)</option>
+                        <option value="20">20. Taha (Ta-Ha)</option>
+                        <option value="21">21. Al-Anbiya (The Prophets)</option>
+                        <option value="22">22. Al-Hajj (The Pilgrimage)</option>
+                        <option value="23">23. Al-Mu'minun (The Believers)</option>
+                        <option value="24">24. An-Nur (The Light)</option>
+                        <option value="25">25. Al-Furqan (The Criterion)</option>
+                        <option value="26">26. Ash-Shu'ara (The Poets)</option>
+                        <option value="27">27. An-Naml (The Ant)</option>
+                        <option value="28">28. Al-Qasas (The Stories)</option>
+                        <option value="29">29. Al-Ankabut (The Spider)</option>
+                        <option value="30">30. Ar-Rum (The Romans)</option>
+                        <option value="31">31. Luqman (Luqman)</option>
+                        <option value="32">32. As-Sajdah (The Prostration)</option>
+                        <option value="33">33. Al-Ahzab (The Clans)</option>
+                        <option value="34">34. Saba (Sheba)</option>
+                        <option value="35">35. Fatir (Originator)</option>
+                        <option value="36">36. Ya-Sin (Ya-Sin)</option>
+                        <option value="37">37. As-Saffat (Those Ranged in Rows)</option>
+                        <option value="38">38. Sad (Sad)</option>
+                        <option value="39">39. Az-Zumar (The Throngs)</option>
+                        <option value="40">40. Ghafir (The Forgiver)</option>
+                        <option value="41">41. Fussilat (Explained in Detail)</option>
+                        <option value="42">42. Ash-Shura (The Consultation)</option>
+                        <option value="43">43. Az-Zukhruf (The Ornaments of Gold)</option>
+                        <option value="44">44. Ad-Dukhan (The Smoke)</option>
+                        <option value="45">45. Al-Jathiyah (The Crouching)</option>
+                        <option value="46">46. Al-Ahqaf (The Wind-Curved Sandhills)</option>
+                        <option value="47">47. Muhammad (Muhammad)</option>
+                        <option value="48">48. Al-Fath (The Victory)</option>
+                        <option value="49">49. Al-Hujurat (The Rooms)</option>
+                        <option value="50">50. Qaf (Qaf)</option>
+                        <option value="51">51. Adh-Dhariyat (The Scatterers)</option>
+                        <option value="52">52. At-Tur (The Mount)</option>
+                        <option value="53">53. An-Najm (The Star)</option>
+                        <option value="54">54. Al-Qamar (The Moon)</option>
+                        <option value="55">55. Ar-Rahman (The Most Merciful)</option>
+                        <option value="56">56. Al-Waqi'ah (The Event)</option>
+                        <option value="57">57. Al-Hadid (The Iron)</option>
+                        <option value="58">58. Al-Mujadila (The Pleading Woman)</option>
+                        <option value="59">59. Al-Hashr (The Exile)</option>
+                        <option value="60">60. Al-Mumtahanah (She That Is to Be Examined)</option>
+                        <option value="61">61. As-Saff (The Ranks)</option>
+                        <option value="62">62. Al-Jumu'ah (Friday)</option>
+                        <option value="63">63. Al-Munafiqun (The Hypocrites)</option>
+                        <option value="64">64. At-Taghabun (The Mutual Disillusion)</option>
+                        <option value="65">65. At-Talaq (The Divorce)</option>
+                        <option value="66">66. At-Tahrim (The Prohibition)</option>
+                        <option value="67">67. Al-Mulk (The Sovereignty)</option>
+                        <option value="68">68. Al-Qalam (The Pen)</option>
+                        <option value="69">69. Al-Haqqah (The Reality)</option>
+                        <option value="70">70. Al-Ma'arij (The Ascending Stairways)</option>
+                        <option value="71">71. Nuh (Noah)</option>
+                        <option value="72">72. Al-Jinn (The Jinn)</option>
+                        <option value="73">73. Al-Muzzammil (The Enshrouded One)</option>
+                        <option value="74">74. Al-Muddaththir (The Cloaked One)</option>
+                        <option value="75">75. Al-Qiyamah (The Resurrection)</option>
+                        <option value="76">76. Al-Insan (The Human)</option>
+                        <option value="77">77. Al-Mursalat (The Emissaries)</option>
+                        <option value="78">78. An-Naba (The Tidings)</option>
+                        <option value="79">79. An-Nazi'at (Those Who Drag Forth)</option>
+                        <option value="80">80. Abasa (He Frowned)</option>
+                        <option value="81">81. At-Takwir (The Overthrowing)</option>
+                        <option value="82">82. Al-Infitar (The Cleaving)</option>
+                        <option value="83">83. Al-Mutaffifin (Those Who Give Short Measure)</option>
+                        <option value="84">84. Al-Inshiqaq (The Sundering)</option>
+                        <option value="85">85. Al-Buruj (The Constellations)</option>
+                        <option value="86">86. At-Tariq (The Night-Comer)</option>
+                        <option value="87">87. Al-A'la (The Most High)</option>
+                        <option value="88">88. Al-Ghashiyah (The Overwhelming)</option>
+                        <option value="89">89. Al-Fajr (The Dawn)</option>
+                        <option value="90">90. Al-Balad (The City)</option>
+                        <option value="91">91. Ash-Shams (The Sun)</option>
+                        <option value="92">92. Al-Layl (The Night)</option>
+                        <option value="93">93. Ad-Duha (The Morning Hours)</option>
+                        <option value="94">94. Ash-Sharh (The Relief)</option>
+                        <option value="95">95. At-Tin (The Fig)</option>
+                        <option value="96">96. Al-Alaq (The Clot)</option>
+                        <option value="97">97. Al-Qadr (The Power)</option>
+                        <option value="98">98. Al-Bayyinah (The Clear Evidence)</option>
+                        <option value="99">99. Az-Zalzalah (The Earthquake)</option>
+                        <option value="100">100. Al-Adiyat (The Courser)</option>
+                        <option value="101">101. Al-Qari'ah (The Striking Hour)</option>
+                        <option value="102">102. At-Takathur (The Piling Up)</option>
+                        <option value="103">103. Al-Asr (The Declining Day)</option>
+                        <option value="104">104. Al-Humazah (The Slanderer)</option>
+                        <option value="105">105. Al-Fil (The Elephant)</option>
+                        <option value="106">106. Quraysh (Quraysh)</option>
+                        <option value="107">107. Al-Ma'un (The Small Kindnesses)</option>
+                        <option value="108">108. Al-Kawthar (The Abundance)</option>
+                        <option value="109">109. Al-Kafirun (The Disbelievers)</option>
+                        <option value="110">110. An-Nasr (The Divine Support)</option>
+                        <option value="111">111. Al-Masad (The Palm Fiber)</option>
+                        <option value="112">112. Al-Ikhlas (The Sincerity)</option>
+                        <option value="113">113. Al-Falaq (The Daybreak)</option>
+                        <option value="114">114. An-Nas (Mankind)</option>
+                    </select>
+                    <button class="nav-btn" id="nextSurah" onclick="nextSurah()">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Surah Content -->
+            <div class="surah-content" id="surahContent">
+                <div class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Loading the Holy Quran...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/complete-holy-quran.js"></script>
+    <script>
+        // Complete Holy Quran Reader
+        let currentSurah = 1;
+        let quranData = null;
+
+        // Initialize the Quran reader
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuranData();
+        });
+
+        async function loadQuranData() {
+            try {
+                // Load the complete Quran data
+                quranData = window.completeHolyQuran;
+                
+                if (quranData) {
+                    loadSurah(1);
+                    updateNavigationButtons();
+                } else {
+                    showError('Unable to load Quran data. Please refresh the page.');
+                }
+            } catch (error) {
+                console.error('Error loading Quran data:', error);
+                showError('Error loading Quran data. Please refresh the page.');
+            }
+        }
+
+        function loadSurah(surahNumber) {
+            if (!quranData || !quranData[surahNumber]) {
+                showError(`Surah ${surahNumber} not found.`);
+                return;
+            }
+
+            currentSurah = parseInt(surahNumber);
+            const surah = quranData[surahNumber];
+            
+            // Update surah selector
+            document.getElementById('surahSelect').value = surahNumber;
+            
+            // Update progress
+            updateReadingProgress(surahNumber);
+            
+            // Display surah content
+            displaySurah(surah);
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+
+        function displaySurah(surah) {
+            const surahContent = document.getElementById('surahContent');
+            
+            let html = `
+                <div class="surah-header">
+                    <h2 class="surah-name-arabic">${surah.arabic}</h2>
+                    <h3 class="surah-name-english">${surah.name} (${surah.english})</h3>
+                    <div class="surah-details">
+                        <span class="surah-detail">${surah.type}</span>
+                        <span class="surah-detail">${surah.verses} Verses</span>
+                    </div>
+                </div>
+                <div class="verses-container">
+            `;
+            
+            // Display verses
+            surah.verses_data.forEach((verse, index) => {
+                html += `
+                    <div class="verse">
+                        <span class="verse-number">${index + 1}</span>
+                        <div class="verse-arabic">${verse.arabic}</div>
+                        <div class="verse-transliteration">${verse.transliteration}</div>
+                        <div class="verse-translation">${verse.translation}</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            surahContent.innerHTML = html;
+            
+            // Scroll to top
+            surahContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function nextSurah() {
+            if (currentSurah < 114) {
+                loadSurah(currentSurah + 1);
+            }
+        }
+
+        function previousSurah() {
+            if (currentSurah > 1) {
+                loadSurah(currentSurah - 1);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevSurah');
+            const nextBtn = document.getElementById('nextSurah');
+            
+            prevBtn.disabled = currentSurah === 1;
+            nextBtn.disabled = currentSurah === 114;
+        }
+
+        function updateReadingProgress(surahNumber) {
+            const surahNames = {
+                1: 'Al-Fatihah', 2: 'Al-Baqarah', 3: 'Ali Imran', 4: 'An-Nisa', 5: 'Al-Maidah',
+                6: 'Al-An\'am', 7: 'Al-A\'raf', 8: 'Al-Anfal', 9: 'At-Tawbah', 10: 'Yunus',
+                11: 'Hud', 12: 'Yusuf', 13: 'Ar-Ra\'d', 14: 'Ibrahim', 15: 'Al-Hijr',
+                16: 'An-Nahl', 17: 'Al-Isra', 18: 'Al-Kahf', 19: 'Maryam', 20: 'Taha',
+                21: 'Al-Anbiya', 22: 'Al-Hajj', 23: 'Al-Mu\'minun', 24: 'An-Nur', 25: 'Al-Furqan',
+                26: 'Ash-Shu\'ara', 27: 'An-Naml', 28: 'Al-Qasas', 29: 'Al-Ankabut', 30: 'Ar-Rum',
+                31: 'Luqman', 32: 'As-Sajdah', 33: 'Al-Ahzab', 34: 'Saba', 35: 'Fatir',
+                36: 'Ya-Sin', 37: 'As-Saffat', 38: 'Sad', 39: 'Az-Zumar', 40: 'Ghafir',
+                41: 'Fussilat', 42: 'Ash-Shura', 43: 'Az-Zukhruf', 44: 'Ad-Dukhan', 45: 'Al-Jathiyah',
+                46: 'Al-Ahqaf', 47: 'Muhammad', 48: 'Al-Fath', 49: 'Al-Hujurat', 50: 'Qaf',
+                51: 'Adh-Dhariyat', 52: 'At-Tur', 53: 'An-Najm', 54: 'Al-Qamar', 55: 'Ar-Rahman',
+                56: 'Al-Waqi\'ah', 57: 'Al-Hadid', 58: 'Al-Mujadila', 59: 'Al-Hashr', 60: 'Al-Mumtahanah',
+                61: 'As-Saff', 62: 'Al-Jumu\'ah', 63: 'Al-Munafiqun', 64: 'At-Taghabun', 65: 'At-Talaq',
+                66: 'At-Tahrim', 67: 'Al-Mulk', 68: 'Al-Qalam', 69: 'Al-Haqqah', 70: 'Al-Ma\'arij',
+                71: 'Nuh', 72: 'Al-Jinn', 73: 'Al-Muzzammil', 74: 'Al-Muddaththir', 75: 'Al-Qiyamah',
+                76: 'Al-Insan', 77: 'Al-Mursalat', 78: 'An-Naba', 79: 'An-Nazi\'at', 80: 'Abasa',
+                81: 'At-Takwir', 82: 'Al-Infitar', 83: 'Al-Mutaffifin', 84: 'Al-Inshiqaq', 85: 'Al-Buruj',
+                86: 'At-Tariq', 87: 'Al-A\'la', 88: 'Al-Ghashiyah', 89: 'Al-Fajr', 90: 'Al-Balad',
+                91: 'Ash-Shams', 92: 'Al-Layl', 93: 'Ad-Duha', 94: 'Ash-Sharh', 95: 'At-Tin',
+                96: 'Al-Alaq', 97: 'Al-Qadr', 98: 'Al-Bayyinah', 99: 'Az-Zalzalah', 100: 'Al-Adiyat',
+                101: 'Al-Qari\'ah', 102: 'At-Takathur', 103: 'Al-Asr', 104: 'Al-Humazah', 105: 'Al-Fil',
+                106: 'Quraysh', 107: 'Al-Ma\'un', 108: 'Al-Kawthar', 109: 'Al-Kafirun', 110: 'An-Nasr',
+                111: 'Al-Masad', 112: 'Al-Ikhlas', 113: 'Al-Falaq', 114: 'An-Nas'
+            };
+            
+            // Update current surah info
+            document.getElementById('currentSurahInfo').textContent = 
+                `Surah ${surahNumber}: ${surahNames[surahNumber] || 'Unknown'}`;
+            
+            // Calculate progress
+            const progress = (surahNumber / 114) * 100;
+            document.getElementById('readingProgress').textContent = `${Math.round(progress)}% Complete`;
+            document.getElementById('readingProgressBar').style.width = `${progress}%`;
+        }
+
+        function showError(message) {
+            document.getElementById('surahContent').innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                nextSurah();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                previousSurah();
+            }
+        });
+
+        // Global functions
+        window.loadSurah = loadSurah;
+        window.nextSurah = nextSurah;
+        window.previousSurah = previousSurah;
+    </script>
+</body>
+</html>

@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Quran Reader
     initializeQuranReader();
     
-    // Comprehensive Surah data for first 20 surahs
-    const surahData = {
+    // Use complete Quran data from external file
+    // The surahData will be replaced with completeQuranData from complete-quran-data.js
         1: { 
             name: 'Al-Fatihah', 
             english: 'The Opening', 

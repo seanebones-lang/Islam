@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Guidelines & Moderation - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .guidelines-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .guidelines-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .guidelines-title {
+            color: var(--gold);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .guidelines-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .guideline-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .guideline-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .guideline-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .guideline-card li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .guideline-card li:before {
+            content: "✓";
+            color: var(--light-green);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .moderation-system {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .moderation-system h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .moderation-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .moderation-feature {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .moderation-feature i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .moderation-feature h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .moderation-feature p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .warning-system {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .warning-system h3 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+        
+        .warning-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .warning-level {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .warning-level.level-1 {
+            border-left: 4px solid #ffd93d;
+        }
+        
+        .warning-level.level-2 {
+            border-left: 4px solid #ff8c42;
+        }
+        
+        .warning-level.level-3 {
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .warning-level h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-level p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .appeal-process {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .appeal-process h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .appeal-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .appeal-step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .appeal-step .step-number {
+            background: var(--gold);
+            color: var(--dark-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        
+        .appeal-step h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .appeal-step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .contact-moderation {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .contact-moderation h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-moderation p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-btn {
+            background: var(--gold);
+            color: var(--dark-green);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .contact-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        
+        .contact-btn.secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        
+        .contact-btn.secondary:hover {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Guidelines Page -->
+    <div class="guidelines-container">
+        <div class="guidelines-header">
+            <h1 class="guidelines-title">
+                <i class="fas fa-shield-alt"></i> Community Guidelines & Moderation
+            </h1>
+            <p class="guidelines-subtitle">
+                Our commitment to maintaining a safe, respectful, and educational environment for all Muslims worldwide
+            </p>
+        </div>
+
+        <!-- Community Guidelines -->
+        <div class="guidelines-grid">
+            <div class="guideline-card">
+                <h3><i class="fas fa-heart"></i> Respectful Communication</h3>
+                <ul>
+                    <li>Use respectful and kind language</li>
+                    <li>Address others as "brother" or "sister"</li>
+                    <li>Maintain Islamic etiquette (adab)</li>
+                    <li>Listen with an open heart</li>
+                    <li>Disagree respectfully</li>
+                </ul>
+            </div>
+
+            <div class="guideline-card">
+                <h3><i class="fas fa-book-quran"></i> Islamic Content</h3>
+                <ul>
+                    <li>Share authentic Islamic knowledge</li>
+                    <li>Provide sources for claims</li>
+                    <li>Respect different schools of thought</li>
+                    <li>Focus on learning and growth</li>
+                    <li>Seek knowledge with humility</li>
+                </ul>
+            </div>
+
+            <div class="guideline-card">
+                <h3><i class="fas fa-users"></i> Community Spirit</h3>
+                <ul>
+                    <li>Support fellow Muslims</li>
+                    <li>Help new Muslims learn</li>
+                    <li>Share beneficial resources</li>
+                    <li>Encourage positive discussions</li>
+                    <li>Build lasting friendships</li>
+                </ul>
+            </div>
+
+            <div class="guideline-card">
+                <h3><i class="fas fa-ban"></i> Prohibited Content</h3>
+                <ul>
+                    <li>No inappropriate language</li>
+                    <li>No personal attacks</li>
+                    <li>No spam or advertisements</li>
+                    <li>No extremist content</li>
+                    <li>No anti-Islamic material</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Auto-Moderation System -->
+        <div class="moderation-system">
+            <h3><i class="fas fa-robot"></i> Auto-Moderation System</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Our advanced AI-powered moderation system automatically protects the community from inappropriate content while maintaining a welcoming environment for authentic Islamic discussions.
+            </p>
+            
+            <div class="moderation-features">
+                <div class="moderation-feature">
+                    <i class="fas fa-language"></i>
+                    <h4>Content Filtering</h4>
+                    <p>Automatically detects and filters inappropriate language, spam, and harmful content</p>
+                </div>
+                
+                <div class="moderation-feature">
+                    <i class="fas fa-mosque"></i>
+                    <h4>Islamic Validation</h4>
+                    <p>Ensures respectful use of Islamic terms and maintains Islamic etiquette</p>
+                </div>
+                
+                <div class="moderation-feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Spam Protection</h4>
+                    <p>Prevents spam, advertisements, and malicious content from reaching the community</p>
+                </div>
+                
+                <div class="moderation-feature">
+                    <i class="fas fa-user-shield"></i>
+                    <h4>Personal Safety</h4>
+                    <p>Protects against personal attacks, harassment, and inappropriate behavior</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning System -->
+        <div class="warning-system">
+            <h3><i class="fas fa-exclamation-triangle"></i> Warning System</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Our progressive warning system helps guide community members toward better behavior while maintaining a supportive environment.
+            </p>
+            
+            <div class="warning-levels">
+                <div class="warning-level level-1">
+                    <h4>Level 1: Gentle Reminder</h4>
+                    <p>Content is flagged for review. User receives a gentle reminder about community guidelines.</p>
+                </div>
+                
+                <div class="warning-level level-2">
+                    <h4>Level 2: Formal Warning</h4>
+                    <p>Repeated violations result in a formal warning and temporary posting restrictions.</p>
+                </div>
+                
+                <div class="warning-level level-3">
+                    <h4>Level 3: Account Review</h4>
+                    <p>Serious violations lead to account review and potential temporary suspension.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appeal Process -->
+        <div class="appeal-process">
+            <h3><i class="fas fa-gavel"></i> Appeal Process</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                If you believe your content was incorrectly moderated, you can appeal the decision through our fair and transparent process.
+            </p>
+            
+            <div class="appeal-steps">
+                <div class="appeal-step">
+                    <div class="step-number">1</div>
+                    <h4>Submit Appeal</h4>
+                    <p>Contact our moderation team with details about your case</p>
+                </div>
+                
+                <div class="appeal-step">
+                    <div class="step-number">2</div>
+                    <h4>Review Process</h4>
+                    <p>Our team reviews your appeal within 24-48 hours</p>
+                </div>
+                
+                <div class="appeal-step">
+                    <div class="step-number">3</div>
+                    <h4>Decision</h4>
+                    <p>You receive a clear explanation of the final decision</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Moderation -->
+        <div class="contact-moderation">
+            <h3><i class="fas fa-envelope"></i> Contact Moderation Team</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Need help with moderation issues? Our dedicated team is here to assist you.
+            </p>
+            
+            <div class="contact-buttons">
+                <a href="community-board.html" class="contact-btn">
+                    <i class="fas fa-comments"></i> Community Board
+                </a>
+                <a href="mailto:moderation@islamiclearning.com" class="contact-btn secondary">
+                    <i class="fas fa-envelope"></i> Email Support
+                </a>
+                <button class="contact-btn secondary" onclick="showModerationGuidelines()">
+                    <i class="fas fa-info-circle"></i> View Guidelines
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/language-config.js"></script>
+    <script src="js/translation-manager.js"></script>
+    <script src="js/community-integration.js"></script>
+    <script src="js/auto-moderation.js"></script>
+    <script>
+        // Moderation Guidelines Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Moderation Guidelines Page Loaded');
+            
+            // Add smooth scrolling for better UX
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

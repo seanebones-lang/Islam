@@ -19,8 +19,8 @@
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="subjects.html" class="nav-link">Subjects</a>
-                <a href="new-muslims.html" class="nav-link">New Muslims</a>
-                <a href="/community.html" class="nav-link">Contact</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
                 <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
             </div>
         </div>
@@ -214,7 +214,7 @@
                             </div>
                         </div>
                         <div style="text-align: center; margin-top: 2rem;">
-                            <a href="#" class="learn-link">📚 Complete Alphabet Tutorial</a>
+                            <button class="btn-primary" onclick="startLesson('alphabet')">📚 Complete Alphabet Tutorial</button>
                         </div>
                     </div>
 
@@ -564,6 +564,128 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="content-card" id="interactive-lessons">
+                        <h2>Interactive Arabic Lessons</h2>
+                        <p>Test your knowledge with these interactive exercises designed to reinforce your Arabic learning.</p>
+                        
+                        <div class="lesson-grid">
+                            <div class="lesson-card" onclick="startLesson('alphabet')">
+                                <div class="lesson-icon">🔤</div>
+                                <h3>Alphabet Quiz</h3>
+                                <p>Test your knowledge of Arabic letters and their sounds</p>
+                                <div class="lesson-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-card" onclick="startLesson('phrases')">
+                                <div class="lesson-icon">💬</div>
+                                <h3>Phrase Practice</h3>
+                                <p>Practice common Islamic phrases and greetings</p>
+                                <div class="lesson-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-card" onclick="startLesson('prayer')">
+                                <div class="lesson-icon">🤲</div>
+                                <h3>Prayer Arabic</h3>
+                                <p>Learn and practice Arabic words used in prayer</p>
+                                <div class="lesson-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-card" onclick="startLesson('writing')">
+                                <div class="lesson-icon">✍️</div>
+                                <h3>Writing Practice</h3>
+                                <p>Practice writing Arabic letters and words</p>
+                                <div class="lesson-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" id="pronunciation-guide">
+                        <h2>Pronunciation Guide</h2>
+                        <p>Master the correct pronunciation of Arabic letters and sounds with our comprehensive guide.</p>
+                        
+                        <div class="pronunciation-sections">
+                            <div class="pronunciation-section">
+                                <h3>Difficult Sounds for English Speakers</h3>
+                                <div class="sound-grid">
+                                    <div class="sound-item">
+                                        <div class="arabic-letter">ع</div>
+                                        <div class="sound-name">Ayn (ع)</div>
+                                        <div class="sound-description">Deep throat sound - like clearing your throat</div>
+                                        <div class="sound-tip">💡 Tip: Practice with "Allah" - the 'A' sound comes from deep in throat</div>
+                                    </div>
+                                    <div class="sound-item">
+                                        <div class="arabic-letter">غ</div>
+                                        <div class="sound-name">Ghayn (غ)</div>
+                                        <div class="sound-description">Similar to French 'r' or Spanish 'j'</div>
+                                        <div class="sound-tip">💡 Tip: Like gargling water but with air</div>
+                                    </div>
+                                    <div class="sound-item">
+                                        <div class="arabic-letter">ح</div>
+                                        <div class="sound-name">Ha (ح)</div>
+                                        <div class="sound-description">Strong 'h' sound from throat</div>
+                                        <div class="sound-tip">💡 Tip: Breathe out with mouth open, like fogging a mirror</div>
+                                    </div>
+                                    <div class="sound-item">
+                                        <div class="arabic-letter">خ</div>
+                                        <div class="sound-name">Kha (خ)</div>
+                                        <div class="sound-description">Like Scottish 'ch' in 'loch'</div>
+                                        <div class="sound-tip">💡 Tip: Like clearing throat with 'k' sound</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="pronunciation-section">
+                                <h3>Common Pronunciation Mistakes</h3>
+                                <div class="mistakes-list">
+                                    <div class="mistake-item">
+                                        <div class="mistake-icon">❌</div>
+                                        <div class="mistake-content">
+                                            <h4>Confusing 'a' and 'aa' sounds</h4>
+                                            <p>Many learners pronounce 'a' (fatha) and 'aa' (alif) the same way</p>
+                                            <div class="correct-example">
+                                                <strong>Correct:</strong> 
+                                                <span class="arabic-text">باب</span> (baab) - Door
+                                                <span class="arabic-text">بَت</span> (bat) - Girl
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mistake-item">
+                                        <div class="mistake-icon">❌</div>
+                                        <div class="mistake-content">
+                                            <h4>Not distinguishing emphatic letters</h4>
+                                            <p>Letters like ص، ض، ط، ظ have a deeper, more emphatic sound</p>
+                                            <div class="correct-example">
+                                                <strong>Correct:</strong> 
+                                                <span class="arabic-text">صلاة</span> (salah) - Prayer
+                                                <span class="arabic-text">ضمان</span> (daman) - Guarantee
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="content-sidebar">
@@ -665,6 +787,70 @@
         function showAlphabet() {
             alert('Interactive writing practice coming soon! For now, try copying the letters on paper from right to left.');
         }
+
+        function startLesson(lessonType) {
+            const lessonNames = {
+                'alphabet': 'Alphabet Quiz',
+                'phrases': 'Phrase Practice', 
+                'prayer': 'Prayer Arabic',
+                'writing': 'Writing Practice'
+            };
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.8); z-index: 10000; display: flex;
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+                    color: var(--white); padding: 2rem; border-radius: 20px; max-width: 600px;
+                    width: 90%; text-align: center; border: 2px solid var(--gold);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                    <h2 style="color: var(--gold); margin-bottom: 1rem;">${lessonNames[lessonType]}</h2>
+                    <p style="margin-bottom: 2rem;">This interactive lesson will help you practice and master Arabic ${lessonType}.</p>
+                    <div style="text-align: left; margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <h4 style="color: var(--gold); margin-bottom: 1rem;">What you'll learn:</h4>
+                        <ul style="text-align: left; color: var(--text-secondary);">
+                            ${getLessonDescription(lessonType)}
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="this.closest('.modal').remove()" style="background: var(--gold); color: var(--dark-green); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">Start Lesson</button>
+                        <button onclick="this.closest('.modal').remove()" style="background: transparent; color: var(--white); border: 2px solid var(--white); padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">Maybe Later</button>
+                    </div>
+                </div>
+            `;
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+
+        function getLessonDescription(lessonType) {
+            const descriptions = {
+                'alphabet': '<li>Recognize all 28 Arabic letters</li><li>Learn correct pronunciation</li><li>Identify letter forms in different positions</li><li>Practice with Islamic vocabulary</li>',
+                'phrases': '<li>Master common Islamic greetings</li><li>Learn daily supplications</li><li>Practice pronunciation</li><li>Use phrases in context</li>',
+                'prayer': '<li>Learn prayer-specific Arabic</li><li>Master takbir and tasbih</li><li>Practice Quranic recitation</li><li>Understand prayer meanings</li>',
+                'writing': '<li>Practice letter formation</li><li>Learn connecting letters</li><li>Write common Islamic words</li><li>Improve handwriting</li>'
+            };
+            return descriptions[lessonType] || '<li>Interactive learning content</li>';
+        }
+
+        // Add smooth scrolling for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for lesson cards
+            const lessonCards = document.querySelectorAll('.lesson-card');
+            lessonCards.forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
     </script>
     <script src="script.js"></script>
     <script src="islamic-interactive.js"></script>

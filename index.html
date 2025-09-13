@@ -18,11 +18,11 @@
                 <span>Islamic Learning Companion</span>
             </div>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
-                <a href="subjects.html" class="nav-link" data-i18n="nav.subjects">Subjects</a>
-                <a href="what-is-islam.html" class="nav-link" data-i18n="nav.about">About Islam</a>
-                <a href="community.html" class="nav-link" data-i18n="nav.community">Community</a>
-                <button class="nav-btn" onclick="window.location.href='subjects.html'" data-i18n="nav.getStarted">Get Started</button>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
             </div>
         </div>
     </nav>
@@ -40,8 +40,11 @@
                     verified Islamic scholars and authentic sources.
                 </p>
                 <div class="hero-buttons">
-                    <button class="btn-primary" onclick="window.location.href='subjects.html'" data-i18n="home.startLearning">Start Learning</button>
-                    <button class="btn-secondary" onclick="window.location.href='quran-reader.html'" data-i18n="home.readQuran">Read Quran</button>
+                    <button class="btn-primary" onclick="window.location.href='learn.html'" data-i18n="home.startLearning">Start Learning</button>
+                    <button class="btn-secondary" onclick="window.location.href='practice.html'" data-i18n="home.practice">Practice</button>
+                    <button class="btn-secondary" onclick="window.location.href='community-board.html'" style="background: var(--light-green); color: var(--dark-green);">
+                        <i class="fas fa-comments"></i> Join Community
+                    </button>
                 </div>
                 
                 <!-- Search Bar -->
@@ -139,6 +142,10 @@
                 <!-- Prayer Times Widget -->
                 <div class="prayer-times-widget">
                     <h3><i class="fas fa-clock"></i> Today's Prayer Times</h3>
+                    <div class="prayer-status" id="prayer-status">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading accurate prayer times...</span>
+                    </div>
                     <div class="prayer-times-grid">
                         <div class="prayer-time">
                             <span class="prayer-name">Fajr</span>
@@ -163,6 +170,17 @@
                     </div>
                     <div class="next-prayer">
                         <p>Next Prayer: <strong id="next-prayer-name">Fajr</strong> in <span id="next-prayer-countdown">2h 15m</span></p>
+                    </div>
+                    <div class="prayer-actions">
+                        <button class="btn-small" onclick="refreshPrayerTimes()" title="Refresh Prayer Times">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn-small" onclick="requestLocationPermission()" title="Enable Location-Based Times">
+                            <i class="fas fa-map-marker-alt"></i> Use Location
+                        </button>
+                        <button class="btn-small" id="notificationToggleBtn" onclick="togglePrayerNotifications()" title="Toggle Prayer Notifications">
+                            <i class="fas fa-bell"></i> Notifications
+                        </button>
                     </div>
                 </div>
             </div>
@@ -210,13 +228,39 @@
         </div>
     </section>
 
-    <!-- Prayer Times Widget -->
-    <section class="prayer-times-section">
+
+    <!-- Daily Islamic Content Section -->
+    <section class="daily-content-section">
         <div class="container">
-            <div id="prayer-times-widget" class="prayer-times-widget">
-                <div class="prayer-widget-loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading prayer times...</p>
+            <div class="daily-content-widget">
+                <div class="content-widget-header">
+                    <h3><i class="fas fa-star"></i> Daily Islamic Content</h3>
+                    <div class="content-controls">
+                        <button class="btn-small" id="dailyContentToggleBtn" onclick="toggleDailyContent()" title="Toggle Daily Content">
+                            <i class="fas fa-bell"></i> Enable
+                        </button>
+                        <button class="btn-small" onclick="showDailyContentSettings()" title="Content Settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="content-status" id="content-status">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Daily Islamic content notifications are available</span>
+                </div>
+                
+                <div class="daily-content-grid" id="daily-content-grid">
+                    <!-- Content will be loaded here -->
+                </div>
+                
+                <div class="content-actions">
+                    <button class="btn-small" onclick="refreshDailyContent()" title="Get New Content">
+                        <i class="fas fa-sync-alt"></i> New Content
+                    </button>
+                    <button class="btn-small" onclick="showContentHistory()" title="View History">
+                        <i class="fas fa-history"></i> History
+                    </button>
                 </div>
             </div>
         </div>
@@ -283,7 +327,7 @@
                         <span><i class="fas fa-globe"></i> Worldwide</span>
                     </div>
                 </div>
-                <div class="feature-card" onclick="window.location.href='community.html'" style="cursor: pointer;">
+                <div class="feature-card" onclick="window.location.href='community-board.html'" style="cursor: pointer;">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
@@ -379,31 +423,14 @@
             <div class="daily-grid">
                 <div class="daily-card">
                     <div class="daily-icon">
-                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
                     </div>
-                    <h3>Prayer Times</h3>
-                    <p>Accurate prayer times for your location with notifications</p>
-                    <div class="prayer-times">
-                        <div class="prayer-item">
-                            <span class="prayer-name">Fajr</span>
-                            <span class="prayer-time">5:23 AM</span>
-                        </div>
-                        <div class="prayer-item">
-                            <span class="prayer-name">Dhuhr</span>
-                            <span class="prayer-time">12:15 PM</span>
-                        </div>
-                        <div class="prayer-item">
-                            <span class="prayer-name">Asr</span>
-                            <span class="prayer-time">3:45 PM</span>
-                        </div>
-                        <div class="prayer-item">
-                            <span class="prayer-name">Maghrib</span>
-                            <span class="prayer-time">6:30 PM</span>
-                        </div>
-                        <div class="prayer-item">
-                            <span class="prayer-name">Isha</span>
-                            <span class="prayer-time">8:00 PM</span>
-                        </div>
+                    <h3>Ramadan Countdown</h3>
+                    <p>Track the remaining days until the blessed month of Ramadan</p>
+                    <div class="ramadan-countdown">
+                        <div class="countdown-number">45</div>
+                        <div class="countdown-label">Days to Ramadan</div>
+                        <div class="countdown-date">March 1, 2025</div>
                     </div>
                 </div>
                 <div class="daily-card">
@@ -480,32 +507,17 @@
                 
                 <div class="daily-card">
                     <div class="daily-header">
-                        <i class="fas fa-pray"></i>
-                        <h3>Prayer Times</h3>
+                        <i class="fas fa-heart"></i>
+                        <h3>Daily Dua</h3>
                     </div>
                     <div class="daily-content-text">
-                        <div class="prayer-times">
-                            <div class="prayer-item">
-                                <span class="prayer-name">Fajr</span>
-                                <span class="prayer-time">5:30 AM</span>
-                            </div>
-                            <div class="prayer-item">
-                                <span class="prayer-name">Dhuhr</span>
-                                <span class="prayer-time">12:15 PM</span>
-                            </div>
-                            <div class="prayer-item">
-                                <span class="prayer-name">Asr</span>
-                                <span class="prayer-time">3:45 PM</span>
-                            </div>
-                            <div class="prayer-item">
-                                <span class="prayer-name">Maghrib</span>
-                                <span class="prayer-time">6:20 PM</span>
-                            </div>
-                            <div class="prayer-item">
-                                <span class="prayer-name">Isha</span>
-                                <span class="prayer-time">7:50 PM</span>
-                            </div>
+                        <div class="arabic-dua">
+                            "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ"
                         </div>
+                        <div class="dua-translation">
+                            "Our Lord, give us good in this world and good in the hereafter, and protect us from the punishment of the Fire."
+                        </div>
+                        <div class="dua-reference">Quran 2:201</div>
                     </div>
                 </div>
             </div>
@@ -529,7 +541,7 @@
                     </ul>
                     <div class="about-buttons">
                         <button class="btn-primary" onclick="window.location.href='subjects.html'">Explore Subjects</button>
-                        <button class="btn-outline" onclick="window.location.href='community.html'">Join Community</button>
+                        <button class="btn-outline" onclick="window.location.href='community-board.html'">Join Community</button>
                     </div>
                 </div>
                 <div class="about-image">
@@ -586,7 +598,7 @@
                     <ul>
                         <li><a href="#features">Features</a></li>
                         <li><a href="/what-is-islam.html">About Us</a></li>
-                        <li><a href="/community.html">Contact</a></li>
+                        <li><a href="community-board.html">Community</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
                 </div>
@@ -617,6 +629,8 @@
 
     <script src="js/language-config.js"></script>
     <script src="js/translation-manager.js"></script>
+    <script src="js/community-integration.js"></script>
+    <script src="js/auto-moderation.js"></script>
     <script src="script.js"></script>
     <script>
         // Daily Hadith Collection
@@ -660,44 +674,80 @@
         }
 
         // Prayer Times Calculation (simplified)
-        function updatePrayerTimes() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const currentTime = currentHour * 60 + currentMinute;
+        async function updatePrayerTimes() {
+            // Use the accurate prayer times calculator if available
+            if (window.prayerTimesCalculator && window.prayerTimesCalculator.prayerTimes) {
+                const times = window.prayerTimesCalculator.prayerTimes;
+                const formatTime = (time) => window.prayerTimesCalculator.formatTime(time, true);
+                
+                document.getElementById('fajr-time').textContent = formatTime(times.fajr);
+                document.getElementById('dhuhr-time').textContent = formatTime(times.dhuhr);
+                document.getElementById('asr-time').textContent = formatTime(times.asr);
+                document.getElementById('maghrib-time').textContent = formatTime(times.maghrib);
+                document.getElementById('isha-time').textContent = formatTime(times.isha);
 
-            // Simplified prayer times (in minutes from midnight)
-            const prayerTimes = {
-                fajr: 5 * 60 + 30,    // 05:30
-                dhuhr: 12 * 60 + 30,  // 12:30
-                asr: 15 * 60 + 45,    // 15:45
-                maghrib: 18 * 60 + 20, // 18:20
-                isha: 19 * 60 + 50    // 19:50
-            };
+                // Get next prayer using accurate calculator
+                const nextPrayer = window.prayerTimesCalculator.getNextPrayer();
+                document.getElementById('next-prayer-name').textContent = nextPrayer.name;
+                document.getElementById('next-prayer-countdown').textContent = nextPrayer.timeUntilText;
+                
+                // Update status to show accurate times are active
+                const statusElement = document.getElementById('prayer-status');
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-map-marker-alt" style="color: var(--gold);"></i>
+                        <span style="color: var(--light-green);">Accurate prayer times based on your location</span>
+                    `;
+                }
+            } else {
+                // Fallback to simplified prayer times if calculator not ready
+                const now = new Date();
+                const currentHour = now.getHours();
+                const currentMinute = now.getMinutes();
+                const currentTime = currentHour * 60 + currentMinute;
 
-            const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
-            let nextPrayer = null;
-            let nextPrayerTime = Infinity;
+                // Simplified prayer times (in minutes from midnight)
+                const prayerTimes = {
+                    fajr: 5 * 60 + 30,    // 05:30
+                    dhuhr: 12 * 60 + 30,  // 12:30
+                    asr: 15 * 60 + 45,    // 15:45
+                    maghrib: 18 * 60 + 20, // 18:20
+                    isha: 19 * 60 + 50    // 19:50
+                };
 
-            for (const prayer of prayerNames) {
-                if (prayerTimes[prayer] > currentTime && prayerTimes[prayer] < nextPrayerTime) {
-                    nextPrayer = prayer;
-                    nextPrayerTime = prayerTimes[prayer];
+                const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+                let nextPrayer = null;
+                let nextPrayerTime = Infinity;
+
+                for (const prayer of prayerNames) {
+                    if (prayerTimes[prayer] > currentTime && prayerTimes[prayer] < nextPrayerTime) {
+                        nextPrayer = prayer;
+                        nextPrayerTime = prayerTimes[prayer];
+                    }
+                }
+
+                // If no prayer found for today, use tomorrow's Fajr
+                if (!nextPrayer) {
+                    nextPrayer = 'fajr';
+                    nextPrayerTime = prayerTimes.fajr + 24 * 60; // Next day
+                }
+
+                const timeUntilNext = nextPrayerTime - currentTime;
+                const hours = Math.floor(timeUntilNext / 60);
+                const minutes = timeUntilNext % 60;
+
+                document.getElementById('next-prayer-name').textContent = nextPrayer.charAt(0).toUpperCase() + nextPrayer.slice(1);
+                document.getElementById('next-prayer-countdown').textContent = `${hours}h ${minutes}m`;
+                
+                // Update status to show fallback times
+                const statusElement = document.getElementById('prayer-status');
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-clock" style="color: var(--text-secondary);"></i>
+                        <span style="color: var(--text-secondary);">Using approximate prayer times</span>
+                    `;
                 }
             }
-
-            // If no prayer found for today, use tomorrow's Fajr
-            if (!nextPrayer) {
-                nextPrayer = 'fajr';
-                nextPrayerTime = prayerTimes.fajr + 24 * 60; // Next day
-            }
-
-            const timeUntilNext = nextPrayerTime - currentTime;
-            const hours = Math.floor(timeUntilNext / 60);
-            const minutes = timeUntilNext % 60;
-
-            document.getElementById('next-prayer-name').textContent = nextPrayer.charAt(0).toUpperCase() + nextPrayer.slice(1);
-            document.getElementById('next-prayer-countdown').textContent = `${hours}h ${minutes}m`;
         }
 
         // Search Functionality
@@ -731,11 +781,505 @@
             performSearch();
         }
 
+        // Prayer times refresh function
+        function refreshPrayerTimes() {
+            if (window.prayerTimesCalculator) {
+                window.prayerTimesCalculator.getUserLocation().then(() => {
+                    window.prayerTimesCalculator.calculatePrayerTimes();
+                    updatePrayerTimes();
+                    showNotification('Prayer times refreshed with accurate calculations', 'success');
+                }).catch(() => {
+                    updatePrayerTimes();
+                    showNotification('Prayer times refreshed', 'info');
+                });
+            } else {
+                updatePrayerTimes();
+                showNotification('Prayer times refreshed', 'info');
+            }
+        }
+
+        // Request location permission function
+        function requestLocationPermission() {
+            if (window.prayerTimesCalculator) {
+                window.prayerTimesCalculator.getUserLocation().then(() => {
+                    window.prayerTimesCalculator.calculatePrayerTimes();
+                    updatePrayerTimes();
+                    showNotification('Location permission granted! Prayer times are now accurate', 'success');
+                }).catch(() => {
+                    showNotification('Location permission denied. Using approximate times.', 'warning');
+                });
+            } else {
+                showNotification('Prayer times calculator not available', 'error');
+            }
+        }
+
+        // Simple notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--light-green)' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : 'var(--gold)'};
+                color: ${type === 'success' || type === 'warning' ? 'var(--dark-green)' : 'white'};
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                z-index: 10000;
+                font-weight: 500;
+                max-width: 300px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Prayer notification toggle function
+        function togglePrayerNotifications() {
+            if (window.prayerNotifications) {
+                const settings = window.prayerNotifications.getSettings();
+                if (settings.isEnabled) {
+                    window.prayerNotifications.disableNotifications();
+                    updateNotificationButton(false);
+                } else {
+                    // Check if notifications are available
+                    if (!window.prayerNotifications.isNotificationAvailable()) {
+                        // Request permission first
+                        window.prayerNotifications.requestNotificationPermission().then(granted => {
+                            if (granted) {
+                                window.prayerNotifications.enableNotifications();
+                                updateNotificationButton(true);
+                            } else {
+                                showNotification('Please enable browser notifications to receive prayer alerts.', 'warning');
+                                showNotificationSettingsModal();
+                            }
+                        });
+                    } else {
+                        window.prayerNotifications.enableNotifications();
+                        updateNotificationButton(true);
+                    }
+                }
+            } else {
+                showNotification('Prayer notifications not available yet. Please wait a moment.', 'warning');
+            }
+        }
+
+        // Update notification button state
+        function updateNotificationButton(enabled) {
+            const btn = document.getElementById('notificationToggleBtn');
+            if (btn) {
+                if (enabled) {
+                    btn.innerHTML = '<i class="fas fa-bell"></i> Notifications ON';
+                    btn.style.background = 'var(--light-green)';
+                    btn.style.borderColor = 'var(--light-green)';
+                    btn.title = 'Disable Prayer Notifications';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-bell-slash"></i> Notifications OFF';
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.title = 'Enable Prayer Notifications';
+                }
+            }
+        }
+
+        // Show notification settings modal
+        function showNotificationSettingsModal() {
+            const modal = document.createElement('div');
+            modal.className = 'notification-settings-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-bell"></i> Prayer Notification Settings</h3>
+                        <button class="modal-close" onclick="this.closest('.notification-settings-modal').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="enableNotifications" ${window.prayerNotifications?.getSettings()?.isEnabled ? 'checked' : ''}>
+                                Enable prayer notifications
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label for="notificationTiming">Alert me how many minutes before prayer:</label>
+                            <select id="notificationTiming">
+                                <option value="1" ${window.prayerNotifications?.getSettings()?.notificationTiming === 1 ? 'selected' : ''}>1 minute</option>
+                                <option value="3" ${window.prayerNotifications?.getSettings()?.notificationTiming === 3 ? 'selected' : ''}>3 minutes</option>
+                                <option value="5" ${window.prayerNotifications?.getSettings()?.notificationTiming === 5 ? 'selected' : ''}>5 minutes</option>
+                                <option value="10" ${window.prayerNotifications?.getSettings()?.notificationTiming === 10 ? 'selected' : ''}>10 minutes</option>
+                                <option value="15" ${window.prayerNotifications?.getSettings()?.notificationTiming === 15 ? 'selected' : ''}>15 minutes</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="notificationSound" ${window.prayerNotifications?.getSettings()?.notificationSound ? 'checked' : ''}>
+                                Play notification sound
+                            </label>
+                        </div>
+                        <div class="notification-info">
+                            <p><i class="fas fa-info-circle"></i> Notifications will alert you before each prayer time to help you prepare for salah.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="this.closest('.notification-settings-modal').remove()">Cancel</button>
+                        <button class="btn-primary" onclick="saveNotificationSettings()">Save Settings</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add modal styles
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+            
+            modal.querySelector('.modal-content').style.cssText = `
+                background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+                border-radius: 15px;
+                padding: 2rem;
+                max-width: 500px;
+                width: 90%;
+                border: 2px solid var(--gold);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            `;
+        }
+
+        // Save notification settings
+        function saveNotificationSettings() {
+            const enabled = document.getElementById('enableNotifications').checked;
+            const timing = parseInt(document.getElementById('notificationTiming').value);
+            const sound = document.getElementById('notificationSound').checked;
+            
+            if (window.prayerNotifications) {
+                window.prayerNotifications.notificationTiming = timing;
+                window.prayerNotifications.notificationSound = sound;
+                window.prayerNotifications.saveSettings();
+                
+                if (enabled) {
+                    window.prayerNotifications.enableNotifications();
+                    updateNotificationButton(true);
+                } else {
+                    window.prayerNotifications.disableNotifications();
+                    updateNotificationButton(false);
+                }
+                
+                showNotification('Notification settings saved successfully!', 'success');
+            }
+            
+            // Close modal
+            document.querySelector('.notification-settings-modal').remove();
+        }
+
+        // Daily Content Functions
+        function toggleDailyContent() {
+            if (window.dailyContentSystem) {
+                const settings = window.dailyContentSystem.getSettings();
+                if (settings.isEnabled) {
+                    window.dailyContentSystem.disableNotifications();
+                    updateDailyContentButton(false);
+                } else {
+                    window.dailyContentSystem.enableNotifications();
+                    updateDailyContentButton(true);
+                    loadDailyContent();
+                }
+            } else {
+                showNotification('Daily content system not available yet. Please wait a moment.', 'warning');
+            }
+        }
+
+        function updateDailyContentButton(enabled) {
+            const btn = document.getElementById('dailyContentToggleBtn');
+            if (btn) {
+                if (enabled) {
+                    btn.innerHTML = '<i class="fas fa-bell"></i> Enabled';
+                    btn.style.background = 'var(--light-green)';
+                    btn.style.borderColor = 'var(--light-green)';
+                    btn.title = 'Disable Daily Content';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-bell-slash"></i> Enable';
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.title = 'Enable Daily Content';
+                }
+            }
+        }
+
+        function showDailyContentSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'daily-content-settings-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-star"></i> Daily Content Settings</h3>
+                        <button class="modal-close" onclick="this.closest('.daily-content-settings-modal').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="setting-section">
+                            <h4>Content Types</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="morningDua" ${window.dailyContentSystem?.getSettings()?.contentTypes?.dua ? 'checked' : ''}>
+                                    Morning Dua (8:00 AM)
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="afternoonQuran" ${window.dailyContentSystem?.getSettings()?.contentTypes?.quran ? 'checked' : ''}>
+                                    Quranic Verse (3:00 PM)
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="eveningMotivation" ${window.dailyContentSystem?.getSettings()?.contentTypes?.motivation ? 'checked' : ''}>
+                                    Evening Motivation (8:00 PM)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-section">
+                            <h4>Notification Times</h4>
+                            <div class="setting-item">
+                                <label for="morningTime">Morning Dua Time:</label>
+                                <input type="time" id="morningTime" value="${window.dailyContentSystem?.getSettings()?.notificationTiming?.morning || '08:00'}">
+                            </div>
+                            <div class="setting-item">
+                                <label for="afternoonTime">Afternoon Quran Time:</label>
+                                <input type="time" id="afternoonTime" value="${window.dailyContentSystem?.getSettings()?.notificationTiming?.afternoon || '15:00'}">
+                            </div>
+                            <div class="setting-item">
+                                <label for="eveningTime">Evening Motivation Time:</label>
+                                <input type="time" id="eveningTime" value="${window.dailyContentSystem?.getSettings()?.notificationTiming?.evening || '20:00'}">
+                            </div>
+                        </div>
+                        
+                        <div class="content-info">
+                            <p><i class="fas fa-info-circle"></i> Receive daily duas, Quranic verses, and motivational content to strengthen your faith throughout the day.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="this.closest('.daily-content-settings-modal').remove()">Cancel</button>
+                        <button class="btn-primary" onclick="saveDailyContentSettings()">Save Settings</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add modal styles
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+            
+            modal.querySelector('.modal-content').style.cssText = `
+                background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+                border-radius: 15px;
+                padding: 2rem;
+                max-width: 600px;
+                width: 90%;
+                border: 2px solid var(--gold);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                max-height: 80vh;
+                overflow-y: auto;
+            `;
+        }
+
+        function saveDailyContentSettings() {
+            const contentTypes = {
+                dua: document.getElementById('morningDua').checked,
+                quran: document.getElementById('afternoonQuran').checked,
+                motivation: document.getElementById('eveningMotivation').checked
+            };
+            
+            const notificationTiming = {
+                morning: document.getElementById('morningTime').value,
+                afternoon: document.getElementById('afternoonTime').value,
+                evening: document.getElementById('eveningTime').value
+            };
+            
+            if (window.dailyContentSystem) {
+                window.dailyContentSystem.setContentTypes(contentTypes);
+                window.dailyContentSystem.setNotificationTiming(notificationTiming);
+                
+                showNotification('Daily content settings saved successfully!', 'success');
+                loadDailyContent();
+            }
+            
+            // Close modal
+            document.querySelector('.daily-content-settings-modal').remove();
+        }
+
+        function refreshDailyContent() {
+            if (window.dailyContentSystem) {
+                window.dailyContentSystem.generateDailyContent();
+                loadDailyContent();
+                showNotification('New daily content generated!', 'success');
+            }
+        }
+
+        function loadDailyContent() {
+            if (window.dailyContentSystem) {
+                const content = window.dailyContentSystem.getCurrentContent();
+                const grid = document.getElementById('daily-content-grid');
+                
+                if (grid && content) {
+                    grid.innerHTML = `
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <i class="fas fa-hands-praying"></i>
+                                <h4>Daily Dua</h4>
+                            </div>
+                            <div class="content-card-body">
+                                <div class="content-arabic">${content.dua.arabic}</div>
+                                <div class="content-translation">${content.dua.translation}</div>
+                                <div class="content-reference">${content.dua.reference}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <i class="fas fa-book-quran"></i>
+                                <h4>Quranic Verse</h4>
+                            </div>
+                            <div class="content-card-body">
+                                <div class="content-arabic">${content.quran.arabic}</div>
+                                <div class="content-translation">${content.quran.translation}</div>
+                                <div class="content-reference">${content.quran.reference}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Daily Motivation</h4>
+                            </div>
+                            <div class="content-card-body">
+                                <div class="content-title">${content.motivation.title}</div>
+                                <div class="content-text">${content.motivation.content}</div>
+                                <div class="content-reference">${content.motivation.source}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function showContentHistory() {
+            if (window.dailyContentSystem) {
+                const history = window.dailyContentSystem.contentHistory;
+                
+                if (history.length === 0) {
+                    showNotification('No content history available yet.', 'info');
+                    return;
+                }
+                
+                // Create history modal
+                const modal = document.createElement('div');
+                modal.className = 'content-history-modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-history"></i> Content History</h3>
+                            <button class="modal-close" onclick="this.closest('.content-history-modal').remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="history-list">
+                                ${history.slice(0, 7).map(entry => `
+                                    <div class="history-item">
+                                        <div class="history-date">${new Date(entry.date).toLocaleDateString()}</div>
+                                        <div class="history-content">
+                                            <div class="history-dua">
+                                                <strong>Dua:</strong> ${entry.content.dua.translation.substring(0, 50)}...
+                                            </div>
+                                            <div class="history-verse">
+                                                <strong>Verse:</strong> ${entry.content.quran.translation.substring(0, 50)}...
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-primary" onclick="this.closest('.content-history-modal').remove()">Close</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                `;
+                
+                modal.querySelector('.modal-content').style.cssText = `
+                    background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+                    border-radius: 15px;
+                    padding: 2rem;
+                    max-width: 700px;
+                    width: 90%;
+                    border: 2px solid var(--gold);
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             updatePrayerTimes();
             // Update prayer times every minute
             setInterval(updatePrayerTimes, 60000);
+            
+            // Also update when accurate prayer times become available
+            setTimeout(async () => {
+                if (window.prayerTimesCalculator) {
+                    await window.prayerTimesCalculator.initialize();
+                    updatePrayerTimes(); // Update with accurate times
+                }
+            }, 2000);
         });
 
         // Search suggestions toggle
@@ -750,6 +1294,8 @@
         });
     </script>
     <script src="prayer-times.js"></script>
+    <script src="prayer-notifications.js"></script>
+    <script src="daily-content.js"></script>
     <script>
         // Initialize prayer times widget on homepage
         document.addEventListener('DOMContentLoaded', function() {
@@ -757,6 +1303,21 @@
                 if (window.prayerTimesCalculator) {
                     await window.prayerTimesCalculator.initialize();
                     window.prayerTimesCalculator.createPrayerWidget('prayer-times-widget');
+                    
+                    // Initialize notification button state
+                    if (window.prayerNotifications) {
+                        const settings = window.prayerNotifications.getSettings();
+                        updateNotificationButton(settings.isEnabled);
+                    }
+                }
+                
+                // Initialize daily content system
+                if (window.dailyContentSystem) {
+                    const contentSettings = window.dailyContentSystem.getSettings();
+                    updateDailyContentButton(contentSettings.isEnabled);
+                    if (contentSettings.isEnabled) {
+                        loadDailyContent();
+                    }
                 }
             }, 1500);
         });

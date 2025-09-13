@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Practice - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="what-is-islam.html" class="nav-link">About Islam</a>
+                <a href="community-board.html" class="nav-link active">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-hands-praying"></i>
+                </div>
+                <div class="page-header-text">
+                    <h1>Islamic Practice</h1>
+                    <p>Tools and guides for daily Islamic worship and practice</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayer Times Widget -->
+    <section class="prayer-times-section">
+        <div class="container">
+            <div id="prayer-times-widget" class="prayer-times-widget">
+                <div class="prayer-widget-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading prayer times...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Categories -->
+    <section class="practice-categories">
+        <div class="container">
+            <div class="categories-nav">
+                <button class="category-tab active" onclick="showCategory('prayer')">
+                    <i class="fas fa-pray"></i>
+                    <span>Prayer</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('worship')">
+                    <i class="fas fa-mosque"></i>
+                    <span>Worship</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('qibla')">
+                    <i class="fas fa-compass"></i>
+                    <span>Qibla</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('calendar')">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Calendar</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('duas')">
+                    <i class="fas fa-hands"></i>
+                    <span>Duas</span>
+                </button>
+                <button class="category-tab" onclick="showCategory('tools')">
+                    <i class="fas fa-tools"></i>
+                    <span>Tools</span>
+                </button>
+            </div>
+
+            <!-- Prayer Section -->
+            <div id="prayer-section" class="practice-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-pray"></i> Prayer (Salah)</h2>
+                    <p>Complete guide to Islamic prayer with step-by-step instructions</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Guide</h3>
+                                <p>Complete step-by-step guide to performing Islamic prayers</p>
+                                <a href="prayer-guide.html" class="feature-btn">Learn Prayer</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Times</h3>
+                                <p>Accurate prayer times based on your location</p>
+                                <button class="feature-btn" onclick="showPrayerTimes()">View Times</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Notifications</h3>
+                                <p>Get notified before each prayer time</p>
+                                <button class="feature-btn" onclick="togglePrayerNotifications()">Enable Notifications</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Videos</h3>
+                                <p>Visual guides for proper prayer positions and movements</p>
+                                <button class="feature-btn" onclick="showPrayerVideos()">Watch Videos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Worship Section -->
+            <div id="worship-section" class="practice-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-mosque"></i> Worship & Rituals</h2>
+                    <p>Essential Islamic worship practices and purification</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Wudu Guide</h3>
+                                <p>Step-by-step guide to Islamic ablution (wudu)</p>
+                                <a href="wudu-guide.html" class="feature-btn">Learn Wudu</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shower"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Ghusl Guide</h3>
+                                <p>Complete guide to ritual bathing (ghusl)</p>
+                                <button class="feature-btn" onclick="showGhuslGuide()">Learn Ghusl</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Fasting Guide</h3>
+                                <p>Guidelines for fasting during Ramadan and voluntary fasts</p>
+                                <button class="feature-btn" onclick="showFastingGuide()">Learn Fasting</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Dhikr & Remembrance</h3>
+                                <p>Islamic remembrance and supplications for daily practice</p>
+                                <button class="feature-btn" onclick="showDhikrGuide()">Learn Dhikr</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Qibla Section -->
+            <div id="qibla-section" class="practice-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-compass"></i> Qibla Direction</h2>
+                    <p>Find the direction of prayer (Qibla) from anywhere in the world</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-compass"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Qibla Finder</h3>
+                                <p>Interactive compass to find prayer direction</p>
+                                <a href="qibla-finder.html" class="feature-btn">Find Qibla</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Location-Based</h3>
+                                <p>Accurate Qibla direction based on your GPS location</p>
+                                <button class="feature-btn" onclick="showLocationQibla()">Use Location</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Global Directions</h3>
+                                <p>Qibla directions for major cities around the world</p>
+                                <button class="feature-btn" onclick="showGlobalQibla()">View Cities</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Historical Significance</h3>
+                                <p>Learn about the importance of facing the Kaaba</p>
+                                <button class="feature-btn" onclick="showQiblaHistory()">Learn History</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Section -->
+            <div id="calendar-section" class="practice-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Islamic Calendar</h2>
+                    <p>Important Islamic dates, events, and lunar calendar information</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Islamic Calendar</h3>
+                                <p>Hijri calendar with important Islamic dates and events</p>
+                                <a href="islamic-calendar.html" class="feature-btn">View Calendar</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Important Dates</h3>
+                                <p>Key Islamic dates including Ramadan, Eid, and Hajj</p>
+                                <button class="feature-btn" onclick="showImportantDates()">View Dates</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Moon Phases</h3>
+                                <p>Current moon phase and Islamic month information</p>
+                                <button class="feature-btn" onclick="showMoonPhases()">View Moon</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Event Reminders</h3>
+                                <p>Get notified about upcoming Islamic events and observances</p>
+                                <button class="feature-btn" onclick="showEventReminders()">Set Reminders</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Duas Section -->
+            <div id="duas-section" class="practice-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-hands"></i> Daily Duas & Supplications</h2>
+                    <p>Essential supplications for different occasions and times</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Daily Duas</h3>
+                                <p>Morning and evening supplications for daily practice</p>
+                                <a href="daily-duas.html" class="feature-btn">Read Duas</a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-pray"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Duas</h3>
+                                <p>Supplications for before and after prayers</p>
+                                <button class="feature-btn" onclick="showPrayerDuas()">View Duas</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Protection Duas</h3>
+                                <p>Duas for protection, safety, and seeking Allah's help</p>
+                                <button class="feature-btn" onclick="showProtectionDuas()">View Duas</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>General Duas</h3>
+                                <p>Various supplications for different life situations</p>
+                                <button class="feature-btn" onclick="showGeneralDuas()">View Duas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Section -->
+            <div id="tools-section" class="practice-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Practice Tools</h2>
+                    <p>Helpful tools to enhance your Islamic practice</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-timer"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Prayer Timer</h3>
+                                <p>Timer for prayer sessions and dhikr</p>
+                                <button class="feature-btn" onclick="showPrayerTimer()">Start Timer</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-counter"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Dhikr Counter</h3>
+                                <p>Digital counter for dhikr and tasbih</p>
+                                <button class="feature-btn" onclick="showDhikrCounter()">Start Counter</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Practice Tracker</h3>
+                                <p>Track your daily Islamic practices and habits</p>
+                                <button class="feature-btn" onclick="showPracticeTracker()">View Tracker</button>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bookmark"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Favorites</h3>
+                                <p>Save your favorite duas, verses, and practices</p>
+                                <button class="feature-btn" onclick="showFavorites()">View Favorites</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Practice Summary -->
+    <section class="daily-practice">
+        <div class="container">
+            <h3><i class="fas fa-calendar-check"></i> Today's Practice Summary</h3>
+            <div class="practice-summary">
+                <div class="summary-item">
+                    <i class="fas fa-pray"></i>
+                    <span>Prayers Completed: 0/5</span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-book"></i>
+                    <span>Quran Read: 0 minutes</span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-hands"></i>
+                    <span>Duas Recited: 0</span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Dhikr: 0 repetitions</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Islamic Learning Companion</h4>
+                    <p>Your comprehensive guide to Islamic knowledge and practice</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="learn.html">Learn</a></li>
+                        <li><a href="practice.html">Practice</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Practice</h4>
+                    <ul>
+                        <li><a href="prayer-guide.html">Prayer Guide</a></li>
+                        <li><a href="wudu-guide.html">Wudu Guide</a></li>
+                        <li><a href="qibla-finder.html">Qibla Finder</a></li>
+                        <li><a href="daily-duas.html">Daily Duas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="new-muslims.html">New Muslim Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Islamic Learning Companion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="islamic-features.js"></script>
+    <script src="prayer-times.js"></script>
+    <script src="prayer-notifications.js"></script>
+    <script>
+        // Practice page functionality
+        function showCategory(category) {
+            // Hide all sections
+            document.querySelectorAll('.practice-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(category + '-section').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Prayer functions
+        function showPrayerTimes() {
+            const widget = document.getElementById('prayer-times-widget');
+            widget.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function togglePrayerNotifications() {
+            if (window.prayerNotifications) {
+                const settings = window.prayerNotifications.getSettings();
+                if (settings.isEnabled) {
+                    window.prayerNotifications.disableNotifications();
+                    alert('Prayer notifications disabled');
+                } else {
+                    window.prayerNotifications.enableNotifications();
+                    alert('Prayer notifications enabled');
+                }
+            } else {
+                alert('Prayer notifications not available yet');
+            }
+        }
+
+        function showPrayerVideos() {
+            alert('Prayer video guides will be added soon!');
+        }
+
+        // Worship functions
+        function showGhuslGuide() {
+            alert('Ghusl guide will be added soon!');
+        }
+
+        function showFastingGuide() {
+            alert('Fasting guide will be added soon!');
+        }
+
+        function showDhikrGuide() {
+            alert('Dhikr guide will be added soon!');
+        }
+
+        // Qibla functions
+        function showLocationQibla() {
+            window.location.href = 'qibla-finder.html';
+        }
+
+        function showGlobalQibla() {
+            window.location.href = 'qibla-finder.html';
+        }
+
+        function showQiblaHistory() {
+            window.location.href = 'qibla-finder.html';
+        }
+
+        // Calendar functions
+        function showImportantDates() {
+            window.location.href = 'islamic-calendar.html';
+        }
+
+        function showMoonPhases() {
+            window.location.href = 'islamic-calendar.html';
+        }
+
+        function showEventReminders() {
+            alert('Event reminders will be added soon!');
+        }
+
+        // Dua functions
+        function showPrayerDuas() {
+            window.location.href = 'daily-duas.html';
+        }
+
+        function showProtectionDuas() {
+            window.location.href = 'daily-duas.html';
+        }
+
+        function showGeneralDuas() {
+            window.location.href = 'daily-duas.html';
+        }
+
+        // Tools functions
+        function showPrayerTimer() {
+            alert('Prayer timer will be added soon!');
+        }
+
+        function showDhikrCounter() {
+            alert('Dhikr counter will be added soon!');
+        }
+
+        function showPracticeTracker() {
+            alert('Practice tracker will be added soon!');
+        }
+
+        function showFavorites() {
+            alert('Favorites system will be added soon!');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize prayer times widget
+            setTimeout(async () => {
+                if (window.prayerTimesCalculator) {
+                    await window.prayerTimesCalculator.initialize();
+                    window.prayerTimesCalculator.createPrayerWidget('prayer-times-widget');
+                }
+            }, 1500);
+            
+            console.log('Practice page initialized successfully');
+        });
+    </script>
+</body>
+</html>

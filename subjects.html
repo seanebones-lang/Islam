@@ -18,10 +18,10 @@
             </div>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="subjects.html" class="nav-link active">Subjects</a>
                 <a href="what-is-islam.html" class="nav-link">About Islam</a>
-                <a href="community.html" class="nav-link">Community</a>
-                <button class="nav-btn">Get Started</button>
+                <a href="community-board.html" class="nav-link">Community</a>
+                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
             </div>
         </div>
     </nav>
@@ -377,7 +377,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <button class="subject-btn" onclick="window.location.href='community.html'">Start Learning</button>
+                                <button class="subject-btn" onclick="window.location.href='community-board.html'">Start Learning</button>
                             </div>
                             
                             <div class="subject-card">
@@ -649,7 +649,7 @@
                         <div class="path-subjects">
                             <h5>Recommended Subjects:</h5>
                             <ol>
-                                <li><a href="community.html">Community</a></li>
+                                <li><a href="community-board.html">Community</a></li>
                                 <li><a href="faq.html">FAQ about Islam</a></li>
                                 <li><a href="what-is-islam.html">What is Islam?</a></li>
                                 <li><a href="new-muslims.html">New Muslim Guide</a></li>
@@ -719,7 +719,7 @@
                         <li><a href="index.html">Home</a></li>
                         <li><a href="subjects.html">Subjects</a></li>
                         <li><a href="/what-is-islam.html">About Us</a></li>
-                        <li><a href="/community.html">Contact</a></li>
+                        <li><a href="community-board.html">Community</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -810,7 +810,7 @@
                     'quran-reader.html'
                 ],
                 'community': [
-                    'community.html',
+                    'community-board.html',
                     'faq.html',
                     'what-is-islam.html',
                     'new-muslims.html',
@@ -881,7 +881,7 @@
                                     'hadiths.html': 'Hadiths',
                                     'seerah.html': 'Seerah',
                                     'quran-reader.html': 'Quran Reader',
-                                    'community.html': 'Community',
+                                    'community-board.html': 'Community',
                                     'faq.html': 'FAQ about Islam'
                                 };
                                 return `<li style="margin-bottom: 0.5rem;"><a href="${subject}" style="color: var(--gold); text-decoration: none;">${subjectNames[subject]}</a></li>`;
