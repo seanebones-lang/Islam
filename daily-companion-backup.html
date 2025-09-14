@@ -259,6 +259,48 @@
             color: var(--dark-green);
         }
         
+        .dua-collection {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .dua-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .dua-category {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .dua-category:hover {
+            background: var(--highlight-green);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .dua-category h4 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .dua-category p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
         
         .back-to-home {
             position: fixed;
@@ -415,6 +457,56 @@
                     </div>
                 </div>
 
+                <!-- Du'a Collection -->
+                <div class="companion-card">
+                    <i class="fas fa-star card-icon"></i>
+                    <h3 class="card-title">Du'a Collection</h3>
+                    <p class="card-description">Authentic supplications for every occasion in your daily life</p>
+                    <div class="dua-collection">
+                        <div class="dua-categories">
+                            <a href="daily-duas.html#morning" class="dua-category">
+                                <h4>Morning</h4>
+                                <p>Daily morning supplications</p>
+                            </a>
+                            <a href="daily-duas.html#evening" class="dua-category">
+                                <h4>Evening</h4>
+                                <p>Daily evening supplications</p>
+                            </a>
+                            <a href="daily-duas.html#prayer" class="dua-category">
+                                <h4>Prayer</h4>
+                                <p>Supplications during prayer</p>
+                            </a>
+                            <a href="daily-duas.html#travel" class="dua-category">
+                                <h4>Travel</h4>
+                                <p>Supplications for traveling</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wudu Guide -->
+                <div class="companion-card">
+                    <i class="fas fa-tint card-icon"></i>
+                    <h3 class="card-title">Wudu Guide</h3>
+                    <p class="card-description">Step-by-step guide for performing ablution correctly</p>
+                    <a href="wudu-guide.html" class="card-button">Learn Wudu</a>
+                </div>
+
+                <!-- Prayer Guide -->
+                <div class="companion-card">
+                    <i class="fas fa-mosque card-icon"></i>
+                    <h3 class="card-title">Prayer Guide</h3>
+                    <p class="card-description">Complete guide for performing Salah with proper recitations</p>
+                    <a href="prayer-guide.html" class="card-button">Learn Prayer</a>
+                </div>
+
+                <!-- Islamic Calendar -->
+                <div class="companion-card">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">Islamic Calendar</h3>
+                    <p class="card-description">Hijri calendar with important Islamic dates and events</p>
+                    <a href="islamic-calendar.html" class="card-button">View Calendar</a>
+                </div>
 
             </div>
         </div>
@@ -518,6 +610,7 @@
             });
         });
 
+        // Du'a categories now use proper links to daily-duas.html
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
