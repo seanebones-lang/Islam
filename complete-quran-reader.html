@@ -376,6 +376,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/complete-quran-fixed.js"></script>
     <script src="js/complete-quran-all-surahs.js"></script>
     <script src="js/quran-loader.js"></script>
 
@@ -413,7 +414,12 @@
         }
 
         function fallbackToLocalData() {
-            if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
+            // Try fixed data first
+            if (window.completeQuranFixed && Object.keys(window.completeQuranFixed).length > 0) {
+                surahData = window.completeQuranFixed;
+                console.log('✅ Complete Quran data loaded from fixed file:', Object.keys(surahData).length, 'surahs');
+                initializeQuranReader();
+            } else if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
                 surahData = window.completeQuranAllSurahs;
                 console.log('✅ Complete Quran data loaded from local file:', Object.keys(surahData).length, 'surahs');
                 initializeQuranReader();
@@ -491,9 +497,10 @@
 
             // Calculate total pages for this surah
             const totalVerses = surah.verses_data ? surah.verses_data.length : 0;
-            totalPages = Math.ceil(totalVerses / versesPerPage);
+            totalPages = Math.max(1, Math.ceil(totalVerses / versesPerPage));
             
             console.log(`📊 Surah ${surahNumber} (${surah.name}): ${totalVerses} verses, ${totalPages} pages (${versesPerPage} verses per page)`);
+            console.log(`📊 Expected verses: ${surah.verses}, Actual verses: ${totalVerses}`);
             console.log(`📊 First few verses:`, surah.verses_data ? surah.verses_data.slice(0, 3) : 'No verses_data');
             
             // Reset to page 1 when changing surahs
