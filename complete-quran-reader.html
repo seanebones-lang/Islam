@@ -408,24 +408,8 @@
         function initializeWithLocalData() {
             console.log('🔍 Initializing Quran Reader with local data...');
             
-            // Try to load complete Quran from external API first
-            if (typeof loadCompleteQuran === 'function') {
-                console.log('🔄 Loading complete Quran from external API...');
-                loadCompleteQuran().then(() => {
-                    if (window.completeQuranFull && Object.keys(window.completeQuranFull).length > 0) {
-                        surahData = window.completeQuranFull;
-                        console.log('✅ Complete Quran loaded from API:', Object.keys(surahData).length, 'surahs');
-                        initializeQuranReader();
-                    } else {
-                        fallbackToLocalData();
-                    }
-                }).catch(error => {
-                    console.warn('Failed to load from API, using local data:', error);
-                    fallbackToLocalData();
-                });
-            } else {
-                fallbackToLocalData();
-            }
+            // Use local data for now to avoid API errors
+            fallbackToLocalData();
         }
 
         function fallbackToLocalData() {
@@ -510,6 +494,7 @@
             totalPages = Math.ceil(totalVerses / versesPerPage);
             
             console.log(`📊 Surah ${surahNumber} (${surah.name}): ${totalVerses} verses, ${totalPages} pages (${versesPerPage} verses per page)`);
+            console.log(`📊 First few verses:`, surah.verses_data ? surah.verses_data.slice(0, 3) : 'No verses_data');
             
             // Reset to page 1 when changing surahs
             currentPage = 1;
@@ -539,8 +524,11 @@
 
                 for (let i = startVerse; i < endVerse; i++) {
                     const verse = surah.verses_data[i];
-                    if (verse && verse.arabic && verse.arabic.trim() !== '') {
+                    if (verse) {
                         versesHTML += generateVerseHTML(verse, i + 1);
+                    } else {
+                        console.warn(`Missing verse data for verse ${i + 1} in surah ${currentSurah}`);
+                        versesHTML += generateVerseHTML(null, i + 1);
                     }
                 }
                 
@@ -596,13 +584,27 @@
         }
 
         function generateVerseHTML(verse, verseNumber) {
+            // Handle missing or malformed verse data
+            if (!verse) {
+                return `
+                    <div class="verse-block">
+                        <div class="verse-number">${verseNumber}</div>
+                        <div class="verse-content">
+                            <div class="arabic-verse">[Verse data not available]</div>
+                            <div class="transliteration">[Transliteration not available]</div>
+                            <div class="english-translation">[Translation not available]</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
             return `
                 <div class="verse-block">
                     <div class="verse-number">${verseNumber}</div>
                     <div class="verse-content">
-                        <div class="arabic-verse">${verse.arabic}</div>
-                        <div class="transliteration">${verse.transliteration ?? ''}</div>
-                        <div class="english-translation">${verse.translation ?? ''}</div>
+                        <div class="arabic-verse">${verse.arabic || '[Arabic text not available]'}</div>
+                        <div class="transliteration">${verse.transliteration || '[Transliteration not available]'}</div>
+                        <div class="english-translation">${verse.translation || '[Translation not available]'}</div>
                     </div>
                 </div>
             `;
