@@ -377,6 +377,7 @@
 
     <!-- Scripts -->
     <script src="js/complete-quran-all-surahs.js"></script>
+    <script src="js/quran-loader.js"></script>
 
     <!-- Sacred verification script -->
     <script>
@@ -407,9 +408,30 @@
         function initializeWithLocalData() {
             console.log('🔍 Initializing Quran Reader with local data...');
             
+            // Try to load complete Quran from external API first
+            if (typeof loadCompleteQuran === 'function') {
+                console.log('🔄 Loading complete Quran from external API...');
+                loadCompleteQuran().then(() => {
+                    if (window.completeQuranFull && Object.keys(window.completeQuranFull).length > 0) {
+                        surahData = window.completeQuranFull;
+                        console.log('✅ Complete Quran loaded from API:', Object.keys(surahData).length, 'surahs');
+                        initializeQuranReader();
+                    } else {
+                        fallbackToLocalData();
+                    }
+                }).catch(error => {
+                    console.warn('Failed to load from API, using local data:', error);
+                    fallbackToLocalData();
+                });
+            } else {
+                fallbackToLocalData();
+            }
+        }
+
+        function fallbackToLocalData() {
             if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
                 surahData = window.completeQuranAllSurahs;
-                console.log('✅ Complete Quran data loaded:', Object.keys(surahData).length, 'surahs');
+                console.log('✅ Complete Quran data loaded from local file:', Object.keys(surahData).length, 'surahs');
                 initializeQuranReader();
             } else {
                 showError('Quran data not available. Please refresh the page.');
