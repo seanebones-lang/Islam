@@ -12,16 +12,72 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
             <div class="nav-logo">
                 <i class="fas fa-mosque"></i>
                 <span>Islamic Learning Companion</span>
             </div>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="subjects.html" class="nav-link active">Subjects</a>
-                <a href="what-is-islam.html" class="nav-link">About Islam</a>
-                <a href="community-board.html" class="nav-link">Community</a>
-                <button class="nav-btn" onclick="window.location.href='subjects.html'">Get Started</button>
+                <a href="complete-quran-reader.html" class="nav-link">Quran Reader</a>
+                <a href="hadith-search.html" class="nav-link">Hadith Search</a>
+                <a href="daily-companion.html" class="nav-link">Daily Companion</a>
+            </div>
+            <div class="nav-actions">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <h3>Menu</h3>
+                    <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="mobile-menu-links">
+                    <a href="index.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="complete-quran-reader.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-book-quran"></i> Quran Reader
+                    </a>
+                    <a href="hadith-search.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-search"></i> Hadith Search
+                    </a>
+                    <a href="daily-companion.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-star"></i> Daily Companion
+                    </a>
+                    <a href="prayer-guide.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-mosque"></i> Prayer Guide
+                    </a>
+                    <a href="islamic-calendar.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-calendar"></i> Islamic Calendar
+                    </a>
+                    <a href="daily-duas.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-hands"></i> Daily Duas
+                    </a>
+                    <a href="wudu-guide.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-tint"></i> Wudu Guide
+                    </a>
+                    <a href="qibla-finder.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-compass"></i> Qibla Finder
+                    </a>
+                    <a href="sunnah.html" class="mobile-nav-link" onclick="toggleMobileMenu()">
+                        <i class="fas fa-heart"></i> Sunnah Study
+                    </a>
+                    <a href="subjects.html" class="mobile-nav-link active" onclick="toggleMobileMenu()">
+                        <i class="fas fa-graduation-cap"></i> Subjects
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -1191,6 +1247,47 @@
                     card.style.transform = 'translateY(0)';
                 }, index * 100);
             });
+        });
+
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                dropdown.style.display = 'block';
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) &&
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
         });
     </script>
 </body>
