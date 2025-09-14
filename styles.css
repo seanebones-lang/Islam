@@ -245,7 +245,7 @@ body {
     background: linear-gradient(135deg, var(--dark-green) 0%, var(--medium-green) 100%);
     position: relative;
     overflow: hidden;
-    padding-top: 4rem;
+    padding-top: calc(4rem + 2in); /* Move content down by 2 inches from current position */
 }
 
 .hero::before {
