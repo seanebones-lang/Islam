@@ -42,7 +42,16 @@ class SecureConfig {
     loadSecureConfig() {
         // Check for local configuration first
         if (typeof window.LOCAL_CONFIG !== 'undefined') {
+            console.log('✅ Local config found:', window.LOCAL_CONFIG);
             return window.LOCAL_CONFIG;
+        }
+        
+        console.warn('⚠️ LOCAL_CONFIG not found, checking for CONFIG...');
+        
+        // Fallback to old CONFIG system
+        if (typeof window.CONFIG !== 'undefined') {
+            console.log('✅ Fallback config found:', window.CONFIG);
+            return window.CONFIG;
         }
         
         // Check for encrypted configuration in localStorage

@@ -12,6 +12,14 @@ class IslamicRAGSystem {
             topics: [],
             navigation: []
         };
+        
+        // Debug configuration loading
+        console.log('🔍 RAG System Debug:');
+        console.log('- SecureConfig available:', !!this.secureConfig);
+        console.log('- API Key detected:', !!this.groqApiKey);
+        console.log('- API Key length:', this.groqApiKey ? this.groqApiKey.length : 0);
+        console.log('- Endpoint:', this.groqEndpoint);
+        
         this.initialize();
     }
     
@@ -527,5 +535,7 @@ class IslamicRAGSystem {
     }
 }
 
-// Initialize the RAG system
-window.islamicRAG = new IslamicRAGSystem();
+// Initialize the RAG system after a short delay to ensure config is loaded
+setTimeout(() => {
+    window.islamicRAG = new IslamicRAGSystem();
+}, 100);
