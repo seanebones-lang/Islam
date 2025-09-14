@@ -26,6 +26,125 @@
             font-weight: 600;
         }
         
+        .search-container {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.75rem 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .search-icon {
+            color: var(--light-green);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        
+        .clear-search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+        
+        .search-results {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-surah {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .search-result-verse {
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+        
+        .search-result-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            color: var(--light-green);
+            margin-bottom: 0.25rem;
+        }
+        
+        .search-result-translation {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .search-highlight {
+            background: rgba(212, 175, 55, 0.3);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+        
         .surah-navigation {
             display: flex;
             align-items: center;
@@ -283,6 +402,31 @@
                 font-size: 1.4rem;
             }
             
+            .search-container {
+                margin-bottom: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .search-box {
+                padding: 0.5rem 0.75rem;
+            }
+            
+            .search-input {
+                font-size: 0.9rem;
+            }
+            
+            .search-results {
+                max-height: 250px;
+            }
+            
+            .search-result-item {
+                padding: 0.75rem;
+            }
+            
+            .search-result-arabic {
+                font-size: 1.1rem;
+            }
+            
             .surah-navigation {
                 flex-direction: column;
                 align-items: stretch;
@@ -335,6 +479,20 @@
                     Complete Holy Quran
                 </h1>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;">All 114 Surahs with Arabic text, transliteration, and translation</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="quranSearch" placeholder="Search surah, verse, or any text..." class="search-input">
+                    <button id="clearSearch" class="clear-search-btn" onclick="clearSearch()" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults" style="display: none;">
+                    <!-- Search results will be populated here -->
+                </div>
             </div>
             
             <!-- Surah Navigation -->
@@ -400,6 +558,190 @@
         let versesPerPage = 10; // Number of verses to show per page
         let surahData = {};
         let totalPages = 1; // Will be calculated based on current surah
+        let searchResults = [];
+        let allQuranData = {}; // Store complete Quran data for search
+
+        // Search functionality
+        function initializeSearch() {
+            const searchInput = document.getElementById('quranSearch');
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length >= 2) {
+                    performSearch(query);
+                } else {
+                    hideSearchResults();
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.trim();
+                    if (query.length >= 2) {
+                        performSearch(query);
+                    }
+                }
+            });
+        }
+        
+        function performSearch(query) {
+            console.log('🔍 Performing search for:', query);
+            console.log('📊 AllQuranData available:', allQuranData ? Object.keys(allQuranData).length : 'undefined');
+            console.log('📊 SurahData available:', surahData ? Object.keys(surahData).length : 'undefined');
+            
+            // Use surahData if allQuranData is not available
+            const searchData = allQuranData && Object.keys(allQuranData).length > 0 ? allQuranData : surahData;
+            
+            if (!searchData || Object.keys(searchData).length === 0) {
+                console.log('❌ No Quran data available for search');
+                displaySearchResults([{
+                    type: 'loading',
+                    message: 'Loading Quran data... Please wait a moment and try again.'
+                }]);
+                return;
+            }
+            
+            const results = [];
+            const searchQuery = query.toLowerCase();
+            console.log('🔍 Searching in', Object.keys(searchData).length, 'surahs');
+            
+            // Search through all surahs
+            Object.keys(searchData).forEach(surahNumber => {
+                const surah = searchData[surahNumber];
+                if (!surah) return;
+                
+                const surahName = surah.name || surah.english || `Surah ${surahNumber}`;
+                
+                // Search in surah name
+                if (surahName.toLowerCase().includes(searchQuery)) {
+                    results.push({
+                        type: 'surah',
+                        surahNumber: parseInt(surahNumber),
+                        surahName: surahName,
+                        match: surahName
+                    });
+                }
+                
+                // Search in verses - check different possible data structures
+                const verses = surah.verses || surah.verses_data || [];
+                if (verses && verses.length > 0) {
+                    verses.forEach((verse, index) => {
+                        const verseNumber = index + 1;
+                        const arabicText = verse.arabic || verse.text || '';
+                        const translation = verse.translation || verse.english || '';
+                        const transliteration = verse.transliteration || '';
+                        
+                        // Check if query matches any part of the verse
+                        if (arabicText.toLowerCase().includes(searchQuery) ||
+                            translation.toLowerCase().includes(searchQuery) ||
+                            transliteration.toLowerCase().includes(searchQuery)) {
+                            
+                            results.push({
+                                type: 'verse',
+                                surahNumber: parseInt(surahNumber),
+                                surahName: surahName,
+                                verseNumber: verseNumber,
+                                arabic: arabicText,
+                                translation: translation,
+                                transliteration: transliteration,
+                                match: searchQuery
+                            });
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ Found', results.length, 'search results');
+            displaySearchResults(results.slice(0, 20)); // Limit to 20 results
+        }
+        
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+            } else if (results[0] && results[0].type === 'loading') {
+                searchResults.innerHTML = `<div class="search-result-item">${results[0].message}</div>`;
+            } else {
+                searchResults.innerHTML = results.map(result => {
+                    if (result.type === 'surah') {
+                        return `
+                            <div class="search-result-item" onclick="goToSurah(${result.surahNumber})">
+                                <div class="search-result-surah">${highlightText(result.surahName, result.match)}</div>
+                                <div class="search-result-translation">Click to view surah</div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="search-result-item" onclick="goToVerse(${result.surahNumber}, ${result.verseNumber})">
+                                <div class="search-result-surah">${result.surahName} - Verse ${result.verseNumber}</div>
+                                <div class="search-result-arabic">${highlightText(result.arabic, result.match)}</div>
+                                <div class="search-result-translation">${highlightText(result.translation, result.match)}</div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            }
+            
+            searchResults.style.display = 'block';
+            clearBtn.style.display = 'block';
+        }
+        
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+        
+        function hideSearchResults() {
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            searchResults.style.display = 'none';
+            clearBtn.style.display = 'none';
+        }
+        
+        function clearSearch() {
+            const searchInput = document.getElementById('quranSearch');
+            searchInput.value = '';
+            hideSearchResults();
+        }
+        
+        function goToSurah(surahNumber) {
+            currentSurah = surahNumber;
+            currentPage = 1;
+            loadSurah(surahNumber);
+            hideSearchResults();
+            document.getElementById('quranSearch').value = '';
+        }
+        
+        function goToVerse(surahNumber, verseNumber) {
+            currentSurah = surahNumber;
+            // Calculate which page the verse is on
+            const surah = allQuranData[surahNumber];
+            if (surah && surah.verses) {
+                currentPage = Math.ceil(verseNumber / versesPerPage);
+            } else {
+                currentPage = 1;
+            }
+            loadSurah(surahNumber);
+            hideSearchResults();
+            document.getElementById('quranSearch').value = '';
+            
+            // Scroll to the specific verse after a short delay
+            setTimeout(() => {
+                const verseElement = document.querySelector(`[data-verse="${verseNumber}"]`);
+                if (verseElement) {
+                    verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    verseElement.style.background = 'rgba(212, 175, 55, 0.2)';
+                    setTimeout(() => {
+                        verseElement.style.background = '';
+                    }, 3000);
+                }
+            }, 500);
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize immediately with local data
@@ -455,9 +797,13 @@
                     }
                     
                     surahData = quranData;
+                    allQuranData = quranData; // Store for search functionality
                     console.log('✅ Complete Quran loaded from API:', Object.keys(surahData).length, 'surahs');
                     console.log('✅ Al-Baqarah has', surahData[2].verses_data.length, 'verses');
+                    console.log('🔍 Search data ready:', Object.keys(allQuranData).length, 'surahs available for search');
+                    console.log('📖 Sample surah data structure:', surahData[1]);
                     initializeQuranReader();
+                    initializeSearch(); // Initialize search functionality
                     
                 } else {
                     throw new Error('API returned error');
@@ -499,12 +845,16 @@
             // Try fixed data first
             if (window.completeQuranFixed && Object.keys(window.completeQuranFixed).length > 0) {
                 surahData = window.completeQuranFixed;
+                allQuranData = window.completeQuranFixed; // Store for search functionality
                 console.log('✅ Complete Quran data loaded from fixed file:', Object.keys(surahData).length, 'surahs');
                 initializeQuranReader();
+                initializeSearch(); // Initialize search functionality
             } else if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
                 surahData = window.completeQuranAllSurahs;
+                allQuranData = window.completeQuranAllSurahs; // Store for search functionality
                 console.log('✅ Complete Quran data loaded from local file:', Object.keys(surahData).length, 'surahs');
                 initializeQuranReader();
+                initializeSearch(); // Initialize search functionality
             } else {
                 showError('Quran data not available. Please refresh the page.');
             }
@@ -676,7 +1026,7 @@
             // Handle missing or malformed verse data
             if (!verse) {
                 return `
-                    <div class="verse-block">
+                    <div class="verse-block" data-verse="${verseNumber}">
                         <div class="verse-number">${verseNumber}</div>
                         <div class="verse-content">
                             <div class="arabic-verse">[Verse data not available]</div>
@@ -688,7 +1038,7 @@
             }
             
             return `
-                <div class="verse-block">
+                <div class="verse-block" data-verse="${verseNumber}">
                     <div class="verse-number">${verseNumber}</div>
                     <div class="verse-content">
                         <div class="arabic-verse">${verse.arabic || '[Arabic text not available]'}</div>
