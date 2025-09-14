@@ -1,8 +1,10 @@
 // DeenBot - Islamic RAG System
 class IslamicRAGSystem {
     constructor() {
-        this.groqApiKey = (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_API_KEY) || null;
-        this.groqEndpoint = (typeof window.CONFIG !== "undefined" && window.CONFIG.GROQ_ENDPOINT) || "https://api.groq.com/openai/v1/chat/completions";
+        // Use secure configuration system
+        this.secureConfig = window.SecureConfig || null;
+        this.groqApiKey = this.secureConfig ? this.secureConfig.getApiKey() : null;
+        this.groqEndpoint = this.secureConfig ? this.secureConfig.get('GROQ_ENDPOINT') : "https://api.groq.com/openai/v1/chat/completions";
         this.isInitialized = false;
         this.knowledgeBase = {
             quran: [],
