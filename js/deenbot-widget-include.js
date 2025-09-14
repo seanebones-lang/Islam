@@ -29,6 +29,7 @@
     
     // Also load required dependencies if not already present
     const dependencies = [
+        'js/config.js',
         'js/complete-quran-data.js',
         'hadiths.js', 
         'js/comprehensive-islamic-knowledge.js',
