@@ -40,6 +40,7 @@
                 <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
                 <div class="mobile-menu-divider"></div>
                 <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
+                <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
                 <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
             </div>
         </div>
@@ -223,6 +224,97 @@
         </div>
     </div>
 
+    <!-- Donation Breakdown Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>Where Your Donation Goes</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-breakdown">
+                    <div class="transparency-intro">
+                        <p><strong>Your support is not just a donation; it's an investment in the infrastructure of authentic Islamic knowledge for the digital age.</strong></p>
+                        <p>Here is a precise breakdown of how your contributions are allocated:</p>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>1. Server Hosting & Infrastructure (The Digital Foundation)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Current Basic Server:</div>
+                            <div class="cost-amount">$48/month</div>
+                            <div class="cost-description">This hosts the current beta version of the application.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Near-Future Scaling:</div>
+                            <div class="cost-amount">$120-$200/month</div>
+                            <div class="cost-description">As we add the Qur'an, Hadith libraries, and user accounts, we will immediately need a more powerful VPS (Virtual Private Server).</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">DeenBot AI Server:</div>
+                            <div class="cost-amount">$300-$500/month</div>
+                            <div class="cost-description">To run the complex AI models that power DeenBot, a dedicated, high-performance server is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>2. Development Tools & Software (The Builder's Toolkit)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Essential Software & APIs:</div>
+                            <div class="cost-amount">$60-$100/day</div>
+                            <div class="cost-description">Licenses for essential programming software, code libraries, AI APIs, and security tools are critical for professional development. This investment ensures the platform is built on a secure, stable, and modern foundation.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>3. Development Time (A Full-Time Commitment)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Full-Time Development:</div>
+                            <div class="cost-amount">14-16 hours/day</div>
+                            <div class="cost-description">I have left my job to dedicate myself completely to this project. Your support helps cover the essential living costs that allow me to continue this work full-time without having to abandon the project for other work. This ensures development continues uninterrupted.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>4. Future Critical Expenses (Preparing for Growth)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Mobile Apps:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Costs for developer accounts (Apple App Store & Google Play Store) and build tools.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Security & Backup:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Advanced security certificates, daily backups, and protection from cyber threats to keep user data and Islamic content safe.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Content Licensing:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Fees associated with formally licensing certain authoritative translations and scholarly texts to ensure we distribute them legally and ethically.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Quality Assurance:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">In the future, funds may be used to bring on a part-time tester to help find bugs faster, ensuring a higher quality product for the Ummah.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transparency-pledge">
+                        <h4>Our Pledge: 100% Transparency</h4>
+                        <p><strong>100% of your donation</strong>, after Square's standard payment processing fee (2.9% + $0.30 per transaction), is dedicated solely to the above expenses. We are committed to no ads, no subscriptions, and no hidden costs.</p>
+                        <p>Your donation, large or small, directly powers this mission. You are not just keeping a server online; you are enabling a developer to focus entirely on building a legacy for the Ummah.</p>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h4>Support the Development:</h4>
+                        <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here: https://square.link/u/txN8sC1d</a>
+                        <p class="prayer-request">May Allah reward you immensely for your support and trust. Please remember this project in your prayers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Translation System -->
     <script src="js/language-config.js"></script>
     <script src="js/translation-manager.js"></script>
@@ -279,6 +371,19 @@
         function closeDeveloperModal() {
             const developerModal = document.getElementById('developerModal');
             developerModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Donation Modal Functions
+        function showDonationBreakdown() {
+            const donationModal = document.getElementById('donationModal');
+            donationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            donationModal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
@@ -400,11 +505,15 @@
         window.onclick = function(event) {
             const contactModal = document.getElementById('contactModal');
             const developerModal = document.getElementById('developerModal');
+            const donationModal = document.getElementById('donationModal');
             if (event.target === contactModal) {
                 closeContactSheet();
             }
             if (event.target === developerModal) {
                 closeDeveloperModal();
+            }
+            if (event.target === donationModal) {
+                closeDonationModal();
             }
         }
 
@@ -414,6 +523,8 @@
         window.showContactSheet = showContactSheet;
         window.closeContactSheet = closeContactSheet;
         window.closeDeveloperModal = closeDeveloperModal;
+        window.showDonationBreakdown = showDonationBreakdown;
+        window.closeDonationModal = closeDonationModal;
         window.togglePanel = togglePanel;
         window.copyEmail = copyEmail;
     </script>

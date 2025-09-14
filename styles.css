@@ -9805,6 +9805,17 @@ body {
     color: var(--light-green) !important;
 }
 
+.donation-info {
+    color: var(--gold) !important;
+    transition: all 0.3s ease;
+}
+
+.donation-info:hover {
+    background: rgba(255, 215, 0, 0.1) !important;
+    color: var(--gold-light) !important;
+    transform: translateX(5px);
+}
+
 /* Contact Modal Styles */
 .contact-modal {
     display: none;
@@ -10391,6 +10402,239 @@ body {
     
     .developer-info ul {
         margin-left: 1rem;
+    }
+}
+
+/* Donation Modal Styles */
+.donation-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.donation-modal-content {
+    background: var(--dark-green);
+    border-radius: 20px;
+    padding: 0;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.donation-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.donation-modal-header h3 {
+    color: var(--gold);
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.donation-modal-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.donation-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.donation-modal-body {
+    padding: 2rem;
+}
+
+.donation-breakdown {
+    color: var(--white);
+    line-height: 1.7;
+}
+
+.transparency-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transparency-intro p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.cost-category {
+    margin: 2rem 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cost-category h4 {
+    color: var(--gold);
+    margin: 0 0 1.5rem 0;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 0.5rem;
+}
+
+.cost-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid var(--light-green);
+}
+
+.cost-label {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.cost-amount {
+    color: var(--highlight-green);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    background: rgba(34, 197, 94, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    display: inline-block;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.cost-description {
+    color: var(--white);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.transparency-pledge {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--gold);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.transparency-pledge h4 {
+    color: var(--gold);
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+}
+
+.transparency-pledge p {
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+.support-section {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.support-section h4 {
+    color: var(--gold);
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.donation-link {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 25px;
+    border: 1px solid var(--gold);
+}
+
+.donation-link:hover {
+    color: var(--gold-light);
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.prayer-request {
+    color: var(--light-green);
+    font-style: italic;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Mobile Responsive for Donation Modal */
+@media (max-width: 768px) {
+    .donation-modal-content {
+        width: 95%;
+        margin: 1rem;
+        max-height: 95vh;
+    }
+    
+    .donation-modal-header,
+    .donation-modal-body {
+        padding: 1.5rem;
+    }
+    
+    .cost-item {
+        padding: 0.8rem;
+    }
+    
+    .cost-label {
+        font-size: 0.95rem;
+    }
+    
+    .cost-amount {
+        font-size: 1rem;
+    }
+    
+    .cost-description {
+        font-size: 0.9rem;
+    }
+    
+    .transparency-pledge,
+    .support-section {
+        padding: 1.5rem;
     }
 }
 
