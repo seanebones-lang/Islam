@@ -105,6 +105,9 @@
                 <button class="tab-btn" onclick="showCategory('general')">
                     <i class="fas fa-hands-praying"></i> General
                 </button>
+                <button class="tab-btn" onclick="showCategory('travel')">
+                    <i class="fas fa-plane"></i> Travel
+                </button>
                 <button class="tab-btn" onclick="showCategory('protection')">
                     <i class="fas fa-shield-alt"></i> Protection
                 </button>
@@ -112,6 +115,7 @@
 
             <!-- Morning Duas -->
             <div class="dua-category" id="morning-duas">
+                <a id="morning"></a>
                 <h3 class="category-title">
                     <i class="fas fa-sun"></i> Morning Duas
                 </h3>
@@ -218,6 +222,7 @@
 
             <!-- Evening Duas -->
             <div class="dua-category" id="evening-duas" style="display: none;">
+                <a id="evening"></a>
                 <h3 class="category-title">
                     <i class="fas fa-moon"></i> Evening Duas
                 </h3>
@@ -324,6 +329,7 @@
 
             <!-- Prayer Duas -->
             <div class="dua-category" id="prayer-duas" style="display: none;">
+                <a id="prayer"></a>
                 <h3 class="category-title">
                     <i class="fas fa-praying-hands"></i> Prayer Duas
                 </h3>
@@ -440,6 +446,113 @@
                             "My Lord, forgive me, have mercy on me, guide me, and provide for me."
                         </div>
                         <div class="reference">Tirmidhi</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel Duas -->
+            <div class="dua-category" id="travel-duas" style="display: none;">
+                <a id="travel"></a>
+                <h3 class="category-title">
+                    <i class="fas fa-plane"></i> Travel Duas
+                </h3>
+                <p class="category-description">Duas for safe travels and journeys</p>
+                
+                <div class="duas-grid">
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua Before Traveling</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ"
+                        </div>
+                        <div class="translation">
+                            "Glory to Him who has subjected this to us, and we could not have done it ourselves."
+                        </div>
+                        <div class="reference">Quran 43:13</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Safe Return</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ"
+                        </div>
+                        <div class="translation">
+                            "We return, repentant, worshipping, and praising our Lord."
+                        </div>
+                        <div class="reference">Muslim</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua for Protection During Travel</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ وَكَآبَةِ الْمَنْظَرِ"
+                        </div>
+                        <div class="translation">
+                            "O Allah, I seek refuge in You from the hardships of travel and the grief of return."
+                        </div>
+                        <div class="reference">Muslim</div>
+                        <div class="dua-actions">
+                            <button class="action-btn" onclick="playAudio(this)">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn" onclick="copyDua(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dua-card">
+                        <div class="dua-header">
+                            <h4>Dua When Entering a Vehicle</h4>
+                            <button class="favorite-btn" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text">
+                            "بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَّحِيمٌ"
+                        </div>
+                        <div class="translation">
+                            "In the name of Allah is its course and its mooring. Indeed, my Lord is Forgiving and Merciful."
+                        </div>
+                        <div class="reference">Quran 11:41</div>
                         <div class="dua-actions">
                             <button class="action-btn" onclick="playAudio(this)">
                                 <i class="fas fa-play"></i>
@@ -1102,6 +1215,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set random daily quote
             getNewQuote();
+            
+            // Handle URL hash navigation
+            const hash = window.location.hash.substring(1);
+            if (hash && ['morning', 'evening', 'prayer', 'travel', 'general', 'protection'].includes(hash)) {
+                showCategory(hash);
+            }
             
             // Add animation to cards
             const cards = document.querySelectorAll('.dua-card, .verse-card');

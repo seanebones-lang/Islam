@@ -271,10 +271,46 @@
     </style>
 </head>
 <body>
-    <!-- Back to Home Button -->
-    <a href="index.html" class="back-to-home">
-        <i class="fas fa-home"></i> Back to Home
-    </a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="complete-quran-reader.html" class="nav-link">Quran Reader</a>
+                <a href="hadith-search.html" class="nav-link active">Hadith Search</a>
+                <a href="daily-companion.html" class="nav-link">Daily Companion</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                        <a href="hadith-search.html" class="mobile-nav-link active">Hadith Search</a>
+                        <a href="daily-companion.html" class="mobile-nav-link">Daily Companion</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
+                <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hadith Search Section -->
     <section class="hadith-search-page">
@@ -375,6 +411,55 @@
         
         // Override the original display function
         window.displayHadithSearchResults = displayHadithSearchResults;
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            chevron.classList.toggle('active');
+        }
+
+        // Contact and Info Functions
+        function showContactSheet() {
+            const contactSheet = document.getElementById('contactSheet');
+            if (contactSheet) {
+                contactSheet.style.display = 'flex';
+            }
+        }
+
+        function showDonationBreakdown() {
+            const donationSheet = document.getElementById('donationSheet');
+            if (donationSheet) {
+                donationSheet.style.display = 'flex';
+            }
+        }
+
+        function showDeveloperInfo() {
+            const developerSheet = document.getElementById('developerSheet');
+            if (developerSheet) {
+                developerSheet.style.display = 'flex';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
