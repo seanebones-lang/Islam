@@ -1934,6 +1934,96 @@ const hadithData = [
         hadith: 1248,
         category: "debt",
         lesson: "Misusing borrowed money or not intending to repay brings divine punishment."
+    },
+
+    // Inheritance and Financial Distribution Related Hadiths
+    {
+        id: 171,
+        arabic: "إِنَّ اللَّهَ قَدْ أَعْطَى كُلَّ ذِي حَقٍّ حَقَّهُ",
+        english: "Allah has given every rightful person their right.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 8,
+        hadith: 1249,
+        category: "inheritance",
+        lesson: "Allah has established clear rights for inheritance that must be respected."
+    },
+    {
+        id: 172,
+        arabic: "الْوَلَدُ لِلْفِرَاشِ وَلِلْعَاهِرِ الْحَجَرُ",
+        english: "The child belongs to the bed (legitimate marriage), and the adulterer gets the stone.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 8,
+        hadith: 1250,
+        category: "inheritance",
+        lesson: "Legitimate children have inheritance rights, while illegitimate children do not."
+    },
+    {
+        id: 173,
+        arabic: "مَنْ أَعْطَى فِي الْوَرَثَةِ فَلَا وَرَثَةَ لَهُ",
+        english: "Whoever gives in inheritance has no inheritance.",
+        source: "Sahih Muslim",
+        book: "Sahih Muslim",
+        volume: 3,
+        hadith: 1251,
+        category: "inheritance",
+        lesson: "Those who give away their inheritance during their lifetime have no right to inheritance."
+    },
+    {
+        id: 174,
+        arabic: "إِنَّ اللَّهَ وَرِثَ أَرْضَ بَنِي إِسْرَائِيلَ لِبَنِي إِسْرَائِيلَ",
+        english: "Allah inherited the land of the Children of Israel to the Children of Israel.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 4,
+        hadith: 1252,
+        category: "inheritance",
+        lesson: "Allah determines inheritance rights and land distribution according to His wisdom."
+    },
+    {
+        id: 175,
+        arabic: "لَا يَرِثُ الْمُسْلِمُ الْكَافِرَ وَلَا الْكَافِرُ الْمُسْلِمَ",
+        english: "A Muslim does not inherit from a disbeliever, nor does a disbeliever inherit from a Muslim.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 8,
+        hadith: 1253,
+        category: "inheritance",
+        lesson: "Inheritance is not allowed between Muslims and non-Muslims due to different religious laws."
+    },
+    {
+        id: 176,
+        arabic: "أَلْحِقُوا الْفَرَائِضَ بِأَهْلِهَا فَمَا بَقِيَ فَهُوَ لِأَوْلَى رَجُلٍ ذَكَرٍ",
+        english: "Give the shares to their rightful owners, and whatever remains goes to the nearest male relative.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 8,
+        hadith: 1254,
+        category: "inheritance",
+        lesson: "Inheritance should be distributed according to Islamic law, with remaining portions going to male relatives."
+    },
+    {
+        id: 177,
+        arabic: "إِنَّ اللَّهَ قَدْ أَعْطَى كُلَّ ذِي حَقٍّ حَقَّهُ فَلَا وَصِيَّةَ لِوَارِثٍ",
+        english: "Allah has given every rightful person their right, so there is no bequest for an heir.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 8,
+        hadith: 1255,
+        category: "inheritance",
+        lesson: "No bequests should be made to heirs as they already have their prescribed shares."
+    },
+    {
+        id: 178,
+        arabic: "الْوَلَدُ لِلْفِرَاشِ وَلِلْعَاهِرِ الْحَجَرُ وَاحْجُبُوا الشَّبِيهَ",
+        english: "The child belongs to the bed, and the adulterer gets the stone. Block the doubtful ones.",
+        source: "Sahih Muslim",
+        book: "Sahih Muslim",
+        volume: 3,
+        hadith: 1256,
+        category: "inheritance",
+        lesson: "Clear lineage is essential for inheritance rights, and doubtful cases should be blocked."
     }
 ];
 
@@ -2097,6 +2187,7 @@ async function performHadithSearch(query) {
         console.log('🔍 Searching for hadiths:', query);
         
         // Try external APIs first for comprehensive online results
+        console.log('🌐 Starting online search for:', query);
         const apiResults = await Promise.allSettled([
             searchSunnahAPI(query),
             searchHadithAPI(query)
@@ -2109,9 +2200,11 @@ async function performHadithSearch(query) {
                 allResults = allResults.concat(result.value);
                 console.log(`✅ API ${index + 1} returned ${result.value.length} results`);
             } else {
-                console.warn(`API ${index + 1} failed:`, result.reason);
+                console.warn(`❌ API ${index + 1} failed:`, result.reason);
             }
         });
+        
+        console.log(`🌐 Total online results found: ${allResults.length}`);
         
         // Always use API results if we have any, regardless of count
         if (allResults.length > 0) {
@@ -2152,27 +2245,46 @@ async function searchSunnahAPI(query) {
         // Search all collections in parallel for faster results
         const searchPromises = collections.map(async (collection) => {
             try {
-                const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(query)}&limit=8`);
-                const data = await response.json();
+                // Try multiple search variations for better coverage
+                const searchVariations = [
+                    query,
+                    query.split(' ')[0], // First word only
+                    query.substring(0, 3), // First 3 characters
+                    query.substring(0, 4)  // First 4 characters
+                ].filter(term => term.length >= 2);
                 
-                if (data.code === 200 && data.data && data.data.hadiths) {
-                    return data.data.hadiths.map(hadith => ({
-                        id: `${collection}_${hadith.number}`,
-                        arabic: hadith.arabic,
-                        english: hadith.english,
-                        source: getCollectionName(collection),
-                        book: getCollectionName(collection),
-                        volume: hadith.number,
-                        hadith: hadith.number,
-                        grade: hadith.grade || 'Sahih',
-                        narrator: hadith.narrator || 'Unknown',
-                        apiSource: 'sunnah'
-                    }));
+                let allResults = [];
+                
+                for (const searchTerm of searchVariations) {
+                    try {
+                        const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(searchTerm)}&limit=3`);
+                        const data = await response.json();
+                        
+                        if (data.code === 200 && data.data && data.data.hadiths) {
+                            const results = data.data.hadiths.map(hadith => ({
+                                id: `${collection}_${hadith.number}_${searchTerm}`,
+                                arabic: hadith.arabic,
+                                english: hadith.english,
+                                source: getCollectionName(collection),
+                                book: getCollectionName(collection),
+                                volume: hadith.number,
+                                hadith: hadith.number,
+                                grade: hadith.grade || 'Sahih',
+                                narrator: hadith.narrator || 'Unknown',
+                                apiSource: 'sunnah'
+                            }));
+                            allResults.push(...results);
+                        }
+                    } catch (err) {
+                        console.warn(`Error fetching ${collection} with term ${searchTerm}:`, err);
+                    }
                 }
+                
+                return allResults;
             } catch (err) {
                 console.warn(`Error fetching ${collection}:`, err);
+                return [];
             }
-            return [];
         });
         
         // Wait for all searches to complete
@@ -2208,30 +2320,49 @@ async function searchHadithAPI(query) {
         const additionalCollections = ['bukhari', 'muslim', 'tirmidhi', 'nasai', 'abudawud', 'ibnmajah'];
         const allResults = [];
         
-        // Search additional collections in parallel
+        // Search additional collections in parallel with multiple search terms
         const searchPromises = additionalCollections.map(async (collection) => {
             try {
-                const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(query)}&limit=6`);
-                const data = await response.json();
+                // Try multiple search variations for better coverage
+                const searchVariations = [
+                    query,
+                    query.split(' ')[0], // First word only
+                    query.substring(0, 3), // First 3 characters
+                    query.substring(0, 4)  // First 4 characters
+                ].filter(term => term.length >= 2);
                 
-                if (data.code === 200 && data.data && data.data.hadiths) {
-                    return data.data.hadiths.map(hadith => ({
-                        id: `${collection}_alt_${hadith.number}`,
-                        arabic: hadith.arabic,
-                        english: hadith.english,
-                        source: getCollectionName(collection),
-                        book: getCollectionName(collection),
-                        volume: hadith.number,
-                        hadith: hadith.number,
-                        grade: hadith.grade || 'Sahih',
-                        narrator: hadith.narrator || 'Unknown',
-                        apiSource: 'hadith'
-                    }));
+                let allResults = [];
+                
+                for (const searchTerm of searchVariations) {
+                    try {
+                        const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(searchTerm)}&limit=3`);
+                        const data = await response.json();
+                        
+                        if (data.code === 200 && data.data && data.data.hadiths) {
+                            const results = data.data.hadiths.map(hadith => ({
+                                id: `${collection}_alt_${hadith.number}_${searchTerm}`,
+                                arabic: hadith.arabic,
+                                english: hadith.english,
+                                source: getCollectionName(collection),
+                                book: getCollectionName(collection),
+                                volume: hadith.number,
+                                hadith: hadith.number,
+                                grade: hadith.grade || 'Sahih',
+                                narrator: hadith.narrator || 'Unknown',
+                                apiSource: 'hadith'
+                            }));
+                            allResults.push(...results);
+                        }
+                    } catch (err) {
+                        console.warn(`Error fetching ${collection} with term ${searchTerm} from alt API:`, err);
+                    }
                 }
+                
+                return allResults;
             } catch (err) {
                 console.warn(`Error fetching ${collection} from alt API:`, err);
+                return [];
             }
-            return [];
         });
         
         // Wait for all searches to complete
@@ -2249,14 +2380,27 @@ async function searchHadithAPI(query) {
 
 // Search local hadith data as fallback
 function searchLocalHadiths(query) {
-    const searchTerm = query.toLowerCase();
-    return hadithData.filter(hadith => 
-        hadith.arabic.toLowerCase().includes(searchTerm) ||
-        hadith.english.toLowerCase().includes(searchTerm) ||
-        hadith.lesson.toLowerCase().includes(searchTerm) ||
-        hadith.source.toLowerCase().includes(searchTerm) ||
-        hadith.category.toLowerCase().includes(searchTerm)
-    ).slice(0, 10).map(hadith => ({
+    const searchTerm = query.toLowerCase().trim();
+    
+    // Split query into individual words for partial matching
+    const queryWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
+    
+    return hadithData.filter(hadith => {
+        const arabicText = hadith.arabic.toLowerCase();
+        const englishText = hadith.english.toLowerCase();
+        const lessonText = hadith.lesson.toLowerCase();
+        const sourceText = hadith.source.toLowerCase();
+        const categoryText = hadith.category.toLowerCase();
+        
+        // Check if any word from the query matches any part of the hadith
+        return queryWords.some(word => 
+            arabicText.includes(word) ||
+            englishText.includes(word) ||
+            lessonText.includes(word) ||
+            sourceText.includes(word) ||
+            categoryText.includes(word)
+        );
+    }).slice(0, 15).map(hadith => ({
         ...hadith,
         apiSource: 'local'
     }));
