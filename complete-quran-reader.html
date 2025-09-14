@@ -407,10 +407,92 @@
         });
 
         function initializeWithLocalData() {
-            console.log('🔍 Initializing Quran Reader with local data...');
+            console.log('🔍 Initializing Quran Reader with complete data...');
             
-            // Use local data for now to avoid API errors
-            fallbackToLocalData();
+            // Load complete Quran from reliable API
+            loadCompleteQuranFromAPI();
+        }
+
+        async function loadCompleteQuranFromAPI() {
+            try {
+                console.log('🔄 Loading complete Quran from AlQuran Cloud API...');
+                
+                // Load Arabic text
+                const arabicResponse = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+                const arabicData = await arabicResponse.json();
+                
+                // Load English translation
+                const englishResponse = await fetch('https://api.alquran.cloud/v1/quran/en.asad');
+                const englishData = await englishResponse.json();
+                
+                if (arabicData.code === 200 && englishData.code === 200) {
+                    const quranData = {};
+                    
+                    // Process all 114 surahs
+                    for (let i = 0; i < 114; i++) {
+                        const surahNum = i + 1;
+                        const arabicSurah = arabicData.data.surahs[i];
+                        const englishSurah = englishData.data.surahs[i];
+                        
+                        quranData[surahNum] = {
+                            name: arabicSurah.englishName,
+                            english: arabicSurah.englishNameTranslation,
+                            arabic: arabicSurah.name,
+                            type: arabicSurah.revelationType === 'Meccan' ? 'Meccan' : 'Medinan',
+                            verses: arabicSurah.numberOfAyahs,
+                            juz: getJuzForSurah(surahNum),
+                            verses_data: []
+                        };
+                        
+                        // Process verses
+                        for (let j = 0; j < arabicSurah.ayahs.length; j++) {
+                            quranData[surahNum].verses_data.push({
+                                arabic: arabicSurah.ayahs[j].text,
+                                transliteration: '', // Not available from this API
+                                translation: englishSurah.ayahs[j].text
+                            });
+                        }
+                    }
+                    
+                    surahData = quranData;
+                    console.log('✅ Complete Quran loaded from API:', Object.keys(surahData).length, 'surahs');
+                    console.log('✅ Al-Baqarah has', surahData[2].verses_data.length, 'verses');
+                    initializeQuranReader();
+                    
+                } else {
+                    throw new Error('API returned error');
+                }
+                
+            } catch (error) {
+                console.warn('Failed to load from API, using local data:', error);
+                fallbackToLocalData();
+            }
+        }
+
+        function getJuzForSurah(surahNum) {
+            // Simplified Juz mapping
+            if (surahNum <= 2) return [1, 2, 3];
+            if (surahNum <= 5) return [4, 5, 6];
+            if (surahNum <= 7) return [7, 8, 9];
+            if (surahNum <= 9) return [10, 11];
+            if (surahNum <= 11) return [11, 12];
+            if (surahNum <= 14) return [13, 14];
+            if (surahNum <= 16) return [15, 16];
+            if (surahNum <= 18) return [16, 17];
+            if (surahNum <= 20) return [17, 18];
+            if (surahNum <= 22) return [18, 19];
+            if (surahNum <= 25) return [19, 20];
+            if (surahNum <= 27) return [20, 21];
+            if (surahNum <= 29) return [21, 22];
+            if (surahNum <= 33) return [22, 23];
+            if (surahNum <= 36) return [23, 24];
+            if (surahNum <= 39) return [24, 25];
+            if (surahNum <= 41) return [25, 26];
+            if (surahNum <= 45) return [26, 27];
+            if (surahNum <= 48) return [27, 28];
+            if (surahNum <= 51) return [28, 29];
+            if (surahNum <= 55) return [29, 30];
+            return 30;
         }
 
         function fallbackToLocalData() {
