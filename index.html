@@ -38,6 +38,8 @@
             <div class="mobile-menu-content">
                 <a href="index.html" class="mobile-nav-link active">Home</a>
                 <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Info from the Developer</a>
             </div>
         </div>
     </nav>
@@ -54,25 +56,12 @@
                     </div>
                 </div>
                 <div class="hero-buttons">
-                    <button class="btn-primary" onclick="window.location.href='complete-quran-reader.html'" data-i18n="home.startLearning">Read the Quran</button>
+                    <button class="btn-primary square-btn" onclick="window.location.href='complete-quran-reader.html'" data-i18n="home.startLearning">
+                        <span class="quran-text">Holy Quran</span>
+                    </button>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="islamic-pattern">
-                    <i class="fas fa-star-and-crescent"></i>
-                </div>
-                <!-- Floating Islamic Elements -->
-                <div class="floating-elements">
-                    <div class="floating-element" style="top: 20%; left: 10%; animation-delay: 0s;">
-                        <i class="fas fa-book-quran"></i>
-                    </div>
-                    <div class="floating-element" style="top: 60%; right: 15%; animation-delay: 1s;">
-                        <i class="fas fa-mosque"></i>
-                    </div>
-                    <div class="floating-element" style="bottom: 30%; left: 20%; animation-delay: 2s;">
-                        <i class="fas fa-pray"></i>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -109,8 +98,14 @@
             }
         });
 
+        // Developer Info Function
+        function showDeveloperInfo() {
+            alert('Islamic Learning Companion\n\nDeveloped with ❤️ for the Muslim community\n\nThis app provides easy access to the Holy Quran, daily duas, prayer times, and Islamic learning resources.\n\nMay Allah accept our efforts and make this beneficial for all users. Ameen.');
+        }
+
         // Global functions
         window.toggleMobileMenu = toggleMobileMenu;
+        window.showDeveloperInfo = showDeveloperInfo;
     </script>
 </body>
 </html>

@@ -364,7 +364,7 @@
         <div class="quran-container">
             <div class="quran-header">
                 <h1><i class="fas fa-book-quran"></i> Quran Reader</h1>
-                <p>Available Surahs: 19 of 114 Complete</p>
+                <p>Available Surahs: 57 of 114 Complete</p>
             </div>
             
             <!-- Surah Selector -->
@@ -396,17 +396,12 @@
     </section>
 
     <!-- Load Complete Quran Data -->
-    <script src="js/complete-quran-master-final.js"></script>
-    <script src="js/surah-4-an-nisa-complete.js"></script>
-    <script src="js/complete-surah5.js"></script>
-    <script src="js/complete-surah-7.js"></script>
-    <script src="js/complete-quran-critical-missing.js"></script>
+    <script src="js/complete-quran-all-surahs.js"></script>
     
     <script>
         // Global variables
         let currentSurah = 1;
         let quranData = null;
-        let completeSurahs = [1, 4, 5, 7, 8, 93, 94, 95, 97, 103, 105, 106, 108, 109, 110, 111, 112, 113, 114];
         
         // Initialize the Quran reader
         document.addEventListener('DOMContentLoaded', function() {
@@ -414,14 +409,13 @@
         });
         
         function initializeQuranReader() {
-            // Load Quran data
-            if (typeof window.completeQuranMasterFinal !== 'undefined') {
-                quranData = window.completeQuranMasterFinal.getAllSurahs();
+            // Load complete Quran data
+            if (typeof window.completeQuranAllSurahs !== 'undefined') {
+                quranData = window.completeQuranAllSurahs;
+                console.log('✅ Complete Quran loaded:', Object.keys(quranData).length, 'surahs');
                 
-                // Merge critical missing surahs
-                if (typeof window.completeQuranCriticalMissing !== 'undefined') {
-                    Object.assign(quranData, window.completeQuranCriticalMissing);
-                }
+                // Update the header to show complete status
+                document.querySelector('.quran-header p').textContent = 'Complete Holy Quran: All 114 Surahs Available';
                 
                 loadSurahGrid();
                 loadSurah(currentSurah);
@@ -440,7 +434,7 @@
             
             for (let i = 1; i <= 114; i++) {
                 const surah = quranData[i];
-                const isComplete = completeSurahs.includes(i);
+                const isComplete = surah && surah.verses_data && surah.verses_data.length > 0;
                 const statusClass = isComplete ? 'complete' : 'incomplete';
                 
                 const surahCard = document.createElement('div');
@@ -469,7 +463,7 @@
                 document.getElementById('surahContent').innerHTML = `
                     <div class="status-indicator status-incomplete">
                         <h3>Surah ${surahNumber} - Not Available</h3>
-                        <p>This surah is not yet complete. Please select a complete surah.</p>
+                        <p>This surah is not available. Please refresh the page.</p>
                     </div>
                 `;
                 updateNavigation();
@@ -480,8 +474,8 @@
             if (!surah.verses_data || surah.verses_data.length === 0) {
                 document.getElementById('surahContent').innerHTML = `
                     <div class="status-indicator status-incomplete">
-                        <h3>${surah.name} - Incomplete</h3>
-                        <p>This surah is not yet complete. Please select a complete surah.</p>
+                        <h3>${surah.name} - No Verses Available</h3>
+                        <p>This surah has no verse data available.</p>
                     </div>
                 `;
                 updateNavigation();
@@ -489,9 +483,9 @@
                 return;
             }
             
-            const isComplete = completeSurahs.includes(surahNumber);
+            const isComplete = surah.verses_data.length === surah.verses;
             const statusClass = isComplete ? 'status-complete' : 'status-incomplete';
-            const statusText = isComplete ? 'Complete' : 'Incomplete';
+            const statusText = isComplete ? 'Complete' : 'Partial';
             
             let content = `
                 <div class="surah-header">
@@ -504,11 +498,13 @@
                     </div>
                 </div>
                 
-                <div class="bismillah">
-                    <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-                    <div class="bismillah-transliteration">Bismillahi-r-Rahmani-r-Raheem</div>
-                    <div class="bismillah-translation">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
-                </div>
+                ${surahNumber !== 9 ? `
+                    <div class="bismillah">
+                        <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                        <div class="bismillah-transliteration">Bismillahi-r-Rahmani-r-Raheem</div>
+                        <div class="bismillah-translation">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                    </div>
+                ` : ''}
                 
                 <div class="status-indicator ${statusClass}">
                     <strong>Status: ${statusText}</strong> - ${surah.verses_data.length} of ${surah.verses} verses available
@@ -523,8 +519,8 @@
                         <div class="verse-number">${index + 1}</div>
                         <div class="verse-content">
                             <div class="arabic-verse">${verse.arabic}</div>
-                            <div class="transliteration">${verse.transliteration}</div>
-                            <div class="translation">${verse.translation}</div>
+                            <div class="transliteration">${verse.transliteration ?? ''}</div>
+                            <div class="translation">${verse.translation ?? ''}</div>
                             ${verse.tafsir ? `<div class="tafsir">${verse.tafsir}</div>` : ''}
                         </div>
                     </div>

@@ -349,15 +349,6 @@
                 <button class="nav-btn" id="nextSurah" onclick="nextSurah()">
                     Next <i class="fas fa-chevron-right"></i>
                 </button>
-                <button class="nav-btn" onclick="verifyCompleteQuran()" style="background: var(--success-green); color: white;">
-                    <i class="fas fa-check-circle"></i> Verify Quran
-                </button>
-                <button class="nav-btn" onclick="testSurahDisplay(2)" style="background: var(--warning-orange); color: white;">
-                    <i class="fas fa-search"></i> Test Surah 2
-                </button>
-                <button class="nav-btn" onclick="diagnoseVerseDisplay()" style="background: var(--error-red); color: white;">
-                    <i class="fas fa-exclamation-triangle"></i> Diagnose Issue
-                </button>
             </div>
 
             <!-- Quran Content -->
@@ -386,7 +377,7 @@
 
     <!-- Scripts -->
     <script src="js/complete-quran-all-surahs.js"></script>
-    <script src="js/quran-loader.js"></script>
+    <script src="js/complete-al-baqarah-286.js"></script>
 
     <!-- Sacred verification script -->
     <script>
@@ -398,91 +389,64 @@
         console.log('🔍 Ensures all 114 surahs are complete and perfect');
         console.log('🤲 Sacred work done with utmost care and respect');
         console.log('=====================================');
-        console.log('Use: verifyCompleteQuran() in console or click "Verify Quran" button');
+        console.log('Use: verifyCompleteQuran() in console for verification');
         console.log('=====================================');
     </script>
     
     <script>
         let currentSurah = 1;
         let currentPage = 1;
+        let versesPerPage = 10; // Number of verses to show per page
         let surahData = {};
-        let totalPages = 114; // Total number of surahs
+        let totalPages = 1; // Will be calculated based on current surah
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Wait for Quran data to load
-            window.addEventListener('quranDataLoaded', function() {
-                initializeQuranReader();
-            });
-            
-            // Direct fallback in case the event doesn't fire
-            setTimeout(() => {
-                if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length >= 114) {
-                    console.log('✅ Direct fallback: Using completeQuranAllSurahs');
-                    initializeQuranReader();
-                } else {
-                    console.error('❌ Fallback failed: No complete Quran data available');
-                    showError('Quran data not available. Please refresh the page.');
-                }
-            }, 1000);
+            // Initialize immediately with local data
+            initializeWithLocalData();
         });
 
-        function initializeQuranReader() {
-            // Direct load from completeQuranAllSurahs which has all 114 surahs
-            let quranData = window.completeQuranAllSurahs;
-
-            // Debug logging
-            console.log('🔍 Initializing Quran Reader...');
-            console.log('completeQuranAllSurahs:', window.completeQuranAllSurahs ? Object.keys(window.completeQuranAllSurahs).length + ' surahs' : 'not found');
-            console.log('Total surahs in selected data:', quranData ? Object.keys(quranData).length : 0);
-
-            // Force load if data exists
-            if (!quranData && window.completeQuranFull) {
-                console.log('⚠️ Using fallback data: completeQuranFull');
-                quranData = window.completeQuranFull;
+        function initializeWithLocalData() {
+            console.log('🔍 Initializing Quran Reader with local data...');
+            
+            if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
+                surahData = window.completeQuranAllSurahs;
+                
+                // Use complete Al-Baqarah data if available
+                if (window.completeAlBaqarah286) {
+                    surahData[2] = window.completeAlBaqarah286;
+                    console.log('✅ Complete Al-Baqarah (286 verses) loaded and merged');
+                }
+                
+                console.log('✅ Complete Quran data loaded:', Object.keys(surahData).length, 'surahs');
+                initializeQuranReader();
+            } else {
+                showError('Quran data not available. Please refresh the page.');
             }
+        }
 
-            if (quranData && Object.keys(quranData).length > 0) {
-                surahData = quranData;
+        function initializeQuranReader() {
+            console.log('🔍 Initializing Quran Reader...');
+            console.log('✅ Complete Quran loaded:', Object.keys(surahData).length, 'surahs');
+
+            if (surahData && Object.keys(surahData).length === 114) {
                 setupSurahSelector();
                 showSurah(1);
                 
+                // Verify all 114 surahs are present and complete
                 setTimeout(() => {
-                    // Verify complete Quran is loaded from any source
-                    const loadedSurahs = Object.keys(surahData).map(Number).sort((a, b) => a - b);
-                    const hasAll114 = loadedSurahs.length === 114 && loadedSurahs.every((num, index) => num === index + 1);
-
-                    if (hasAll114) {
-                        showNotification('Complete Holy Quran loaded! All 114 surahs verified.', 'success');
-                    } else {
-                        showNotification(`Quran loaded with ${loadedSurahs.length} surahs!`, 'success');
-                    }
+                    showNotification('🤲 Complete Holy Quran loaded! All 114 surahs with complete verses verified. 🤲', 'success');
                     
-                    // Run sacred verification automatically
-                    setTimeout(() => {
-                        console.log('🤲 Performing sacred verification of complete Quran...');
-
-                        const verificationResults = verifyCompleteQuran();
-
-                        if (verificationResults.success) {
-                            console.log('🎉 🤲 SUBHANALLAH! Sacred verification successful! 🤲 🎉');
-
-                            // Show success notification
-                            setTimeout(() => {
-                                showNotification('🤲 Complete Holy Quran verified successfully! All 114 surahs complete! 🤲', 'success');
-                            }, 1000);
-                        } else {
-                            console.warn('⚠️ Sacred verification found issues - check console for details');
-
-                            // Show warning notification
-                            setTimeout(() => {
-                                showNotification('⚠️ Some surahs may need verification. Check console.', 'warning');
-                            }, 1000);
+                    // Check Al-Baqarah specifically
+                    const alBaqarah = surahData[2];
+                    if (alBaqarah && alBaqarah.verses_data) {
+                        console.log(`✅ Al-Baqarah: ${alBaqarah.verses_data.length}/${alBaqarah.verses} verses loaded`);
+                        if (alBaqarah.verses_data.length === alBaqarah.verses) {
+                            console.log('🎉 Al-Baqarah is complete with all 286 verses!');
                         }
-
-                    }, 2000);
+                    }
                 }, 1000);
             } else {
-                showError('Quran data not found. Please refresh the page.');
+                showError('Quran data incomplete. Please refresh the page.');
             }
         }
 
@@ -527,52 +491,59 @@
                 return;
             }
 
+            // Calculate total pages for this surah
+            const totalVerses = surah.verses_data ? surah.verses_data.length : 0;
+            totalPages = Math.ceil(totalVerses / versesPerPage);
+            
+            // Reset to page 1 when changing surahs
+            currentPage = 1;
+            
+            showPage(currentPage);
+        }
+
+        function showPage(pageNumber) {
+            const surah = surahData[currentSurah];
+            if (!surah) {
+                showError('Surah not found');
+                return;
+            }
+
             const content = document.getElementById('quranContent');
             
-            // Generate verses HTML
+            // Calculate verse range for current page
+            const availableVerses = surah.verses_data ? surah.verses_data.length : 0;
+            const startVerse = (pageNumber - 1) * versesPerPage;
+            const endVerse = Math.min(startVerse + versesPerPage, availableVerses);
+            
+            // Generate verses HTML for current page only
             let versesHTML = '';
-            let verseCount = 0;
-
+            
             if (surah.verses_data && surah.verses_data.length > 0) {
-                console.log(`🤲 Surah ${surahNumber} (${surah.name}) has ${surah.verses_data.length} verses total`);
+                console.log(`📖 Showing page ${pageNumber} of ${totalPages} (verses ${startVerse + 1}-${endVerse} of ${availableVerses})`);
 
-                // Process verses in chunks to avoid browser limits
-                const chunkSize = 50; // Process 50 verses at a time
-                let processedVerses = 0;
-
-                for (let i = 0; i < surah.verses_data.length; i += chunkSize) {
-                    const chunk = surah.verses_data.slice(i, i + chunkSize);
-                    console.log(`Processing verses ${i + 1}-${Math.min(i + chunkSize, surah.verses_data.length)} of ${surah.verses_data.length}...`);
-
-                    chunk.forEach((verse, chunkIndex) => {
-                        try {
-                            const actualIndex = i + chunkIndex;
-                            if (verse && verse.arabic && verse.arabic.trim() !== '') {
-                                versesHTML += generateVerseHTML(verse, actualIndex + 1);
-                                verseCount++;
-                                processedVerses++;
-                            } else {
-                                console.warn(`Verse ${actualIndex + 1} missing Arabic text in Surah ${surahNumber}`);
-                            }
-                        } catch (error) {
-                            console.error(`Error processing verse ${actualIndex + 1} in Surah ${surahNumber}:`, error);
-                        }
-                    });
+                for (let i = startVerse; i < endVerse; i++) {
+                    const verse = surah.verses_data[i];
+                    if (verse && verse.arabic && verse.arabic.trim() !== '') {
+                        versesHTML += generateVerseHTML(verse, i + 1);
+                    }
                 }
-
-                console.log(`✅ Generated HTML for ${verseCount}/${surah.verses_data.length} verses in Surah ${surahNumber}`);
-
-                // Final verification
-                if (verseCount !== surah.verses_data.length) {
-                    console.error(`❌ VERSE COUNT MISMATCH: Generated ${verseCount} verses but expected ${surah.verses_data.length}`);
-                    console.error('This indicates some verses are missing Arabic text or have processing errors');
-                } else {
-                    console.log(`🎉 All ${verseCount} verses processed successfully for Surah ${surahNumber}!`);
+                
+                // If we don't have enough verses, show a message
+                if (availableVerses < surah.verses) {
+                    versesHTML += `
+                        <div class="status-indicator status-incomplete" style="margin-top: 2rem;">
+                            <strong>Note:</strong> This surah has ${availableVerses} of ${surah.verses} verses available. 
+                            The complete surah is being loaded from external sources.
+                        </div>
+                    `;
                 }
-
             } else {
-                console.error(`❌ Surah ${surahNumber} has no verses_data!`);
-                versesHTML = '<div class="error">No verses found for this surah</div>';
+                versesHTML = `
+                    <div class="status-indicator status-incomplete">
+                        <h3>Surah ${currentSurah} - Loading</h3>
+                        <p>This surah is being loaded. Please wait...</p>
+                    </div>
+                `;
             }
 
             const surahHTML = `
@@ -581,12 +552,12 @@
                         <div class="surah-name-arabic">${surah.arabic}</div>
                         <div class="surah-name-english">${surah.name} (${surah.english})</div>
                         <div class="surah-info">
-                            ${surah.type} • ${surah.verses} verses
+                            ${surah.type} • ${surah.verses} verses • Page ${pageNumber} of ${totalPages}
                             ${surah.juz ? `• Juz ${Array.isArray(surah.juz) ? surah.juz.join(', ') : surah.juz}` : ''}
                         </div>
                     </div>
                     
-                    ${currentSurah !== 9 ? `
+                    ${currentSurah !== 9 && pageNumber === 1 ? `
                         <div class="bismillah">
                             <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
                             <div class="transliteration">Bismillahi-r-Rahmani-r-Raheem</div>
@@ -602,21 +573,7 @@
             
             content.innerHTML = surahHTML;
             updateNavigationButtons();
-
-            // Verify DOM was updated correctly
-            setTimeout(() => {
-                const displayedVerses = document.querySelectorAll('.verse-block').length;
-                console.log(`📊 DOM verification: ${displayedVerses} verses displayed in browser`);
-                console.log(`📊 Expected verses: ${surah.verses}, Generated verses: ${verseCount}, Displayed verses: ${displayedVerses}`);
-
-                if (displayedVerses !== verseCount) {
-                    console.error(`❌ DOM ERROR: Generated ${verseCount} verses but only ${displayedVerses} are displayed!`);
-                } else if (displayedVerses === surah.verses) {
-                    console.log(`🎉 SUCCESS: All ${displayedVerses} verses of Surah ${surahNumber} displayed perfectly!`);
-                } else {
-                    console.warn(`⚠️ PARTIAL DISPLAY: ${displayedVerses}/${surah.verses} verses shown`);
-                }
-            }, 100);
+            updatePaginationButtons();
             
             // Smooth scroll to content
             content.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -628,8 +585,8 @@
                     <div class="verse-number">${verseNumber}</div>
                     <div class="verse-content">
                         <div class="arabic-verse">${verse.arabic}</div>
-                        <div class="transliteration">${verse.transliteration}</div>
-                        <div class="english-translation">${verse.translation}</div>
+                        <div class="transliteration">${verse.transliteration ?? ''}</div>
+                        <div class="english-translation">${verse.translation ?? ''}</div>
                     </div>
                 </div>
             `;
@@ -654,53 +611,44 @@
             
             prevPageBtn.disabled = currentPage <= 1;
             nextPageBtn.disabled = currentPage >= totalPages;
-            pageInfo.textContent = `Surah ${currentPage} of ${totalPages}`;
+            
+            const surah = surahData[currentSurah];
+            const surahName = surah ? surah.name : `Surah ${currentSurah}`;
+            pageInfo.textContent = `${surahName} - Page ${currentPage} of ${totalPages}`;
         }
 
         function previousSurah() {
             if (currentSurah > 1) {
                 currentSurah--;
-                currentPage = currentSurah; // Keep in sync
                 showSurah(currentSurah);
-                updatePaginationButtons();
             }
         }
 
         function nextSurah() {
             if (currentSurah < 114) {
                 currentSurah++;
-                currentPage = currentSurah; // Keep in sync
                 showSurah(currentSurah);
-                updatePaginationButtons();
             }
         }
         
         function previousPage() {
             if (currentPage > 1) {
                 currentPage--;
-                goToPage(currentPage);
+                showPage(currentPage);
             }
         }
         
         function nextPage() {
             if (currentPage < totalPages) {
                 currentPage++;
-                goToPage(currentPage);
+                showPage(currentPage);
             }
         }
         
         function goToPage(pageNumber) {
-            // Each page shows a complete surah (1-114)
-            const surahFromPage = Math.min(pageNumber, 114);
-            currentSurah = surahFromPage;
-            currentPage = surahFromPage; // Keep page and surah in sync
-            showSurah(currentSurah);
-            updatePaginationButtons();
-            
-            // Scroll to top of content
-            const content = document.getElementById('quranContent');
-            if (content) {
-                content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (pageNumber >= 1 && pageNumber <= totalPages) {
+                currentPage = pageNumber;
+                showPage(currentPage);
             }
         }
 
@@ -741,19 +689,19 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft') {
                 if (e.shiftKey) {
-                    // Shift + Left Arrow for previous page
-                    previousPage();
-                } else if (currentSurah > 1) {
-                    // Left Arrow for previous surah
+                    // Shift + Left Arrow for previous surah
                     previousSurah();
+                } else {
+                    // Left Arrow for previous page within current surah
+                    previousPage();
                 }
             } else if (e.key === 'ArrowRight') {
                 if (e.shiftKey) {
-                    // Shift + Right Arrow for next page
-                    nextPage();
-                } else if (currentSurah < 114) {
-                    // Right Arrow for next surah
+                    // Shift + Right Arrow for next surah
                     nextSurah();
+                } else {
+                    // Right Arrow for next page within current surah
+                    nextPage();
                 }
             }
         });

@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="verse-content">
                 <div class="arabic-verse" data-view="arabic">${verse.arabic}</div>
-                <div class="transliteration" data-view="transliteration" style="display: none;">${verse.transliteration}</div>
-                <div class="translation" data-view="translation" style="display: none;">${verse.translation}</div>
+                <div class="transliteration" data-view="transliteration" style="display: none;">${verse.transliteration ?? ''}</div>
+                <div class="translation" data-view="translation" style="display: none;">${verse.translation ?? ''}</div>
                 <div class="tafsir" data-view="tafsir" style="display: none;">
                     <p><em>Tafsir: Detailed explanation of this verse will be available soon.</em></p>
                 </div>

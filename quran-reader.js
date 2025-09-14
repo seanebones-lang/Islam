@@ -1158,8 +1158,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="verse-number">${index + 1}</div>
                             <div class="verse-content">
                                 <div class="arabic-verse">${verse.arabic}</div>
-                                <div class="transliteration">${verse.transliteration}</div>
-                                <div class="english-translation">${verse.translation}</div>
+                                <div class="transliteration">${verse.transliteration ?? ''}</div>
+                                <div class="english-translation">${verse.translation ?? ''}</div>
                             </div>
                         </div>
                     `;
