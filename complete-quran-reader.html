@@ -715,6 +715,9 @@
             loadSurah(surahNumber);
             hideSearchResults();
             document.getElementById('quranSearch').value = '';
+            
+            // Scroll to top to show surah selector
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         function goToVerse(surahNumber, verseNumber) {
@@ -730,6 +733,9 @@
             hideSearchResults();
             document.getElementById('quranSearch').value = '';
             
+            // First scroll to top to show surah selector, then scroll to verse
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             // Scroll to the specific verse after a short delay
             setTimeout(() => {
                 const verseElement = document.querySelector(`[data-verse="${verseNumber}"]`);
@@ -740,12 +746,15 @@
                         verseElement.style.background = '';
                     }, 3000);
                 }
-            }, 500);
+            }, 1000);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize immediately with local data
             initializeWithLocalData();
+            
+            // Scroll to top to show surah selector and search bar
+            window.scrollTo(0, 0);
         });
 
         function initializeWithLocalData() {
@@ -939,6 +948,9 @@
             currentPage = 1;
             
             showPage(currentPage);
+            
+            // Scroll to top to show surah selector and search bar
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showPage(pageNumber) {

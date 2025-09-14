@@ -1831,6 +1831,7 @@ document.addEventListener('DOMContentLoaded', function() {
     displayHadiths();
     updatePagination();
     updateStats();
+    initializeHadithSearch(); // Initialize the new API-based search
 });
 
 // Display hadiths function
@@ -1883,7 +1884,247 @@ function updatePagination() {
     nextBtn.disabled = currentPage === totalPages;
 }
 
-// Search functionality
+// API-based Hadith Search System
+let hadithSearchTimeout;
+let isSearching = false;
+
+// Initialize hadith search
+function initializeHadithSearch() {
+    const searchInput = document.getElementById('hadithSearch');
+    const searchResults = document.getElementById('hadithSearchResults');
+    const clearBtn = document.getElementById('clearHadithSearch');
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        clearTimeout(hadithSearchTimeout);
+        
+        if (query.length >= 2) {
+            hadithSearchTimeout = setTimeout(() => {
+                performHadithSearch(query);
+            }, 500); // Debounce search
+        } else {
+            hideHadithSearchResults();
+        }
+    });
+    
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const query = this.value.trim();
+            if (query.length >= 2) {
+                performHadithSearch(query);
+            }
+        }
+    });
+}
+
+// Perform hadith search using multiple APIs
+async function performHadithSearch(query) {
+    if (isSearching) return;
+    
+    isSearching = true;
+    showHadithSearchLoading();
+    
+    try {
+        console.log('🔍 Searching for hadiths:', query);
+        
+        // Try multiple API sources
+        const results = await Promise.allSettled([
+            searchSunnahAPI(query),
+            searchHadithAPI(query),
+            searchLocalHadiths(query)
+        ]);
+        
+        // Combine results from all sources
+        let allResults = [];
+        results.forEach((result, index) => {
+            if (result.status === 'fulfilled' && result.value) {
+                allResults = allResults.concat(result.value);
+            } else {
+                console.warn(`API ${index + 1} failed:`, result.reason);
+            }
+        });
+        
+        // Remove duplicates and limit results
+        const uniqueResults = removeDuplicateHadiths(allResults);
+        const limitedResults = uniqueResults.slice(0, 20);
+        
+        console.log('✅ Found', limitedResults.length, 'hadith results');
+        displayHadithSearchResults(limitedResults, query);
+        
+    } catch (error) {
+        console.error('❌ Hadith search error:', error);
+        displayHadithSearchError('Failed to search hadiths. Please try again.');
+    } finally {
+        isSearching = false;
+    }
+}
+
+// Search using Sunnah.com API
+async function searchSunnahAPI(query) {
+    try {
+        // Using a public hadith API endpoint
+        const response = await fetch(`https://api.hadith.gading.dev/books/bukhari?search=${encodeURIComponent(query)}&limit=10`);
+        const data = await response.json();
+        
+        if (data.code === 200 && data.data) {
+            return data.data.hadiths.map(hadith => ({
+                id: `bukhari_${hadith.number}`,
+                arabic: hadith.arabic,
+                english: hadith.english,
+                source: 'Sahih al-Bukhari',
+                book: 'Sahih al-Bukhari',
+                volume: hadith.number,
+                hadith: hadith.number,
+                grade: hadith.grade || 'Sahih',
+                narrator: hadith.narrator || 'Unknown',
+                apiSource: 'sunnah'
+            }));
+        }
+    } catch (error) {
+        console.warn('Sunnah API error:', error);
+    }
+    return [];
+}
+
+// Search using alternative hadith API
+async function searchHadithAPI(query) {
+    try {
+        // Using another hadith API
+        const response = await fetch(`https://api.hadith.gading.dev/books/muslim?search=${encodeURIComponent(query)}&limit=10`);
+        const data = await response.json();
+        
+        if (data.code === 200 && data.data) {
+            return data.data.hadiths.map(hadith => ({
+                id: `muslim_${hadith.number}`,
+                arabic: hadith.arabic,
+                english: hadith.english,
+                source: 'Sahih Muslim',
+                book: 'Sahih Muslim',
+                volume: hadith.number,
+                hadith: hadith.number,
+                grade: hadith.grade || 'Sahih',
+                narrator: hadith.narrator || 'Unknown',
+                apiSource: 'hadith'
+            }));
+        }
+    } catch (error) {
+        console.warn('Hadith API error:', error);
+    }
+    return [];
+}
+
+// Search local hadith data as fallback
+function searchLocalHadiths(query) {
+    const searchTerm = query.toLowerCase();
+    return hadithData.filter(hadith => 
+        hadith.arabic.toLowerCase().includes(searchTerm) ||
+        hadith.english.toLowerCase().includes(searchTerm) ||
+        hadith.lesson.toLowerCase().includes(searchTerm) ||
+        hadith.source.toLowerCase().includes(searchTerm)
+    ).slice(0, 10).map(hadith => ({
+        ...hadith,
+        apiSource: 'local'
+    }));
+}
+
+// Remove duplicate hadiths based on content similarity
+function removeDuplicateHadiths(results) {
+    const seen = new Set();
+    return results.filter(hadith => {
+        const key = hadith.arabic.substring(0, 50); // Use first 50 chars as key
+        if (seen.has(key)) {
+            return false;
+        }
+        seen.add(key);
+        return true;
+    });
+}
+
+// Display search results
+function displayHadithSearchResults(results, query) {
+    const searchResults = document.getElementById('hadithSearchResults');
+    const clearBtn = document.getElementById('clearHadithSearch');
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-result-item">
+                <div class="search-result-hadith">No hadiths found</div>
+                <div class="search-result-translation">Try searching with different keywords or check your spelling.</div>
+            </div>
+        `;
+    } else {
+        searchResults.innerHTML = results.map(hadith => `
+            <div class="search-result-item" onclick="viewHadithDetails('${hadith.id}')">
+                <div class="search-result-hadith">${hadith.source} - Hadith ${hadith.hadith}</div>
+                <div class="search-result-arabic">${highlightText(hadith.arabic, query)}</div>
+                <div class="search-result-translation">${highlightText(hadith.english, query)}</div>
+                <div class="search-result-source">
+                    ${hadith.grade ? `Grade: ${hadith.grade}` : ''} 
+                    ${hadith.narrator ? `• Narrated by: ${hadith.narrator}` : ''}
+                    ${hadith.apiSource ? `• Source: ${hadith.apiSource.toUpperCase()}` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    searchResults.style.display = 'block';
+    clearBtn.style.display = 'block';
+}
+
+// Show loading state
+function showHadithSearchLoading() {
+    const searchResults = document.getElementById('hadithSearchResults');
+    searchResults.innerHTML = `
+        <div class="loading-spinner">
+            <i class="fas fa-spinner"></i>
+            Searching authentic hadith collections...
+        </div>
+    `;
+    searchResults.style.display = 'block';
+}
+
+// Show error state
+function displayHadithSearchError(message) {
+    const searchResults = document.getElementById('hadithSearchResults');
+    searchResults.innerHTML = `
+        <div class="search-result-item">
+            <div class="search-result-hadith">Search Error</div>
+            <div class="search-result-translation">${message}</div>
+        </div>
+    `;
+    searchResults.style.display = 'block';
+}
+
+// Hide search results
+function hideHadithSearchResults() {
+    const searchResults = document.getElementById('hadithSearchResults');
+    const clearBtn = document.getElementById('clearHadithSearch');
+    searchResults.style.display = 'none';
+    clearBtn.style.display = 'none';
+}
+
+// Clear search
+function clearHadithSearch() {
+    const searchInput = document.getElementById('hadithSearch');
+    searchInput.value = '';
+    hideHadithSearchResults();
+}
+
+// View hadith details
+function viewHadithDetails(hadithId) {
+    console.log('Viewing hadith details:', hadithId);
+    // This could open a modal or navigate to a detailed view
+    showNotification('Hadith details feature coming soon!', 'info');
+}
+
+// Highlight search terms in text
+function highlightText(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+// Legacy search functionality (for local data)
 function searchHadiths() {
     const searchTerm = document.getElementById('hadithSearch').value.toLowerCase();
     
@@ -2080,45 +2321,142 @@ function showNotification(message, type = 'info') {
 const additionalStyles = document.createElement('style');
 additionalStyles.textContent = `
     .hadith-search {
-        display: flex;
-        gap: 1rem;
         margin-bottom: 2rem;
+    }
+    
+    .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid var(--light-green);
+        border-radius: 25px;
+        padding: 0.75rem 1rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+    
+    .search-box:focus-within {
+        border-color: var(--gold);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+    
+    .search-icon {
+        color: var(--light-green);
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
     }
     
     .search-input {
         flex: 1;
-        padding: 0.8rem 1rem;
-        border: 1px solid var(--highlight-green);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.1);
+        background: transparent;
+        border: none;
+        outline: none;
         color: var(--white);
         font-size: 1rem;
+        font-family: 'Inter', sans-serif;
     }
     
     .search-input::placeholder {
         color: var(--text-secondary);
     }
     
-    .search-input:focus {
-        outline: none;
-        border-color: var(--gold);
-        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    .clear-search-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--text-secondary);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 0.5rem;
     }
     
-    .search-btn {
-        background: var(--gold);
-        color: var(--dark-green);
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 8px;
+    .clear-search-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--white);
+    }
+    
+    .search-results {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        margin-top: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-result-item {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         cursor: pointer;
-        font-weight: 600;
         transition: all 0.3s ease;
     }
     
-    .search-btn:hover {
-        background: var(--gold-light);
-        transform: translateY(-2px);
+    .search-result-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-result-item:last-child {
+        border-bottom: none;
+    }
+    
+    .search-result-hadith {
+        font-weight: 600;
+        color: var(--gold);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-result-arabic {
+        font-family: 'Amiri', serif;
+        font-size: 1.2rem;
+        color: var(--light-green);
+        margin-bottom: 0.5rem;
+        text-align: right;
+        direction: rtl;
+    }
+    
+    .search-result-translation {
+        color: var(--white);
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+    
+    .search-result-source {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+    
+    .search-highlight {
+        background: rgba(212, 175, 55, 0.3);
+        padding: 0.1rem 0.2rem;
+        border-radius: 3px;
+    }
+    
+    .loading-spinner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        color: var(--light-green);
+    }
+    
+    .loading-spinner i {
+        animation: spin 1s linear infinite;
+        margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     
     .hadith-filters {

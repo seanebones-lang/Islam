@@ -141,10 +141,16 @@
                     <div class="content-card">
                         <h2>Essential Hadiths for Daily Life</h2>
                         <div class="hadith-search">
-                            <input type="text" id="hadithSearch" placeholder="Search hadiths by topic or keyword..." class="search-input">
-                            <button onclick="searchHadiths()" class="search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
+                            <div class="search-box">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="hadithSearch" placeholder="Search authentic hadiths from all 6 major collections..." class="search-input">
+                                <button id="clearHadithSearch" class="clear-search-btn" onclick="clearHadithSearch()" style="display: none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="search-results" id="hadithSearchResults" style="display: none;">
+                                <!-- Search results will be populated here -->
+                            </div>
                         </div>
                         <div class="hadith-filters">
                             <button class="filter-btn active" onclick="filterHadiths('all')">All</button>

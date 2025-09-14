@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadith Search - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hadith-search-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            padding: 2rem 0;
+        }
+        
+        .search-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .search-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .search-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .search-icon {
+            color: var(--light-green);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        
+        .clear-search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+        
+        .search-results {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            margin-top: 2rem;
+            max-height: 500px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .search-result-source {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        
+        .search-result-grade {
+            background: var(--light-green);
+            color: var(--dark-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .search-result-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            color: var(--light-green);
+            margin-bottom: 1rem;
+            text-align: right;
+            direction: rtl;
+            line-height: 1.8;
+        }
+        
+        .search-result-translation {
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .search-result-narrator {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .search-highlight {
+            background: rgba(212, 175, 55, 0.3);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--light-green);
+        }
+        
+        .loading-spinner i {
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-home:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        .search-stats {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .search-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .suggestion-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .suggestion-tag:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        @media (max-width: 768px) {
+            .search-title {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                padding: 0.8rem 1rem;
+            }
+            
+            .search-input {
+                font-size: 1rem;
+            }
+            
+            .search-result-arabic {
+                font-size: 1.2rem;
+            }
+            
+            .search-results {
+                max-height: 400px;
+            }
+            
+            .back-to-home {
+                position: static;
+                margin: 1rem;
+                text-align: center;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-home"></i> Back to Home
+    </a>
+
+    <!-- Hadith Search Section -->
+    <section class="hadith-search-page">
+        <div class="container">
+            <!-- Search Header -->
+            <div class="search-header">
+                <h1 class="search-title">
+                    <i class="fas fa-search"></i>
+                    Hadith Search
+                </h1>
+                <p class="search-subtitle">Search authentic hadiths from all 6 major collections</p>
+                
+                <!-- Search Suggestions -->
+                <div class="search-suggestions">
+                    <span class="suggestion-tag" onclick="searchFor('prayer')">Prayer</span>
+                    <span class="suggestion-tag" onclick="searchFor('charity')">Charity</span>
+                    <span class="suggestion-tag" onclick="searchFor('patience')">Patience</span>
+                    <span class="suggestion-tag" onclick="searchFor('family')">Family</span>
+                    <span class="suggestion-tag" onclick="searchFor('mercy')">Mercy</span>
+                    <span class="suggestion-tag" onclick="searchFor('knowledge')">Knowledge</span>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="hadithSearch" placeholder="Search hadiths by topic, keyword, or Arabic text..." class="search-input">
+                    <button id="clearHadithSearch" class="clear-search-btn" onclick="clearHadithSearch()" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="hadithSearchResults" style="display: none;">
+                    <!-- Search results will be populated here -->
+                </div>
+                <div class="search-stats" id="searchStats" style="display: none;">
+                    <!-- Search statistics will be shown here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="hadiths.js"></script>
+    
+    <script>
+        // Initialize the hadith search page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeHadithSearch();
+        });
+        
+        // Search for suggestion tags
+        function searchFor(term) {
+            const searchInput = document.getElementById('hadithSearch');
+            searchInput.value = term;
+            performHadithSearch(term);
+        }
+        
+        // Enhanced search results display for the dedicated page
+        function displayHadithSearchResults(results, query) {
+            const searchResults = document.getElementById('hadithSearchResults');
+            const clearBtn = document.getElementById('clearHadithSearch');
+            const searchStats = document.getElementById('searchStats');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-header">
+                            <div class="search-result-source">No hadiths found</div>
+                        </div>
+                        <div class="search-result-translation">Try searching with different keywords or check your spelling.</div>
+                    </div>
+                `;
+            } else {
+                searchResults.innerHTML = results.map(hadith => `
+                    <div class="search-result-item" onclick="viewHadithDetails('${hadith.id}')">
+                        <div class="search-result-header">
+                            <div class="search-result-source">${hadith.source} - Hadith ${hadith.hadith}</div>
+                            <div class="search-result-grade">${hadith.grade || 'Sahih'}</div>
+                        </div>
+                        <div class="search-result-arabic">${highlightText(hadith.arabic, query)}</div>
+                        <div class="search-result-translation">${highlightText(hadith.english, query)}</div>
+                        <div class="search-result-narrator">
+                            ${hadith.narrator ? `Narrated by: ${hadith.narrator}` : ''} 
+                            ${hadith.apiSource ? `• Source: ${hadith.apiSource.toUpperCase()}` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Show search statistics
+            searchStats.innerHTML = `Found ${results.length} hadith${results.length !== 1 ? 's' : ''} for "${query}"`;
+            searchStats.style.display = 'block';
+            
+            searchResults.style.display = 'block';
+            clearBtn.style.display = 'block';
+        }
+        
+        // Override the original display function
+        window.displayHadithSearchResults = displayHadithSearchResults;
+    </script>
+</body>
+</html>
