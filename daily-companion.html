@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Islamic Companion - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .daily-companion-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            padding: 2rem 0;
+        }
+        
+        .companion-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .companion-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .companion-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .companion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .companion-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .companion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .companion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--highlight-green));
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .card-button {
+            background: linear-gradient(135deg, var(--highlight-green), var(--gold));
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(95, 179, 115, 0.3);
+        }
+        
+        .prayer-times-widget {
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .prayer-times-widget h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .prayer-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .prayer-name {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prayer-time {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .current-prayer {
+            background: linear-gradient(135deg, var(--highlight-green), var(--gold));
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+        
+        .qibla-compass {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .compass-circle {
+            width: 200px;
+            height: 200px;
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            position: relative;
+            background: conic-gradient(from 0deg, var(--gold), var(--highlight-green), var(--gold));
+            animation: rotate 20s linear infinite;
+        }
+        
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            background: var(--white);
+            transform: translate(-50%, -50%);
+            border-radius: 2px;
+        }
+        
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--white);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .tasbih-counter {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .counter-display {
+            font-size: 4rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .counter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .counter-btn {
+            background: var(--highlight-green);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .counter-btn:hover {
+            background: var(--gold);
+            transform: scale(1.05);
+        }
+        
+        .dhikr-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .dhikr-option {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dhikr-option.active {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+        
+        .dua-collection {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .dua-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .dua-category {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dua-category:hover {
+            background: var(--highlight-green);
+            transform: translateY(-2px);
+        }
+        
+        .dua-category h4 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .dua-category p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-home:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        @media (max-width: 768px) {
+            .companion-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .companion-card {
+                padding: 1.5rem;
+            }
+            
+            .prayer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .compass-circle {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-home"></i> Back to Home
+    </a>
+
+    <!-- Daily Companion Page -->
+    <section class="daily-companion-page">
+        <div class="container">
+            <!-- Header -->
+            <div class="companion-header">
+                <h1 class="companion-title">
+                    <i class="fas fa-mosque"></i>
+                    Daily Islamic Companion
+                </h1>
+                <p class="companion-subtitle">Your comprehensive guide for daily Islamic practice and worship</p>
+            </div>
+
+            <!-- Prayer Times Widget -->
+            <div class="prayer-times-widget">
+                <h3><i class="fas fa-clock"></i> Prayer Times</h3>
+                <div class="prayer-grid" id="prayerGrid">
+                    <!-- Prayer times will be loaded here -->
+                </div>
+                <div class="current-prayer" id="currentPrayer">
+                    <p>Loading prayer times...</p>
+                </div>
+            </div>
+
+            <!-- Main Features Grid -->
+            <div class="companion-grid">
+                <!-- Quran & Hadith Search -->
+                <div class="companion-card">
+                    <i class="fas fa-book-quran card-icon"></i>
+                    <h3 class="card-title">Quran & Hadith</h3>
+                    <p class="card-description">Search the complete Quran and authentic Hadith collections with advanced search capabilities</p>
+                    <a href="complete-quran-reader.html" class="card-button">Read Quran</a>
+                    <a href="hadith-search.html" class="card-button" style="margin-left: 0.5rem;">Search Hadith</a>
+                </div>
+
+                <!-- Qibla Compass -->
+                <div class="companion-card">
+                    <i class="fas fa-compass card-icon"></i>
+                    <h3 class="card-title">Qibla Finder</h3>
+                    <p class="card-description">Find the direction of the Kaaba for accurate prayer orientation</p>
+                    <div class="qibla-compass">
+                        <div class="compass-circle">
+                            <div class="compass-needle"></div>
+                            <div class="compass-center"></div>
+                        </div>
+                        <p style="color: var(--white);">Point your device towards Mecca</p>
+                    </div>
+                </div>
+
+                <!-- Digital Tasbih -->
+                <div class="companion-card">
+                    <i class="fas fa-praying-hands card-icon"></i>
+                    <h3 class="card-title">Digital Tasbih</h3>
+                    <p class="card-description">Count your Dhikr and remembrances with this digital prayer counter</p>
+                    <div class="tasbih-counter">
+                        <div class="counter-display" id="tasbihCount">0</div>
+                        <div class="dhikr-options">
+                            <div class="dhikr-option active" data-dhikr="subhanallah">SubhanAllah</div>
+                            <div class="dhikr-option" data-dhikr="alhamdulillah">Alhamdulillah</div>
+                            <div class="dhikr-option" data-dhikr="allahuakbar">Allahu Akbar</div>
+                            <div class="dhikr-option" data-dhikr="laillahaillallah">La ilaha illa Allah</div>
+                        </div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn" onclick="incrementTasbih()">+</button>
+                            <button class="counter-btn" onclick="resetTasbih()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Du'a Collection -->
+                <div class="companion-card">
+                    <i class="fas fa-hands-praying card-icon"></i>
+                    <h3 class="card-title">Du'a Collection</h3>
+                    <p class="card-description">Authentic supplications for every occasion in your daily life</p>
+                    <div class="dua-collection">
+                        <div class="dua-categories">
+                            <div class="dua-category" onclick="showDuas('morning')">
+                                <h4>Morning</h4>
+                                <p>Daily morning supplications</p>
+                            </div>
+                            <div class="dua-category" onclick="showDuas('evening')">
+                                <h4>Evening</h4>
+                                <p>Daily evening supplications</p>
+                            </div>
+                            <div class="dua-category" onclick="showDuas('prayer')">
+                                <h4>Prayer</h4>
+                                <p>Supplications during prayer</p>
+                            </div>
+                            <div class="dua-category" onclick="showDuas('travel')">
+                                <h4>Travel</h4>
+                                <p>Supplications for traveling</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wudu Guide -->
+                <div class="companion-card">
+                    <i class="fas fa-tint card-icon"></i>
+                    <h3 class="card-title">Wudu Guide</h3>
+                    <p class="card-description">Step-by-step guide for performing ablution correctly</p>
+                    <a href="wudu-guide.html" class="card-button">Learn Wudu</a>
+                </div>
+
+                <!-- Prayer Guide -->
+                <div class="companion-card">
+                    <i class="fas fa-mosque card-icon"></i>
+                    <h3 class="card-title">Prayer Guide</h3>
+                    <p class="card-description">Complete guide for performing Salah with proper recitations</p>
+                    <a href="prayer-guide.html" class="card-button">Learn Prayer</a>
+                </div>
+
+                <!-- Islamic Calendar -->
+                <div class="companion-card">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">Islamic Calendar</h3>
+                    <p class="card-description">Hijri calendar with important Islamic dates and events</p>
+                    <a href="islamic-calendar.html" class="card-button">View Calendar</a>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="companion-card">
+                    <i class="fas fa-graduation-cap card-icon"></i>
+                    <h3 class="card-title">Learning Resources</h3>
+                    <p class="card-description">Comprehensive Islamic education and learning materials</p>
+                    <a href="learn.html" class="card-button">Start Learning</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Prayer Times Data (simplified for demo)
+        const prayerTimes = {
+            fajr: "5:30 AM",
+            dhuhr: "12:15 PM",
+            asr: "3:45 PM",
+            maghrib: "6:20 PM",
+            isha: "8:00 PM"
+        };
+
+        // Load prayer times
+        function loadPrayerTimes() {
+            const prayerGrid = document.getElementById('prayerGrid');
+            const currentPrayer = document.getElementById('currentPrayer');
+            
+            prayerGrid.innerHTML = Object.entries(prayerTimes).map(([prayer, time]) => `
+                <div class="prayer-item">
+                    <div class="prayer-name">${prayer.charAt(0).toUpperCase() + prayer.slice(1)}</div>
+                    <div class="prayer-time">${time}</div>
+                </div>
+            `).join('');
+            
+            // Determine current prayer (simplified logic)
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            
+            let current = "Fajr";
+            if (currentTime >= 300 && currentTime < 720) current = "Fajr";
+            else if (currentTime >= 720 && currentTime < 900) current = "Dhuhr";
+            else if (currentTime >= 900 && currentTime < 1080) current = "Asr";
+            else if (currentTime >= 1080 && currentTime < 1200) current = "Maghrib";
+            else current = "Isha";
+            
+            currentPrayer.innerHTML = `
+                <p><strong>Current Prayer: ${current}</strong></p>
+                <p>Next prayer time will be calculated based on your location</p>
+            `;
+        }
+
+        // Tasbih Counter
+        let tasbihCount = 0;
+        let currentDhikr = 'subhanallah';
+
+        function incrementTasbih() {
+            tasbihCount++;
+            document.getElementById('tasbihCount').textContent = tasbihCount;
+            
+            // Haptic feedback (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function resetTasbih() {
+            tasbihCount = 0;
+            document.getElementById('tasbihCount').textContent = tasbihCount;
+        }
+
+        // Dhikr selection
+        document.querySelectorAll('.dhikr-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.dhikr-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentDhikr = this.dataset.dhikr;
+                resetTasbih();
+            });
+        });
+
+        // Du'a categories
+        function showDuas(category) {
+            alert(`Opening ${category} supplications...\n\nThis would open a detailed collection of authentic Du'as for ${category} with Arabic text, transliteration, and translations.`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPrayerTimes();
+        });
+
+        // Qibla Compass (simplified)
+        function updateQibla() {
+            // In a real implementation, this would use device orientation
+            // and calculate the actual Qibla direction based on location
+            console.log('Qibla direction would be calculated based on device location and orientation');
+        }
+
+        // Request location permission for accurate prayer times and Qibla
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    console.log('Location obtained for accurate prayer times and Qibla');
+                    updateQibla();
+                },
+                function(error) {
+                    console.log('Location access denied, using default settings');
+                }
+            );
+        }
+    </script>
+</body>
+</html>
