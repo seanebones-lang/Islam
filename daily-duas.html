@@ -13,6 +13,11 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
             <div class="nav-logo">
                 <i class="fas fa-mosque"></i>
                 <span>Islamic Learning Companion</span>
@@ -1259,6 +1264,15 @@
                 }, index * 100);
             });
         });
+
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
 
         // Mobile Menu Functions
         function toggleMobileMenu() {
