@@ -370,7 +370,28 @@ class IslamicRAGSystem {
             // Provide helpful fallback responses based on common queries
             const queryLower = query.toLowerCase();
             
-            if (queryLower.includes('pillar') || queryLower.includes('five')) {
+            // Handle Islamic greetings and basic interactions
+            if (queryLower.includes('salam') || queryLower.includes('asalamu') || queryLower.includes('alaykum') || 
+                queryLower.includes('hello') || queryLower.includes('hi') || queryLower.includes('greetings') ||
+                queryLower.includes('hey') || queryLower.includes('good morning') || queryLower.includes('good afternoon') ||
+                queryLower.includes('good evening') || queryLower.includes('assalamu') || queryLower.includes('salamu')) {
+                response = `**Wa alaykum as-salam wa rahmatullahi wa barakatuh!**\n\n`;
+                response += `As-salamu alaykum! I'm DeenBot, your Islamic AI companion. I'm here to help you with:\n\n`;
+                response += `• **Quranic verses** and translations\n`;
+                response += `• **Authentic Hadiths** from reliable collections\n`;
+                response += `• **Islamic topics** and guidance\n`;
+                response += `• **Prayer and worship** instructions\n`;
+                response += `• **Navigation** to app features\n\n`;
+                response += `How can I assist you in your journey of Islamic learning today?`;
+            } else if (queryLower.includes('thank') || queryLower.includes('shukran') || queryLower.includes('jazakallah')) {
+                response = `**Wa iyyakum!** (And to you as well!)\n\n`;
+                response += `Barakallahu feek! I'm always here to help with your Islamic learning. Feel free to ask me anything about:\n\n`;
+                response += `• Quran and Hadith\n• Prayer and worship\n• Islamic guidance\n• App features\n\n`;
+                response += `May Allah bless your journey of seeking knowledge!`;
+            } else if (queryLower.includes('how are you') || queryLower.includes('how are you doing')) {
+                response = `**Alhamdulillah, I'm doing well!**\n\n`;
+                response += `Thank you for asking. I'm here and ready to help you with any Islamic questions or guidance you might need. What would you like to learn about today?`;
+            } else if (queryLower.includes('pillar') || queryLower.includes('five')) {
                 response = `**The Five Pillars of Islam:**\n\n`;
                 response += `1. **Shahada** (Declaration of Faith): "La ilaha illa Allah, Muhammadun rasul Allah"\n`;
                 response += `2. **Salah** (Prayer): Five daily prayers at prescribed times\n`;
@@ -406,11 +427,24 @@ class IslamicRAGSystem {
                 response = `**About Hadith:**\n\n`;
                 response += `Hadith are the sayings, actions, and approvals of Prophet Muhammad (PBUH). They are the second source of Islamic guidance after the Quran.\n\n`;
                 response += `Major collections include Sahih al-Bukhari, Sahih Muslim, and others. You can search our comprehensive Hadith collection for authentic teachings.`;
+            } else if (queryLower.includes('bismillah') || queryLower.includes('in the name of allah')) {
+                response = `**Bismillahi-r-Rahmani-r-Raheem**\n\n`;
+                response += `"In the name of Allah, the Entirely Merciful, the Especially Merciful."\n\n`;
+                response += `This is the opening of every surah in the Quran (except At-Tawbah). It's recommended to say Bismillah before starting any good deed. Would you like to learn more about this beautiful phrase or explore the Quran?`;
+            } else if (queryLower.includes('alhamdulillah') || queryLower.includes('praise be to allah')) {
+                response = `**Alhamdulillah!**\n\n`;
+                response += `"Praise be to Allah" - This is one of the most beautiful expressions of gratitude in Islam. The Prophet (PBUH) said: "Alhamdulillah fills the scale."\n\n`;
+                response += `Would you like to learn more about gratitude in Islam or explore related verses and hadiths?`;
+            } else if (queryLower.includes('inshallah') || queryLower.includes('god willing')) {
+                response = `**Insha'Allah!**\n\n`;
+                response += `"If Allah wills" - This phrase shows our submission to Allah's will and reminds us that everything happens by His permission. The Quran says: "And never say of anything, 'Indeed, I will do that tomorrow,' except [when adding], 'If Allah wills.'"\n\n`;
+                response += `Would you like to learn more about this important Islamic concept?`;
             } else {
                 response = `I couldn't find specific information about "${query}" in my knowledge base. However, I can help you with:\n\n`;
                 response += `• **Quranic verses** and translations\n`;
                 response += `• **Authentic Hadiths** from reliable collections\n`;
                 response += `• **Islamic topics** and guidance\n`;
+                response += `• **Prayer and worship** instructions\n`;
                 response += `• **Navigation** to app features\n\n`;
                 response += `Please try rephrasing your question or ask about:\n`;
                 response += `- "What are the five pillars of Islam?"\n`;
