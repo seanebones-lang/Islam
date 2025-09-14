@@ -7,6 +7,96 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .current-date-display {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .date-card {
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--gold);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .date-header h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .date-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hijri-date, .gregorian-date {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .date-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .date-value {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Amiri', serif;
+        }
+        
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .current-month, .current-year {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .current-month {
+            text-align: left;
+        }
+        
+        .current-year {
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .date-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .date-value {
+                font-size: 2rem;
+            }
+            
+            .date-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -34,7 +124,30 @@
                     <i class="fas fa-calendar-alt"></i>
                 </div>
                 <h1>Islamic Calendar</h1>
-                <p class="page-subtitle">Important Islamic Dates and Events</p>
+                <p class="page-subtitle">Current Islamic Date and Important Events</p>
+            </div>
+
+            <!-- Current Date Display -->
+            <div class="current-date-display">
+                <div class="date-card">
+                    <div class="date-header">
+                        <h2>Today's Date</h2>
+                    </div>
+                    <div class="date-content">
+                        <div class="hijri-date">
+                            <div class="date-label">Islamic (Hijri)</div>
+                            <div class="date-value" id="hijriDate">Loading...</div>
+                        </div>
+                        <div class="gregorian-date">
+                            <div class="date-label">Gregorian</div>
+                            <div class="date-value" id="gregorianDate">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="date-info">
+                        <div class="current-month" id="currentMonth">Loading month...</div>
+                        <div class="current-year" id="currentYear">Loading year...</div>
+                    </div>
+                </div>
             </div>
 
             <div class="content-grid">
@@ -525,5 +638,82 @@
         });
     </script>
     <script src="prayer-times.js"></script>
+    <script>
+        // Islamic Calendar Conversion
+        function gregorianToHijri(gregorianDate) {
+            // Simplified conversion - in production, use a proper Islamic calendar library
+            const hijriEpoch = new Date(622, 6, 16); // July 16, 622 CE
+            const daysSinceEpoch = Math.floor((gregorianDate - hijriEpoch) / (1000 * 60 * 60 * 24));
+            const hijriYear = Math.floor(daysSinceEpoch / 354.37) + 1;
+            const daysInYear = daysSinceEpoch % 354.37;
+            
+            // Islamic months (approximate days)
+            const islamicMonths = [
+                { name: 'Muharram', days: 30 },
+                { name: 'Safar', days: 29 },
+                { name: 'Rabi\' al-Awwal', days: 30 },
+                { name: 'Rabi\' al-Thani', days: 29 },
+                { name: 'Jumada al-Awwal', days: 30 },
+                { name: 'Jumada al-Thani', days: 29 },
+                { name: 'Rajab', days: 30 },
+                { name: 'Sha\'ban', days: 29 },
+                { name: 'Ramadan', days: 30 },
+                { name: 'Shawwal', days: 29 },
+                { name: 'Dhu al-Qi\'dah', days: 30 },
+                { name: 'Dhu al-Hijjah', days: 29 }
+            ];
+            
+            let remainingDays = daysInYear;
+            let month = 0;
+            let day = 1;
+            
+            for (let i = 0; i < islamicMonths.length; i++) {
+                if (remainingDays <= islamicMonths[i].days) {
+                    month = i;
+                    day = Math.floor(remainingDays) + 1;
+                    break;
+                }
+                remainingDays -= islamicMonths[i].days;
+            }
+            
+            return {
+                year: hijriYear,
+                month: month,
+                day: day,
+                monthName: islamicMonths[month].name
+            };
+        }
+        
+        function updateCurrentDate() {
+            const now = new Date();
+            const hijriDate = gregorianToHijri(now);
+            
+            // Format Gregorian date
+            const gregorianOptions = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                weekday: 'long'
+            };
+            const gregorianFormatted = now.toLocaleDateString('en-US', gregorianOptions);
+            
+            // Format Hijri date
+            const hijriFormatted = `${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year} AH`;
+            
+            // Update the display
+            document.getElementById('hijriDate').textContent = hijriFormatted;
+            document.getElementById('gregorianDate').textContent = gregorianFormatted;
+            document.getElementById('currentMonth').textContent = `Current Month: ${hijriDate.monthName}`;
+            document.getElementById('currentYear').textContent = `Year: ${hijriDate.year} AH`;
+        }
+        
+        // Update date on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentDate();
+            
+            // Update every hour
+            setInterval(updateCurrentDate, 3600000);
+        });
+    </script>
 </body>
 </html>
