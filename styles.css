@@ -153,6 +153,10 @@ body {
 
 .hero-content {
     animation: fadeInUp 1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .hero-title {
@@ -179,7 +183,10 @@ body {
 
 .hero-buttons {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    width: 100%;
 }
 
 /* Dua Header Section */
