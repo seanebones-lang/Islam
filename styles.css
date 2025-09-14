@@ -9796,6 +9796,171 @@ body {
     color: var(--gold-light) !important;
 }
 
+.contact-link {
+    color: var(--highlight-green) !important;
+}
+
+.contact-link:hover {
+    background: rgba(95, 179, 115, 0.1) !important;
+    color: var(--light-green) !important;
+}
+
+/* Contact Modal Styles */
+.contact-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-modal-content {
+    background: var(--dark-green);
+    border-radius: 20px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-modal-header h3 {
+    color: var(--gold);
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.contact-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.contact-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.contact-modal-body {
+    padding: 2rem;
+}
+
+.contact-modal-body p {
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.contact-info {
+    margin-bottom: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-item i {
+    color: var(--gold);
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+}
+
+.contact-details {
+    flex: 1;
+}
+
+.contact-details strong {
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.contact-email {
+    color: var(--highlight-green);
+    text-decoration: none;
+    font-size: 1rem;
+    word-break: break-all;
+    transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+    color: var(--light-green);
+}
+
+.contact-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-actions .btn-primary,
+.contact-actions .btn-secondary {
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .contact-modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .contact-modal-header,
+    .contact-modal-body {
+        padding: 1.5rem;
+    }
+    
+    .contact-actions {
+        flex-direction: column;
+    }
+    
+    .contact-actions .btn-primary,
+    .contact-actions .btn-secondary {
+        flex: none;
+        width: 100%;
+    }
+}
+
 .mobile-nav-btn {
     background: var(--gold);
     color: var(--dark-green);
