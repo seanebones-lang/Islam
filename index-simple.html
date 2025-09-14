@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Learning Companion - Simple</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Simplified Styles for Easy Use */
+        .simple-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .simple-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .simple-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .simple-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Dua Header Section */
+        .dua-header {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .dua-arabic {
+            margin-bottom: 1rem;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--gold);
+            line-height: 1.8;
+            margin: 0.5rem 0;
+            text-align: center;
+            direction: rtl;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .main-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .main-btn {
+            background: linear-gradient(135deg, var(--gold), #f4d03f);
+            color: var(--dark-green);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .main-btn i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--light-green);
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .search-btn {
+            background: var(--gold);
+            color: var(--dark-green);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        
+        .prayer-times-simple {
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .prayer-times-simple h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .prayer-grid-simple {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .prayer-item-simple {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .prayer-name-simple {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .prayer-time-simple {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .secondary-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .secondary-btn {
+            background: var(--light-green);
+            color: var(--dark-green);
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        
+        .secondary-btn:hover {
+            background: #a8d8a8;
+        }
+        
+        .daily-hadith-simple {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+        
+        .daily-hadith-simple h3 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        
+        .hadith-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .hadith-translation {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .hadith-reference {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .simple-container {
+                padding: 15px;
+            }
+            
+            .simple-header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-btn {
+                padding: 25px;
+                font-size: 1.2rem;
+            }
+            
+            .main-btn i {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* High contrast for older users */
+        .high-contrast {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        
+        .high-contrast .main-btn {
+            background: #fff !important;
+            color: #000 !important;
+            border: 2px solid #000 !important;
+        }
+        
+        .high-contrast .search-section,
+        .high-contrast .daily-hadith-simple {
+            background: #333 !important;
+            color: #fff !important;
+        }
+        
+        .high-contrast .search-section h3,
+        .high-contrast .daily-hadith-simple h3 {
+            color: #fff !important;
+        }
+        
+        .high-contrast .secondary-btn {
+            background: #555 !important;
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="simple-container">
+        <!-- Simple Header with Dua -->
+        <div class="simple-header">
+            <div class="dua-header">
+                <div class="dua-arabic">
+                    <p class="arabic-text">رَبِّ زِدْنِي عِلْمًا نَافِعًا وَارْزُقْنِي فَهْمًا صَاحِبًا</p>
+                    <p class="arabic-text">وَاجْعَلْ هَذَا العَمَلَ خَالِصًا لِوَجْهِكَ الكَرِيمِ</p>
+                    <p class="arabic-text">وَنَفَعَ بِهِ أُمَّةَ مُحَمَّدٍ عَلَيْهِ الصَّلَاةُ وَالسَّلَام</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Buttons - Most Important Features -->
+        <div class="main-buttons">
+            <a href="quran-reader.html" class="main-btn">
+                <i class="fas fa-book-quran"></i>
+                <span>Read Quran</span>
+                <small>114 Surahs with translations</small>
+            </a>
+            <a href="daily-duas.html" class="main-btn">
+                <i class="fas fa-hands-praying"></i>
+                <span>Daily Duas</span>
+                <small>Essential supplications</small>
+            </a>
+        </div>
+
+        <!-- Simple Search -->
+        <div class="search-section">
+            <h3><i class="fas fa-search"></i> Quick Search</h3>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search Quran, duas, or Islamic topics..." id="simpleSearch">
+                <button class="search-btn" onclick="performSimpleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="quick-search-suggestions">
+                <button class="secondary-btn" onclick="searchFor('surah al-fatiha')">Surah Al-Fatiha</button>
+                <button class="secondary-btn" onclick="searchFor('ayatul kursi')">Ayatul Kursi</button>
+                <button class="secondary-btn" onclick="searchFor('morning dua')">Morning Dua</button>
+                <button class="secondary-btn" onclick="searchFor('evening dua')">Evening Dua</button>
+            </div>
+        </div>
+
+        <!-- Simple Prayer Times -->
+        <div class="prayer-times-simple">
+            <h3><i class="fas fa-clock"></i> Today's Prayer Times</h3>
+            <div class="prayer-grid-simple">
+                <div class="prayer-item-simple">
+                    <div class="prayer-name-simple">Fajr</div>
+                    <div class="prayer-time-simple" id="fajr-simple">06:15</div>
+                </div>
+                <div class="prayer-item-simple">
+                    <div class="prayer-name-simple">Dhuhr</div>
+                    <div class="prayer-time-simple" id="dhuhr-simple">12:35</div>
+                </div>
+                <div class="prayer-item-simple">
+                    <div class="prayer-name-simple">Asr</div>
+                    <div class="prayer-time-simple" id="asr-simple">15:25</div>
+                </div>
+                <div class="prayer-item-simple">
+                    <div class="prayer-name-simple">Maghrib</div>
+                    <div class="prayer-time-simple" id="maghrib-simple">17:50</div>
+                </div>
+                <div class="prayer-item-simple">
+                    <div class="prayer-name-simple">Isha</div>
+                    <div class="prayer-time-simple" id="isha-simple">19:15</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                Approximate times for Dallas, Texas
+            </p>
+        </div>
+
+        <!-- Daily Hadith -->
+        <div class="daily-hadith-simple">
+            <h3><i class="fas fa-quote-left"></i> Daily Hadith</h3>
+            <div class="hadith-arabic" id="hadith-arabic">
+                "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ"
+            </div>
+            <div class="hadith-translation" id="hadith-translation">
+                "Whoever believes in Allah and the Last Day should speak good or remain silent"
+            </div>
+            <div class="hadith-reference" id="hadith-reference">
+                Sahih al-Bukhari 6018
+            </div>
+            <button class="secondary-btn" onclick="showNextHadith()" style="margin-top: 15px;">
+                Next Hadith
+            </button>
+        </div>
+
+        <!-- Secondary Features (Less Prominent) -->
+        <div class="secondary-buttons">
+            <a href="prayer-guide.html" class="secondary-btn">
+                <i class="fas fa-pray"></i><br>Prayer Guide
+            </a>
+            <a href="islamic-calendar.html" class="secondary-btn">
+                <i class="fas fa-calendar-alt"></i><br>Islamic Calendar
+            </a>
+            <a href="qibla-finder.html" class="secondary-btn">
+                <i class="fas fa-compass"></i><br>Qibla Finder
+            </a>
+            <a href="community.html" class="secondary-btn">
+                <i class="fas fa-users"></i><br>Community
+            </a>
+        </div>
+
+        <!-- Accessibility Controls -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="secondary-btn" onclick="toggleHighContrast()" style="margin: 5px;">
+                <i class="fas fa-adjust"></i> High Contrast
+            </button>
+            <button class="secondary-btn" onclick="increaseTextSize()" style="margin: 5px;">
+                <i class="fas fa-plus"></i> Larger Text
+            </button>
+            <button class="secondary-btn" onclick="decreaseTextSize()" style="margin: 5px;">
+                <i class="fas fa-minus"></i> Smaller Text
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simple Hadith Collection
+        const simpleHadithCollection = [
+            {
+                arabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+                translation: "Whoever believes in Allah and the Last Day should speak good or remain silent",
+                reference: "Sahih al-Bukhari 6018"
+            },
+            {
+                arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+                translation: "Actions are according to intentions",
+                reference: "Sahih al-Bukhari 1"
+            },
+            {
+                arabic: "مَنْ لَا يَرْحَمِ النَّاسَ لَا يَرْحَمْهُ اللَّهُ",
+                translation: "Whoever does not show mercy to people, Allah will not show mercy to him",
+                reference: "Sahih al-Bukhari 6013"
+            },
+            {
+                arabic: "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا",
+                translation: "A believer to another believer is like a building whose different parts enforce each other",
+                reference: "Sahih al-Bukhari 2446"
+            },
+            {
+                arabic: "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ",
+                translation: "The best of people are those who are most beneficial to others",
+                reference: "Sahih al-Jami' 3289"
+            }
+        ];
+
+        let currentHadithIndex = 0;
+
+        function showNextHadith() {
+            currentHadithIndex = (currentHadithIndex + 1) % simpleHadithCollection.length;
+            const hadith = simpleHadithCollection[currentHadithIndex];
+            
+            document.getElementById('hadith-arabic').textContent = hadith.arabic;
+            document.getElementById('hadith-translation').textContent = hadith.translation;
+            document.getElementById('hadith-reference').textContent = hadith.reference;
+        }
+
+        // Simple Search Function
+        function performSimpleSearch() {
+            const searchTerm = document.getElementById('simpleSearch').value.toLowerCase();
+            if (!searchTerm) return;
+
+            // Simple search logic
+            if (searchTerm.includes('quran') || searchTerm.includes('surah') || searchTerm.includes('ayat')) {
+                window.location.href = 'quran-reader.html';
+            } else if (searchTerm.includes('dua') || searchTerm.includes('supplication') || searchTerm.includes('prayer')) {
+                window.location.href = 'daily-duas.html';
+            } else if (searchTerm.includes('hadith') || searchTerm.includes('sunnah')) {
+                window.location.href = 'hadiths.html';
+            } else if (searchTerm.includes('prayer') || searchTerm.includes('salah')) {
+                window.location.href = 'prayer-guide.html';
+            } else {
+                // Default to Quran
+                window.location.href = 'quran-reader.html';
+            }
+        }
+
+        function searchFor(term) {
+            document.getElementById('simpleSearch').value = term;
+            performSimpleSearch();
+        }
+
+        // Accessibility Functions
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+        }
+
+        function increaseTextSize() {
+            const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = (currentSize + 2) + 'px';
+        }
+
+        function decreaseTextSize() {
+            const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            if (currentSize > 12) {
+                document.body.style.fontSize = (currentSize - 2) + 'px';
+            }
+        }
+
+        // Enter key for search
+        document.getElementById('simpleSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSimpleSearch();
+            }
+        });
+    </script>
+</body>
+</html>

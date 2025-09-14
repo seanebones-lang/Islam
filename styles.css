@@ -15,6 +15,8 @@
     --white: #ffffff;
     --light-gray: #f8f9fa;
     --text-secondary: #e8e8e8;
+    --error-red: #ef4444;
+    --warning-orange: #f59e0b;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-dark: rgba(0, 0, 0, 0.3);
 }
@@ -178,6 +180,28 @@ body {
 .hero-buttons {
     display: flex;
     gap: 1rem;
+}
+
+/* Dua Header Section */
+.dua-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.dua-arabic {
+    margin-bottom: 1rem;
+}
+
+.arabic-text {
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1.8;
+    margin: 0.5rem 0;
+    text-align: center;
+    direction: rtl;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary {
@@ -468,7 +492,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #081a15;
+    background: var(--dark-green);
     padding: 3rem 0 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -1629,8 +1653,8 @@ body {
     text-align: center;
 }
 
-.status.sahih { background: #28a745; color: white; }
-.status.hasan { background: #ffc107; color: var(--dark-green); }
+.status.sahih { background: var(--light-green); color: white; }
+.status.hasan { background: var(--gold); color: var(--dark-green); }
 .status.daif { background: #fd7e14; color: white; }
 .status.mawdu { background: #dc3545; color: white; }
 
@@ -2343,7 +2367,7 @@ body {
 }
 
 .quiz-correct {
-    color: #28a745;
+    color: var(--light-green);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -3373,11 +3397,11 @@ body {
     background: rgba(76, 175, 80, 0.1);
     padding: 1rem;
     border-radius: 8px;
-    border-left: 3px solid #4caf50;
+    border-left: 3px solid var(--light-green);
 }
 
 .correct-example strong {
-    color: #4caf50;
+    color: var(--light-green);
     margin-right: 0.5rem;
 }
 
@@ -5366,7 +5390,7 @@ body {
 
 .step-type.sunnah {
     background: rgba(255, 193, 7, 0.2);
-    color: #ffc107;
+    color: var(--gold);
     border: 1px solid rgba(255, 193, 7, 0.3);
 }
 
@@ -5566,7 +5590,7 @@ body {
 }
 
 .requirement-section h4 i.fa-check-circle {
-    color: #28a745;
+    color: var(--light-green);
 }
 
 .requirement-section h4 i.fa-star {
@@ -5774,7 +5798,7 @@ body {
 .pros {
     background: rgba(40, 167, 69, 0.1);
     border: 1px solid rgba(40, 167, 69, 0.2);
-    color: #28a745;
+    color: var(--light-green);
 }
 
 .cons {
@@ -6322,7 +6346,7 @@ body {
 }
 
 .solutions strong {
-    color: #28a745;
+    color: var(--light-green);
     display: block;
     margin-bottom: 0.5rem;
 }
@@ -6345,7 +6369,7 @@ body {
     content: "✓";
     position: absolute;
     left: 0;
-    color: #28a745;
+    color: var(--light-green);
     font-weight: bold;
 }
 
@@ -6601,7 +6625,7 @@ body {
 }
 
 .notification-success {
-    background: #28a745;
+    background: var(--light-green);
     color: white;
 }
 
@@ -6801,13 +6825,13 @@ body {
 
 .difficulty.beginner {
     background: rgba(40, 167, 69, 0.2);
-    color: #28a745;
+    color: var(--light-green);
     border: 1px solid rgba(40, 167, 69, 0.3);
 }
 
 .difficulty.intermediate {
     background: rgba(255, 193, 7, 0.2);
-    color: #ffc107;
+    color: var(--gold);
     border: 1px solid rgba(255, 193, 7, 0.3);
 }
 
@@ -10171,8 +10195,8 @@ body {
 .theme-light {
     --dark-green: #ffffff;
     --medium-green: #f8f9fa;
-    --light-green: #28a745;
-    --gold: #ffc107;
+    --light-green: var(--light-green);
+    --gold: var(--gold);
     --gold-light: #ffcd39;
     --white: #000000;
     --text-primary: #000000;

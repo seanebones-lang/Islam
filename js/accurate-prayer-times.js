@@ -117,8 +117,8 @@ class AccuratePrayerTimesCalculator {
         // Calculate sun position
         const sunPos = this.sunPosition(jd);
         
-        // Calculate prayer times
-        const times = {
+        // Calculate prayer times (in decimal hours)
+        const rawTimes = {
             fajr: this.calculateTime(jd, lat, lng, -method.fajr, sunPos),
             sunrise: this.calculateTime(jd, lat, lng, -0.833, sunPos),
             dhuhr: this.calculateTime(jd, lat, lng, 0, sunPos),
@@ -128,14 +128,24 @@ class AccuratePrayerTimesCalculator {
         };
 
         // Adjust for timezone
-        Object.keys(times).forEach(prayer => {
-            times[prayer] = this.adjustForTimezone(times[prayer], this.timezone);
+        Object.keys(rawTimes).forEach(prayer => {
+            rawTimes[prayer] = this.adjustForTimezone(rawTimes[prayer], this.timezone);
         });
 
-        this.prayerTimes = times;
+        // Store both raw times (for calculations) and formatted times (for display)
+        this.prayerTimes = rawTimes;
+        this.prayerTimesFormatted = {
+            fajr: this.formatTime(rawTimes.fajr, true),
+            sunrise: this.formatTime(rawTimes.sunrise, true),
+            dhuhr: this.formatTime(rawTimes.dhuhr, true),
+            asr: this.formatTime(rawTimes.asr, true),
+            maghrib: this.formatTime(rawTimes.maghrib, true),
+            isha: this.formatTime(rawTimes.isha, true)
+        };
+        
         this.currentDate = date;
         
-        return times;
+        return this.prayerTimesFormatted;
     }
 
     // Calculate Julian day
@@ -285,18 +295,18 @@ class AccuratePrayerTimesCalculator {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        // Update prayer times display
+        // Update prayer times display using formatted times
         const fajrTime = document.getElementById('fajr-time');
         const dhuhrTime = document.getElementById('dhuhr-time');
         const asrTime = document.getElementById('asr-time');
         const maghribTime = document.getElementById('maghrib-time');
         const ishaTime = document.getElementById('isha-time');
 
-        if (fajrTime) fajrTime.textContent = this.formatTime(this.prayerTimes.fajr);
-        if (dhuhrTime) dhuhrTime.textContent = this.formatTime(this.prayerTimes.dhuhr);
-        if (asrTime) asrTime.textContent = this.formatTime(this.prayerTimes.asr);
-        if (maghribTime) maghribTime.textContent = this.formatTime(this.prayerTimes.maghrib);
-        if (ishaTime) ishaTime.textContent = this.formatTime(this.prayerTimes.isha);
+        if (fajrTime && this.prayerTimesFormatted) fajrTime.textContent = this.prayerTimesFormatted.fajr;
+        if (dhuhrTime && this.prayerTimesFormatted) dhuhrTime.textContent = this.prayerTimesFormatted.dhuhr;
+        if (asrTime && this.prayerTimesFormatted) asrTime.textContent = this.prayerTimesFormatted.asr;
+        if (maghribTime && this.prayerTimesFormatted) maghribTime.textContent = this.prayerTimesFormatted.maghrib;
+        if (ishaTime && this.prayerTimesFormatted) ishaTime.textContent = this.prayerTimesFormatted.isha;
 
         // Update next prayer
         const nextPrayer = this.getNextPrayer();

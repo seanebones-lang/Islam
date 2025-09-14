@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Data Test</title>
+</head>
+<body>
+    <h1>Quran Data Test</h1>
+    <div id="results"></div>
+
+    <script src="js/complete-quran-all-surahs.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            const results = document.getElementById('results');
+
+            // Test 1: Check if data loaded
+            if (window.completeQuranAllSurahs) {
+                const surahCount = Object.keys(window.completeQuranAllSurahs).length;
+                results.innerHTML += `<p>✅ completeQuranAllSurahs loaded: ${surahCount} surahs</p>`;
+
+                // Test 2: Check if all 114 surahs are present
+                const surahNumbers = Object.keys(window.completeQuranAllSurahs).map(Number).sort((a, b) => a - b);
+                const expected = Array.from({length: 114}, (_, i) => i + 1);
+                const missing = expected.filter(num => !surahNumbers.includes(num));
+
+                if (missing.length === 0) {
+                    results.innerHTML += `<p>✅ All 114 surahs present (1-114)</p>`;
+                } else {
+                    results.innerHTML += `<p>❌ Missing surahs: ${missing.join(', ')}</p>`;
+                }
+
+                // Test 3: Check sample surahs
+                const testSurahs = [1, 57, 114];
+                testSurahs.forEach(num => {
+                    if (window.completeQuranAllSurahs[num]) {
+                        const surah = window.completeQuranAllSurahs[num];
+                        results.innerHTML += `<p>✅ Surah ${num}: ${surah.name} - ${surah.verses_data.length} verses</p>`;
+                    } else {
+                        results.innerHTML += `<p>❌ Surah ${num} missing</p>`;
+                    }
+                });
+
+            } else {
+                results.innerHTML += `<p>❌ completeQuranAllSurahs NOT LOADED</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

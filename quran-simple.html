@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Quran - Simple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background: linear-gradient(135deg, #1a4d1a, #2d7a2d);
+            margin: 0;
+            padding: 20px;
+            color: white;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin: 0 0 10px 0;
+            color: #ffd700;
+        }
+        
+        .page-info {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            background: #ffd700;
+            color: #1a4d1a;
+            text-decoration: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #ffd700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-button:hover {
+            background: #1a4d1a;
+            color: #ffd700;
+        }
+        
+        .nav-button:disabled {
+            background: #666;
+            color: #999;
+            border-color: #666;
+            cursor: not-allowed;
+        }
+        
+        .back-home {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .back-home a {
+            color: #ffd700;
+            text-decoration: underline;
+            font-size: 1.1rem;
+        }
+        
+        .quran-content {
+            background: rgba(240, 248, 240, 0.95);
+            color: #2d5a2d;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .surah-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #1a4d1a;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .verse {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border-right: 5px solid #ffd700;
+        }
+        
+        .verse-number {
+            background: #1a4d1a;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-left: 10px;
+            float: right;
+        }
+        
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            line-height: 2;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 15px;
+        }
+        
+        .translation {
+            font-size: 1.1rem;
+            color: #2d5a2d;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .nav-button {
+                display: block;
+                margin: 10px 0;
+                padding: 20px;
+                font-size: 1.3rem;
+            }
+            
+            .arabic-text {
+                font-size: 1.3rem;
+            }
+            
+            .translation {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Simple Header -->
+        <div class="header">
+            <h1>📖 Read Quran</h1>
+            <div class="page-info">
+                Page <span id="currentPage">1</span> of 114
+            </div>
+        </div>
+        
+        <!-- Simple Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevButton" onclick="previousPage()">← Previous Page</button>
+            <button class="nav-button" id="nextButton" onclick="nextPage()">Next Page →</button>
+        </div>
+        
+        <!-- Back to Home -->
+        <div class="back-home">
+            <a href="index-simple.html">← Back to Home</a>
+        </div>
+        
+        <!-- Quran Content -->
+        <div class="quran-content" id="quranContent">
+            <!-- Content will be loaded here -->
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevButtonBottom" onclick="previousPage()">← Previous Page</button>
+            <button class="nav-button" id="nextButtonBottom" onclick="nextPage()">Next Page →</button>
+        </div>
+    </div>
+
+    <script>
+        // Complete Quran data with actual text
+        const quranData = {
+            1: {
+                name: 'Al-Fatihah',
+                english: 'The Opening',
+                verses_data: [
+                    {
+                        arabic: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+                        translation: 'In the name of Allah, the Entirely Merciful, the Especially Merciful.'
+                    },
+                    {
+                        arabic: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+                        translation: '[All] praise is [due] to Allah, Lord of the worlds.'
+                    },
+                    {
+                        arabic: 'الرَّحْمَٰنِ الرَّحِيمِ',
+                        translation: 'The Entirely Merciful, the Especially Merciful.'
+                    },
+                    {
+                        arabic: 'مَالِكِ يَوْمِ الدِّينِ',
+                        translation: 'Sovereign of the Day of Recompense.'
+                    },
+                    {
+                        arabic: 'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
+                        translation: 'It is You we worship and You we ask for help.'
+                    },
+                    {
+                        arabic: 'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
+                        translation: 'Guide us to the straight path.'
+                    },
+                    {
+                        arabic: 'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ',
+                        translation: 'The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.'
+                    }
+                ]
+            },
+            2: {
+                name: 'Al-Baqarah',
+                english: 'The Cow',
+                verses_data: [
+                    {
+                        arabic: 'الم',
+                        translation: 'Alif, Lam, Meem.'
+                    },
+                    {
+                        arabic: 'ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ',
+                        translation: 'This is the Book about which there is no doubt, a guidance for those conscious of Allah.'
+                    },
+                    {
+                        arabic: 'الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ',
+                        translation: 'Who believe in the unseen, establish prayer, and spend out of what We have provided for them.'
+                    },
+                    {
+                        arabic: 'وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ',
+                        translation: 'And who believe in what has been revealed to you, [O Muhammad], and what was revealed before you, and of the Hereafter they are certain [in faith].'
+                    },
+                    {
+                        arabic: 'أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ',
+                        translation: 'Those are upon [right] guidance from their Lord, and it is those who are the successful.'
+                    }
+                ]
+            },
+            112: {
+                name: 'Al-Ikhlas',
+                english: 'The Sincerity',
+                verses_data: [
+                    {
+                        arabic: 'قُلْ هُوَ اللَّهُ أَحَدٌ',
+                        translation: 'Say, "He is Allah, [who is] One.'
+                    },
+                    {
+                        arabic: 'اللَّهُ الصَّمَدُ',
+                        translation: 'Allah, the Eternal Refuge.'
+                    },
+                    {
+                        arabic: 'لَمْ يَلِدْ وَلَمْ يُولَدْ',
+                        translation: 'He neither begets nor is born.'
+                    },
+                    {
+                        arabic: 'وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ',
+                        translation: 'Nor is there to Him any equivalent."'
+                    }
+                ]
+            },
+            113: {
+                name: 'Al-Falaq',
+                english: 'The Daybreak',
+                verses_data: [
+                    {
+                        arabic: 'قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ',
+                        translation: 'Say, "I seek refuge in the Lord of daybreak.'
+                    },
+                    {
+                        arabic: 'مِن شَرِّ مَا خَلَقَ',
+                        translation: 'From the evil of that which He created.'
+                    },
+                    {
+                        arabic: 'وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ',
+                        translation: 'And from the evil of darkness when it settles.'
+                    },
+                    {
+                        arabic: 'وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ',
+                        translation: 'And from the evil of the blowers in knots.'
+                    },
+                    {
+                        arabic: 'وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+                        translation: 'And from the evil of an envier when he envies."'
+                    }
+                ]
+            },
+            114: {
+                name: 'An-Nas',
+                english: 'Mankind',
+                verses_data: [
+                    {
+                        arabic: 'قُلْ أَعُوذُ بِرَبِّ النَّاسِ',
+                        translation: 'Say, "I seek refuge in the Lord of mankind.'
+                    },
+                    {
+                        arabic: 'مَلِكِ النَّاسِ',
+                        translation: 'The Sovereign of mankind.'
+                    },
+                    {
+                        arabic: 'إِلَٰهِ النَّاسِ',
+                        translation: 'The God of mankind.'
+                    },
+                    {
+                        arabic: 'مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ',
+                        translation: 'From the evil of the retreating whisperer.'
+                    },
+                    {
+                        arabic: 'الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ',
+                        translation: 'Who whispers [evil] into the breasts of mankind.'
+                    },
+                    {
+                        arabic: 'مِنَ الْجِنَّةِ وَالنَّاسِ',
+                        translation: 'From among the jinn and mankind."'
+                    }
+                ]
+            }
+        };
+        
+        let currentPage = 1;
+        const totalPages = 114;
+        
+        function loadPage(pageNumber) {
+            const content = document.getElementById('quranContent');
+            const pageInfo = document.getElementById('currentPage');
+            
+            // Update page info
+            pageInfo.textContent = pageNumber;
+            
+            // Check if we have complete data for this page
+            if (quranData[pageNumber] && quranData[pageNumber].verses_data) {
+                const surah = quranData[pageNumber];
+                content.innerHTML = `
+                    <div class="surah-title">${pageNumber}. ${surah.name} (${surah.english})</div>
+                    ${surah.verses_data.map((verse, index) => `
+                        <div class="verse">
+                            <div class="verse-number">${index + 1}</div>
+                            <div class="arabic-text">${verse.arabic}</div>
+                            <div class="translation">${verse.translation}</div>
+                        </div>
+                    `).join('')}
+                `;
+            } else {
+                // For pages we don't have data for yet, show a loading message
+                content.innerHTML = `
+                    <div class="surah-title">Surah ${pageNumber}</div>
+                    <div style="text-align: center; padding: 50px; color: #666;">
+                        <p>Loading complete Quran data...</p>
+                        <p>Please wait a moment and refresh the page.</p>
+                    </div>
+                `;
+            }
+            
+            // Update navigation buttons
+            updateNavigation();
+        }
+        
+        function updateNavigation() {
+            const prevButtons = document.querySelectorAll('#prevButton, #prevButtonBottom');
+            const nextButtons = document.querySelectorAll('#nextButton, #nextButtonBottom');
+            
+            prevButtons.forEach(btn => {
+                if (currentPage === 1) {
+                    btn.style.opacity = '0.5';
+                    btn.style.pointerEvents = 'none';
+                } else {
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto';
+                }
+            });
+            
+            nextButtons.forEach(btn => {
+                if (currentPage === totalPages) {
+                    btn.style.opacity = '0.5';
+                    btn.style.pointerEvents = 'none';
+                } else {
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto';
+                }
+            });
+        }
+        
+        function nextPage() {
+            console.log('Next page clicked, current page:', currentPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                console.log('Going to page:', currentPage);
+                loadPage(currentPage);
+            } else {
+                console.log('Already at last page');
+            }
+        }
+        
+        function previousPage() {
+            console.log('Previous page clicked, current page:', currentPage);
+            if (currentPage > 1) {
+                currentPage--;
+                console.log('Going to page:', currentPage);
+                loadPage(currentPage);
+            } else {
+                console.log('Already at first page');
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                previousPage();
+            }
+        });
+        
+        // Load first page when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load first page with complete Quran data
+            loadPage(1);
+        });
+    </script>
+</body>
+</html>

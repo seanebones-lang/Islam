@@ -1,7 +1,8 @@
 // Complete Quran Data - All 114 Surahs
 // This file contains the complete Quran with all surahs, verses, Arabic text, transliteration, and translations
 
-const completeQuranData = {
+// Make the data available globally
+window.completeQuranData = {
     // Surah 1: Al-Fatihah (The Opening)
     1: {
         name: 'Al-Fatihah',

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Navigation Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Quran Navigation Test</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="quran-reader.html" class="nav-link">Full Quran Reader</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test Section -->
+    <section class="quran-reader">
+        <div class="container">
+            <div class="surah-navigation">
+                <h1 class="page-title">
+                    <i class="fas fa-book-quran"></i>
+                    Quran Navigation Test
+                </h1>
+                
+                <div class="test-controls">
+                    <h3>Test Surah Selection</h3>
+                    <select id="surahSelect" class="surah-selector">
+                        <option value="1">1. Al-Fatihah (The Opening)</option>
+                        <option value="2">2. Al-Baqarah (The Cow)</option>
+                        <option value="3">3. Ali Imran (Family of Imran)</option>
+                        <option value="10">10. Yunus (Jonah)</option>
+                        <option value="36">36. Ya-Sin (Ya-Sin)</option>
+                        <option value="55">55. Ar-Rahman (The Most Merciful)</option>
+                        <option value="67">67. Al-Mulk (The Sovereignty)</option>
+                        <option value="112">112. Al-Ikhlas (The Sincerity)</option>
+                        <option value="114">114. An-Nas (Mankind)</option>
+                    </select>
+                    
+                    <button class="btn-primary" onclick="testSurah()">Test Surah</button>
+                    <button class="btn-secondary" onclick="testAllSurahs()">Test All Surahs</button>
+                </div>
+                
+                <div class="test-results" id="testResults">
+                    <h3>Test Results</h3>
+                    <div id="testOutput"></div>
+                </div>
+            </div>
+
+            <!-- Quran Content -->
+            <div class="quran-content" id="quranContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="js/complete-quran-all-surahs.js"></script>
+    <script src="js/quran-loader.js"></script>
+    <script src="complete-quran-data.js"></script>
+    <script src="quran-reader.js"></script>
+    
+    <script>
+        function testSurah() {
+            const surahNumber = document.getElementById('surahSelect').value;
+            const output = document.getElementById('testOutput');
+            
+            output.innerHTML = `<p><strong>Testing Surah ${surahNumber}...</strong></p>`;
+            
+            if (window.surahData && window.surahData[surahNumber]) {
+                const surah = window.surahData[surahNumber];
+                output.innerHTML += `
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <h4>✅ Surah ${surahNumber} loaded successfully!</h4>
+                        <p><strong>Name:</strong> ${surah.name} (${surah.english})</p>
+                        <p><strong>Arabic:</strong> ${surah.arabic}</p>
+                        <p><strong>Type:</strong> ${surah.type}</p>
+                        <p><strong>Verses:</strong> ${surah.verses}</p>
+                        <p><strong>Has verse data:</strong> ${surah.verses_data ? 'Yes (' + surah.verses_data.length + ' verses)' : 'No'}</p>
+                    </div>
+                `;
+                
+                // Show the surah
+                if (window.showSurah) {
+                    window.showSurah(surahNumber);
+                }
+            } else {
+                output.innerHTML += `
+                    <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <h4>❌ Surah ${surahNumber} not found!</h4>
+                        <p>Available surahs: ${Object.keys(window.surahData || {}).join(', ')}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function testAllSurahs() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<p><strong>Testing all 114 surahs...</strong></p>';
+            
+            if (!window.surahData) {
+                output.innerHTML += '<p style="color: red;">❌ surahData not available!</p>';
+                return;
+            }
+            
+            let successCount = 0;
+            let missingCount = 0;
+            let withVersesCount = 0;
+            let placeholderCount = 0;
+            
+            for (let i = 1; i <= 114; i++) {
+                if (window.surahData[i]) {
+                    successCount++;
+                    if (window.surahData[i].verses_data && window.surahData[i].verses_data.length > 0) {
+                        withVersesCount++;
+                        if (window.surahData[i].verses_data[0].arabic.includes('[Arabic text for verse')) {
+                            placeholderCount++;
+                        }
+                    }
+                } else {
+                    missingCount++;
+                }
+            }
+            
+            output.innerHTML += `
+                <div style="background: #d1ecf1; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <h4>📊 Test Results Summary</h4>
+                    <p><strong>Total surahs found:</strong> ${successCount}/114</p>
+                    <p><strong>Missing surahs:</strong> ${missingCount}</p>
+                    <p><strong>Surahs with verse data:</strong> ${withVersesCount}</p>
+                    <p><strong>Surahs with placeholder data:</strong> ${placeholderCount}</p>
+                    <p><strong>Surahs with complete data:</strong> ${withVersesCount - placeholderCount}</p>
+                </div>
+            `;
+            
+            if (successCount === 114) {
+                output.innerHTML += '<p style="color: green;">✅ All 114 surahs are available!</p>';
+            } else {
+                output.innerHTML += `<p style="color: orange;">⚠️ ${missingCount} surahs are missing</p>`;
+            }
+        }
+        
+        // Auto-test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                testAllSurahs();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
+
+
+

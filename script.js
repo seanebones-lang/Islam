@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #d4af37, #e6c757);
-            color: #1a4f3a;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--medium-green);
             padding: 1rem 1.5rem;
             border-radius: 12px;
             font-weight: 600;

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Use complete Quran data from external file
     // The surahData will be replaced with completeQuranData from complete-quran-data.js
-    const surahData = {
+    let surahData = window.completeQuranData || {
         1: { 
             name: 'Al-Fatihah', 
             english: 'The Opening', 
@@ -1120,21 +1120,51 @@ document.addEventListener('DOMContentLoaded', function() {
         const content = document.getElementById('quranContent');
         const surah = surahData[surahNumber];
         
-        if (surah && surah.verses_data) {
+        if (surah && surah.verses_data && surah.verses_data.length > 0) {
+            // Check if this is placeholder data
+            const isPlaceholder = surah.verses_data[0] && surah.verses_data[0].arabic.includes('[Arabic text for verse');
+            
             // Generate complete surah HTML with verses
             let versesHTML = '';
-            surah.verses_data.forEach((verse, index) => {
-                versesHTML += `
-                    <div class="verse-block">
-                        <div class="verse-number">${index + 1}</div>
-                        <div class="verse-content">
-                            <div class="arabic-verse">${verse.arabic}</div>
-                            <div class="transliteration">${verse.transliteration}</div>
-                            <div class="english-translation">${verse.translation}</div>
+            if (isPlaceholder) {
+                // Show a message that this surah is coming soon
+                versesHTML = `
+                    <div class="content-card" style="text-align: center; padding: 3rem; margin: 2rem 0;">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem;">
+                            <i class="fas fa-tools"></i> Surah Coming Soon
+                        </h3>
+                        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                            ${surah.name} (${surah.english}) - ${surah.verses} verses<br>
+                            <small>Complete Arabic text, transliteration, and translation will be available soon.</small>
+                        </p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <button class="btn-primary" onclick="showSurah(1)">
+                                <i class="fas fa-book-open"></i> Read Al-Fatihah
+                            </button>
+                            <button class="btn-secondary" onclick="showSurah(2)">
+                                <i class="fas fa-book"></i> Read Al-Baqarah
+                            </button>
+                            <button class="btn-outline" onclick="window.location.href='subjects.html'">
+                                <i class="fas fa-graduation-cap"></i> Explore Other Subjects
+                            </button>
                         </div>
                     </div>
                 `;
-            });
+            } else {
+                // Show actual verses
+                surah.verses_data.forEach((verse, index) => {
+                    versesHTML += `
+                        <div class="verse-block">
+                            <div class="verse-number">${index + 1}</div>
+                            <div class="verse-content">
+                                <div class="arabic-verse">${verse.arabic}</div>
+                                <div class="transliteration">${verse.transliteration}</div>
+                                <div class="english-translation">${verse.translation}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
 
             const surahHTML = `
                 <div class="surah-container" id="surah-${surahNumber}">
@@ -1568,7 +1598,50 @@ window.addEventListener('load', function() {
             setTimeout(() => greeting.remove(), 500);
         }, 3000);
     }, 1000);
+
+    // Function to load complete Quran data when available
+    function loadCompleteQuranData() {
+        if (window.getSurahData && window.allSurahsMetadata) {
+            // Use the getSurahData function which provides fallback data for all surahs
+            surahData = {};
+            for (let i = 1; i <= 114; i++) {
+                surahData[i] = window.getSurahData(i);
+            }
+            console.log('Complete Quran data loaded successfully! All 114 surahs available.');
+            showNotification('Complete Quran data loaded - All 114 surahs available!', 'success');
+            
+            // Update the surah selector with all options
+            updateSurahSelector();
+        } else {
+            // Try again after a short delay
+            setTimeout(loadCompleteQuranData, 500);
+        }
+    }
+
+    // Function to update surah selector with all available surahs
+    function updateSurahSelector() {
+        const surahSelect = document.getElementById('surahSelect');
+        if (surahSelect && surahData) {
+            // Clear existing options
+            surahSelect.innerHTML = '';
+            
+            // Add all surahs from the complete data
+            for (let i = 1; i <= 114; i++) {
+                if (surahData[i]) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i}. ${surahData[i].name} (${surahData[i].english})`;
+                    surahSelect.appendChild(option);
+                }
+            }
+        }
+    }
+
+    // Start loading complete Quran data
+    loadCompleteQuranData();
     
-    // Close the surahData object
+    // Make functions available globally for testing
+    window.showSurah = showSurah;
+    window.surahData = surahData;
 });
 

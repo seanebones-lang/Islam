@@ -34,148 +34,23 @@
                 <h1 class="page-title">
                     <i class="fas fa-book-quran"></i>
                     Al-Quran Al-Kareem
-                    <span class="complete-indicator">Complete - All 114 Surahs</span>
+                    <span class="complete-indicator">Complete - Read Page by Page</span>
                 </h1>
-                <div class="reading-progress">
-                    <div class="progress-info">
-                        <span id="currentSurahInfo">Surah 1: Al-Fatihah</span>
-                        <span id="readingProgress">0% Complete</span>
+                <!-- Simple Navigation for Elderly Users -->
+                <div style="background: white; border-radius: 10px; padding: 20px; margin: 10px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div style="font-size: 1.2rem; font-weight: 600; color: var(--dark-green); margin-bottom: 15px;">
+                        <span id="currentPageDisplay">Page 1 of 114</span>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="readingProgressBar"></div>
+                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                        <a href="#" onclick="previousPage(); return false;" id="prevLink" style="color: var(--dark-green); text-decoration: none; font-size: 1.1rem; font-weight: 600; padding: 10px 20px; border: 2px solid var(--dark-green); border-radius: 8px; background: white;">
+                            ← Previous Page
+                        </a>
+                        <a href="#" onclick="nextPage(); return false;" id="nextLink" style="color: white; text-decoration: none; font-size: 1.1rem; font-weight: 600; padding: 10px 20px; border: 2px solid var(--dark-green); border-radius: 8px; background: var(--dark-green);">
+                            Next Page →
+                        </a>
                     </div>
-                    <div class="continue-reading" id="continueReading" style="display: none;">
-                        <button class="continue-btn" onclick="continueReading()">
-                            <i class="fas fa-play"></i> Continue Reading
-                        </button>
-                    </div>
-                </div>
-                <div class="navigation-controls">
-                    <div class="surah-navigation">
-                        <button class="nav-btn" id="prevSurah" onclick="previousSurah()" disabled>
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <select id="surahSelect" class="surah-selector">
-                            <option value="1">1. Al-Fatihah (The Opening)</option>
-                            <option value="2">2. Al-Baqarah (The Cow)</option>
-                            <option value="3">3. Ali Imran (Family of Imran)</option>
-                            <option value="4">4. An-Nisa (The Women)</option>
-                            <option value="5">5. Al-Maidah (The Table Spread)</option>
-                            <option value="6">6. Al-An'am (The Cattle)</option>
-                            <option value="7">7. Al-A'raf (The Heights)</option>
-                            <option value="8">8. Al-Anfal (The Spoils of War)</option>
-                            <option value="9">9. At-Tawbah (The Repentance)</option>
-                            <option value="10">10. Yunus (Jonah)</option>
-                        <option value="11">11. Hud (Hud)</option>
-                        <option value="12">12. Yusuf (Joseph)</option>
-                        <option value="13">13. Ar-Ra'd (The Thunder)</option>
-                        <option value="14">14. Ibrahim (Abraham)</option>
-                        <option value="15">15. Al-Hijr (The Rocky Tract)</option>
-                        <option value="16">16. An-Nahl (The Bee)</option>
-                        <option value="17">17. Al-Isra (The Night Journey)</option>
-                        <option value="18">18. Al-Kahf (The Cave)</option>
-                        <option value="19">19. Maryam (Mary)</option>
-                        <option value="20">20. Ta-Ha (Ta-Ha)</option>
-                        <option value="21">21. Al-Anbiya (The Prophets)</option>
-                        <option value="22">22. Al-Hajj (The Pilgrimage)</option>
-                        <option value="23">23. Al-Mu'minun (The Believers)</option>
-                        <option value="24">24. An-Nur (The Light)</option>
-                        <option value="25">25. Al-Furqan (The Criterion)</option>
-                        <option value="26">26. Ash-Shu'ara (The Poets)</option>
-                        <option value="27">27. An-Naml (The Ant)</option>
-                        <option value="28">28. Al-Qasas (The Stories)</option>
-                        <option value="29">29. Al-Ankabut (The Spider)</option>
-                        <option value="30">30. Ar-Rum (The Romans)</option>
-                        <option value="31">31. Luqman (Luqman)</option>
-                        <option value="32">32. As-Sajda (The Prostration)</option>
-                        <option value="33">33. Al-Ahzab (The Combined Forces)</option>
-                        <option value="34">34. Saba (Sheba)</option>
-                        <option value="35">35. Fatir (Originator)</option>
-                        <option value="36">36. Ya-Sin (Ya-Sin)</option>
-                        <option value="37">37. As-Saffat (Those Ranged in Rows)</option>
-                        <option value="38">38. Sad (Sad)</option>
-                        <option value="39">39. Az-Zumar (The Troops)</option>
-                        <option value="40">40. Ghafir (The Forgiver)</option>
-                        <option value="45">45. Al-Jathiyah (The Crouching)</option>
-                        <option value="46">46. Al-Ahqaf (The Wind-Curved Sandhills)</option>
-                        <option value="47">47. Muhammad (Muhammad)</option>
-                        <option value="48">48. Al-Fath (The Victory)</option>
-                        <option value="49">49. Al-Hujurat (The Rooms)</option>
-                        <option value="50">50. Qaf (Qaf)</option>
-                        <option value="51">51. Adh-Dhariyat (The Scatterers)</option>
-                        <option value="52">52. At-Tur (The Mount)</option>
-                        <option value="53">53. An-Najm (The Star)</option>
-                        <option value="54">54. Al-Qamar (The Moon)</option>
-                        <option value="55">55. Ar-Rahman (The Most Merciful)</option>
-                        <option value="56">56. Al-Waqi'ah (The Event)</option>
-                        <option value="57">57. Al-Hadid (The Iron)</option>
-                        <option value="58">58. Al-Mujadila (The Disputation)</option>
-                        <option value="59">59. Al-Hashr (The Gathering)</option>
-                        <option value="60">60. Al-Mumtahanah (She That Is to Be Examined)</option>
-                        <option value="61">61. As-Saff (The Ranks)</option>
-                        <option value="62">62. Al-Jumu'ah (Friday)</option>
-                        <option value="63">63. Al-Munafiqun (The Hypocrites)</option>
-                        <option value="64">64. At-Taghabun (The Mutual Disillusion)</option>
-                        <option value="65">65. At-Talaq (The Divorce)</option>
-                        <option value="66">66. At-Tahrim (The Prohibition)</option>
-                        <option value="67">67. Al-Mulk (The Sovereignty)</option>
-                        <option value="68">68. Al-Qalam (The Pen)</option>
-                        <option value="69">69. Al-Haqqah (The Inevitable)</option>
-                        <option value="70">70. Al-Ma'arij (The Ascending Stairways)</option>
-                        <option value="71">71. Nuh (Noah)</option>
-                        <option value="72">72. Al-Jinn (The Jinn)</option>
-                        <option value="73">73. Al-Muzzammil (The Enshrouded One)</option>
-                        <option value="74">74. Al-Muddaththir (The Cloaked One)</option>
-                        <option value="75">75. Al-Qiyamah (The Resurrection)</option>
-                        <option value="76">76. Al-Insan (The Human)</option>
-                        <option value="77">77. Al-Mursalat (The Emissaries)</option>
-                        <option value="78">78. An-Naba (The Tidings)</option>
-                        <option value="79">79. An-Nazi'at (Those Who Drag Forth)</option>
-                        <option value="80">80. Abasa (He Frowned)</option>
-                        <option value="81">81. At-Takwir (The Overthrowing)</option>
-                        <option value="82">82. Al-Infitar (The Cleaving)</option>
-                        <option value="83">83. Al-Mutaffifin (The Defrauding)</option>
-                        <option value="84">84. Al-Inshiqaq (The Sundering)</option>
-                        <option value="85">85. Al-Buruj (The Constellations)</option>
-                        <option value="86">86. At-Tariq (The Night-Comer)</option>
-                        <option value="87">87. Al-A'la (The Most High)</option>
-                        <option value="88">88. Al-Ghashiyah (The Overwhelming)</option>
-                        <option value="89">89. Al-Fajr (The Dawn)</option>
-                        <option value="90">90. Al-Balad (The City)</option>
-                        <option value="91">91. Ash-Shams (The Sun)</option>
-                        <option value="92">92. Al-Layl (The Night)</option>
-                        <option value="93">93. Ad-Duha (The Morning Hours)</option>
-                        <option value="94">94. Ash-Sharh (The Relief)</option>
-                        <option value="95">95. At-Tin (The Fig)</option>
-                        <option value="96">96. Al-Alaq (The Clot)</option>
-                        <option value="97">97. Al-Qadr (The Power)</option>
-                        <option value="98">98. Al-Bayyinah (The Clear Evidence)</option>
-                        <option value="99">99. Az-Zalzalah (The Earthquake)</option>
-                        <option value="100">100. Al-Adiyat (The Courser)</option>
-                        <option value="101">101. Al-Qari'ah (The Striking Hour)</option>
-                        <option value="102">102. At-Takathur (The Rivalry in Worldly Increase)</option>
-                        <option value="103">103. Al-Asr (The Time)</option>
-                        <option value="104">104. Al-Humazah (The Slanderer)</option>
-                        <option value="105">105. Al-Fil (The Elephant)</option>
-                        <option value="106">106. Quraysh (Quraysh)</option>
-                        <option value="107">107. Al-Ma'un (The Small Kindnesses)</option>
-                        <option value="108">108. Al-Kawthar (The Abundance)</option>
-                        <option value="109">109. Al-Kafirun (The Disbelievers)</option>
-                        <option value="110">110. An-Nasr (The Divine Support)</option>
-                        <option value="111">111. Al-Masad (The Palm Fiber)</option>
-                        <option value="112">112. Al-Ikhlas (The Sincerity)</option>
-                        <option value="113">113. Al-Falaq (The Daybreak)</option>
-                        <option value="114">114. An-Nas (Mankind)</option>
-                        </select>
-                        <button class="nav-btn" id="nextSurah" onclick="nextSurah()">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="reading-options">
-                        <button class="option-btn active" data-view="all">Arabic + Translation</button>
-                        <button class="option-btn" data-view="arabic">Arabic Only</button>
-                        <button class="option-btn" data-view="translation">Translation Only</button>
-                        <button class="option-btn" data-view="tafsir">Show Tafsir</button>
+                    <div style="margin-top: 15px; font-size: 1rem; color: var(--dark-green);">
+                        <a href="index.html" style="color: var(--dark-green); text-decoration: underline;">← Back to Home</a>
                     </div>
                 </div>
             </div>
@@ -259,6 +134,24 @@
                                 <div class="transliteration">Sirata-l-ladhina an'amta 'alayhim ghayri-l-maghdubi 'alayhim wa la-d-dalleen</div>
                                 <div class="english-translation">The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.</div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Navigation for Al-Fatihah -->
+                    <div class="bottom-navigation" style="background: var(--gold); border-radius: 15px; padding: 20px; margin: 30px 0; text-align: center;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+                            <button class="bottom-nav-btn" onclick="previousSurah()" style="background: var(--dark-green); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-arrow-left"></i> Previous Surah
+                            </button>
+                            <div style="background: white; padding: 8px 15px; border-radius: 8px; color: var(--dark-green); font-weight: 600;">
+                                Surah 1 of 114
+                            </div>
+                            <button class="bottom-nav-btn" onclick="nextSurah()" style="background: var(--dark-green); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                Next Surah <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: var(--dark-green);">
+                            <p><i class="fas fa-info-circle"></i> Use these buttons to navigate between Surahs easily</p>
                         </div>
                     </div>
                 </div>
@@ -3847,6 +3740,8 @@
         </div>
     </footer>
 
+    <script src="js/complete-quran-all-surahs.js"></script>
+    <script src="js/quran-loader.js"></script>
     <script src="quran-data.js"></script>
     <script src="complete-quran-data.js"></script>
     <script src="js/complete-holy-quran.js"></script>
@@ -4158,6 +4053,66 @@
                     background: var(--gold);
                     transform: translateY(-2px);
                 }
+                
+                /* Bottom Navigation Styles */
+                .bottom-navigation {
+                    position: sticky;
+                    bottom: 20px;
+                    z-index: 100;
+                }
+                
+                @media (max-width: 768px) {
+                    .bottom-navigation {
+                        position: fixed !important;
+                        bottom: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                        padding: 15px !important;
+                        box-shadow: 0 -4px 20px rgba(0,0,0,0.3) !important;
+                    }
+                    
+                    .bottom-navigation div:first-child {
+                        flex-direction: column !important;
+                        gap: 12px !important;
+                    }
+                    
+                    .bottom-navigation button {
+                        width: 100% !important;
+                        justify-content: center !important;
+                        padding: 20px !important;
+                        font-size: 1.2rem !important;
+                        min-height: 60px !important;
+                    }
+                    
+                    .simple-page-nav {
+                        position: fixed !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                        padding: 8px !important;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+                    }
+                    
+                    .simple-page-nav div:first-child {
+                        gap: 8px !important;
+                    }
+                    
+                    .simple-page-nav button {
+                        padding: 10px 15px !important;
+                        font-size: 0.9rem !important;
+                        min-height: 40px !important;
+                    }
+                    
+                    .simple-page-nav select {
+                        padding: 8px !important;
+                        font-size: 0.9rem !important;
+                        min-width: 100px !important;
+                    }
+                }
             `;
             document.head.appendChild(style);
         }
@@ -4195,22 +4150,85 @@
             }
         }
 
-        // Navigation functions
-        function nextSurah() {
-            const currentSurah = parseInt(document.getElementById('surahSelect').value);
-            if (currentSurah < 114) {
-                document.getElementById('surahSelect').value = currentSurah + 1;
-                loadSurah(currentSurah + 1);
-                updateNavigationButtons();
+        // Page-based navigation functions
+        let currentPage = 1;
+        const totalPages = 114; // Each Surah is one page for now
+        
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadPage(currentPage);
+                updatePageNavigationButtons();
             }
         }
         
-        function previousSurah() {
-            const currentSurah = parseInt(document.getElementById('surahSelect').value);
-            if (currentSurah > 1) {
-                document.getElementById('surahSelect').value = currentSurah - 1;
-                loadSurah(currentSurah - 1);
-                updateNavigationButtons();
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPage(currentPage);
+                updatePageNavigationButtons();
+            }
+        }
+        
+        function loadPage(pageNumber) {
+            // Hide all surahs
+            const allSurahs = document.querySelectorAll('.surah-container');
+            allSurahs.forEach(surah => {
+                surah.style.display = 'none';
+            });
+            
+            // Show selected page (surah)
+            const selectedSurah = document.getElementById(`surah-${pageNumber}`);
+            if (selectedSurah) {
+                selectedSurah.style.display = 'block';
+                
+                // Update current page
+                currentPage = pageNumber;
+                
+                // Add bottom navigation if it doesn't exist
+                addBottomPageNavigation(pageNumber);
+                
+                // Scroll to top of page
+                selectedSurah.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Update progress tracking
+                trackReadingProgress(pageNumber);
+                
+                // Update progress display
+                updateProgressDisplay();
+            }
+        }
+        
+        function updatePageNavigationButtons() {
+            const prevLink = document.getElementById('prevLink');
+            const nextLink = document.getElementById('nextLink');
+            const pageDisplay = document.getElementById('currentPageDisplay');
+            
+            // Update page display
+            if (pageDisplay) {
+                pageDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
+            }
+            
+            // Update previous link
+            if (prevLink) {
+                if (currentPage === 1) {
+                    prevLink.style.opacity = '0.5';
+                    prevLink.style.pointerEvents = 'none';
+                } else {
+                    prevLink.style.opacity = '1';
+                    prevLink.style.pointerEvents = 'auto';
+                }
+            }
+            
+            // Update next link
+            if (nextLink) {
+                if (currentPage === totalPages) {
+                    nextLink.style.opacity = '0.5';
+                    nextLink.style.pointerEvents = 'none';
+                } else {
+                    nextLink.style.opacity = '1';
+                    nextLink.style.pointerEvents = 'auto';
+                }
             }
         }
         
@@ -4223,9 +4241,72 @@
             nextBtn.disabled = currentSurah === 114;
         }
         
+        function addBottomPageNavigation(pageNumber) {
+            const surah = document.getElementById(`surah-${pageNumber}`);
+            if (!surah) return;
+            
+            // Check if bottom navigation already exists
+            const existingNav = surah.querySelector('.bottom-navigation');
+            if (existingNav) return;
+            
+            // Create bottom navigation
+            const bottomNav = document.createElement('div');
+            bottomNav.className = 'bottom-navigation';
+            bottomNav.style.cssText = `
+                background: var(--gold);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 30px 0;
+                text-align: center;
+            `;
+            
+            const prevDisabled = pageNumber === 1 ? 'disabled' : '';
+            const nextDisabled = pageNumber === 114 ? 'disabled' : '';
+            
+            bottomNav.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <button class="bottom-nav-btn" onclick="previousPage()" ${prevDisabled} 
+                            style="background: ${pageNumber === 1 ? '#ccc' : 'var(--dark-green)'}; 
+                                   color: white; border: none; padding: 18px 25px; 
+                                   border-radius: 12px; font-size: 1.1rem; font-weight: 600; 
+                                   cursor: ${pageNumber === 1 ? 'not-allowed' : 'pointer'}; 
+                                   display: flex; align-items: center; gap: 10px;
+                                   min-height: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                                   transition: all 0.3s ease;">
+                        <i class="fas fa-arrow-left" style="font-size: 1.2rem;"></i> 
+                        <span>Previous Page</span>
+                    </button>
+                    <div style="background: white; padding: 12px 20px; border-radius: 12px; 
+                                color: var(--dark-green); font-weight: 700; font-size: 1rem;
+                                text-align: center; min-width: 120px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Page</div>
+                        <div style="font-size: 1.3rem;">${pageNumber}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.7;">of 114</div>
+                    </div>
+                    <button class="bottom-nav-btn" onclick="nextPage()" ${nextDisabled}
+                            style="background: ${pageNumber === 114 ? '#ccc' : 'var(--dark-green)'}; 
+                                   color: white; border: none; padding: 18px 25px; 
+                                   border-radius: 12px; font-size: 1.1rem; font-weight: 600; 
+                                   cursor: ${pageNumber === 114 ? 'not-allowed' : 'pointer'}; 
+                                   display: flex; align-items: center; gap: 10px;
+                                   min-height: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                                   transition: all 0.3s ease;">
+                        <span>Next Page</span>
+                        <i class="fas fa-arrow-right" style="font-size: 1.2rem;"></i>
+                    </button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9rem; color: var(--dark-green);">
+                    <p><i class="fas fa-info-circle"></i> Continue reading the Holy Quran page by page</p>
+                </div>
+            `;
+            
+            // Add to the end of the surah
+            surah.appendChild(bottomNav);
+        }
+        
         function loadSurah(surahNumber) {
             // Hide all surahs
-            const allSurahs = document.querySelectorAll('.surah-content');
+            const allSurahs = document.querySelectorAll('.surah-container');
             allSurahs.forEach(surah => {
                 surah.style.display = 'none';
             });
@@ -4234,6 +4315,9 @@
             const selectedSurah = document.getElementById(`surah-${surahNumber}`);
             if (selectedSurah) {
                 selectedSurah.style.display = 'block';
+                
+                // Add bottom navigation if it doesn't exist
+                addBottomNavigation(surahNumber);
                 
                 // Scroll to top of surah
                 selectedSurah.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -4306,18 +4390,11 @@
         
         // Initialize navigation
         document.addEventListener('DOMContentLoaded', function() {
-            // Set up surah selector change event
-            document.getElementById('surahSelect').addEventListener('change', function() {
-                const surahNumber = parseInt(this.value);
-                loadSurah(surahNumber);
-                updateNavigationButtons();
-            });
+            // Initialize page navigation buttons
+            updatePageNavigationButtons();
             
-            // Initialize navigation buttons
-            updateNavigationButtons();
-            
-            // Load first surah by default
-            loadSurah(1);
+            // Load first page by default
+            loadPage(1);
             
             // Check if user has previous reading progress
             checkContinueReading();
@@ -4326,10 +4403,10 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                     e.preventDefault();
-                    nextSurah();
+                    nextPage();
                 } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                     e.preventDefault();
-                    previousSurah();
+                    previousPage();
                 }
             });
         });
@@ -4362,8 +4439,8 @@
         // Global functions for search
         window.searchQuran = searchQuran;
         window.goToVerse = goToVerse;
-        window.nextSurah = nextSurah;
-        window.previousSurah = previousSurah;
+        window.nextPage = nextPage;
+        window.previousPage = previousPage;
         window.continueReading = continueReading;
     </script>
 </body>
