@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Surah Verification - All 114 Surahs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .surah-detail {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .surah-card {
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #ddd;
+            background: #f9f9f9;
+        }
+        .surah-card.complete {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .surah-card.partial {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        .surah-card.incomplete {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .surah-header {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .surah-details {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .status {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .complete .status { color: #28a745; }
+        .partial .status { color: #ffc107; }
+        .incomplete .status { color: #dc3545; }
+        .summary {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+        }
+        .progress {
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            background: #007bff;
+            height: 20px;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤲 Complete Surah Verification - All 114 Surahs</h1>
+        <div id="loading" class="loading">Loading and verifying all 114 surahs...</div>
+        <div id="progress" class="progress" style="display: none;">
+            <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+        </div>
+        <div id="results" style="display: none;">
+            <div id="summary" class="summary"></div>
+            <div id="surahs" class="surah-detail"></div>
+        </div>
+    </div>
+
+    <script>
+        // Expected verse counts for all 114 surahs
+        const expectedVerses = {
+            1: 7, 2: 286, 3: 200, 4: 176, 5: 120, 6: 165, 7: 206, 8: 75, 9: 129, 10: 109,
+            11: 123, 12: 111, 13: 43, 14: 52, 15: 99, 16: 128, 17: 111, 18: 110, 19: 98, 20: 135,
+            21: 112, 22: 78, 23: 118, 24: 64, 25: 77, 26: 227, 27: 93, 28: 88, 29: 69, 30: 60,
+            31: 34, 32: 30, 33: 73, 34: 54, 35: 45, 36: 83, 37: 182, 38: 88, 39: 75, 40: 85,
+            41: 54, 42: 53, 43: 89, 44: 59, 45: 37, 46: 35, 47: 38, 48: 29, 49: 18, 50: 45,
+            51: 60, 52: 49, 53: 62, 54: 55, 55: 78, 56: 96, 57: 29, 58: 22, 59: 24, 60: 13,
+            61: 14, 62: 11, 63: 11, 64: 18, 65: 12, 66: 12, 67: 30, 68: 52, 69: 52, 70: 44,
+            71: 28, 72: 28, 73: 20, 74: 56, 75: 40, 76: 31, 77: 50, 78: 40, 79: 46, 80: 42,
+            81: 29, 82: 19, 83: 36, 84: 25, 85: 22, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20,
+            91: 15, 92: 21, 93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
+            101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3, 109: 6, 110: 3,
+            111: 5, 112: 4, 113: 5, 114: 6
+        };
+
+        let quranData = {};
+        let verificationResults = {
+            complete: 0,
+            partial: 0,
+            incomplete: 0,
+            total: 114,
+            details: []
+        };
+
+        async function loadCompleteQuran() {
+            try {
+                console.log('🔄 Loading complete Quran from AlQuran Cloud API...');
+                
+                // Load Arabic text
+                const arabicResponse = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+                const arabicData = await arabicResponse.json();
+                
+                // Load English translation
+                const englishResponse = await fetch('https://api.alquran.cloud/v1/quran/en.asad');
+                const englishData = await englishResponse.json();
+                
+                if (arabicData.code === 200 && englishData.code === 200) {
+                    // Process all 114 surahs
+                    for (let i = 0; i < 114; i++) {
+                        const surahNum = i + 1;
+                        const arabicSurah = arabicData.data.surahs[i];
+                        const englishSurah = englishData.data.surahs[i];
+                        
+                        quranData[surahNum] = {
+                            name: arabicSurah.englishName,
+                            english: arabicSurah.englishNameTranslation,
+                            arabic: arabicSurah.name,
+                            type: arabicSurah.revelationType === 'Meccan' ? 'Meccan' : 'Medinan',
+                            verses: arabicSurah.numberOfAyahs,
+                            verses_data: []
+                        };
+                        
+                        // Process verses
+                        for (let j = 0; j < arabicSurah.ayahs.length; j++) {
+                            quranData[surahNum].verses_data.push({
+                                arabic: arabicSurah.ayahs[j].text,
+                                transliteration: '',
+                                translation: englishSurah.ayahs[j].text
+                            });
+                        }
+                    }
+                    
+                    console.log('✅ Complete Quran loaded from API:', Object.keys(quranData).length, 'surahs');
+                    verifyAllSurahs();
+                    
+                } else {
+                    throw new Error('API returned error');
+                }
+                
+            } catch (error) {
+                console.error('Failed to load from API:', error);
+                document.getElementById('loading').innerHTML = '❌ Failed to load Quran data. Please check your internet connection.';
+            }
+        }
+
+        function verifyAllSurahs() {
+            const resultsDiv = document.getElementById('results');
+            const loadingDiv = document.getElementById('loading');
+            const progressDiv = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            const summaryDiv = document.getElementById('summary');
+            const surahsDiv = document.getElementById('surahs');
+            
+            loadingDiv.style.display = 'none';
+            progressDiv.style.display = 'block';
+            resultsDiv.style.display = 'block';
+            
+            // Verify each surah individually
+            for (let surahNum = 1; surahNum <= 114; surahNum++) {
+                const surah = quranData[surahNum];
+                const expected = expectedVerses[surahNum];
+                const actual = surah.verses_data ? surah.verses_data.length : 0;
+                
+                // Calculate pagination
+                const versesPerPage = 10;
+                const totalPages = Math.max(1, Math.ceil(actual / versesPerPage));
+                
+                // Check verse data quality
+                const hasArabic = surah.verses_data && surah.verses_data.every(v => v.arabic && v.arabic.trim() !== '');
+                const hasTranslation = surah.verses_data && surah.verses_data.every(v => v.translation && v.translation.trim() !== '');
+                const hasName = surah.name && surah.name.trim() !== '';
+                const hasArabicName = surah.arabic && surah.arabic.trim() !== '';
+                const hasType = surah.type && (surah.type === 'Meccan' || surah.type === 'Medinan');
+                
+                // Determine status
+                let status, className, statusText;
+                if (actual === expected && hasArabic && hasTranslation && hasName && hasArabicName && hasType) {
+                    status = 'complete';
+                    statusText = '✅ Complete';
+                    verificationResults.complete++;
+                } else if (actual > 0 && hasArabic && hasTranslation) {
+                    status = 'partial';
+                    statusText = `⚠️ Partial (${actual}/${expected} verses)`;
+                    verificationResults.partial++;
+                } else {
+                    status = 'incomplete';
+                    statusText = '❌ Incomplete';
+                    verificationResults.incomplete++;
+                }
+                
+                // Store detailed results
+                verificationResults.details.push({
+                    surahNum,
+                    name: surah.name,
+                    arabic: surah.arabic,
+                    expected,
+                    actual,
+                    totalPages,
+                    status,
+                    hasArabic,
+                    hasTranslation,
+                    hasName,
+                    hasArabicName,
+                    hasType
+                });
+                
+                // Create surah card
+                const surahCard = document.createElement('div');
+                surahCard.className = `surah-card ${status}`;
+                surahCard.innerHTML = `
+                    <div class="surah-header">
+                        Surah ${surahNum}: ${surah.name}
+                    </div>
+                    <div class="surah-details">
+                        <div><strong>Arabic:</strong> ${surah.arabic}</div>
+                        <div><strong>English:</strong> ${surah.english}</div>
+                        <div><strong>Type:</strong> ${surah.type}</div>
+                        <div><strong>Verses:</strong> ${actual}/${expected}</div>
+                        <div><strong>Pages:</strong> ${totalPages}</div>
+                        <div><strong>Arabic Text:</strong> ${hasArabic ? '✅' : '❌'}</div>
+                        <div><strong>Translation:</strong> ${hasTranslation ? '✅' : '❌'}</div>
+                        <div><strong>Metadata:</strong> ${hasName && hasArabicName && hasType ? '✅' : '❌'}</div>
+                    </div>
+                    <div class="status">${statusText}</div>
+                `;
+                surahsDiv.appendChild(surahCard);
+                
+                // Update progress
+                const progress = (surahNum / 114) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
+            // Update summary
+            summaryDiv.innerHTML = `
+                <h2>📊 Complete Verification Summary</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; padding: 15px; background: #d4edda; border-radius: 8px;">
+                        <h3 style="color: #28a745; margin: 0;">${verificationResults.complete}</h3>
+                        <p style="margin: 5px 0;">Complete Surahs ✅</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #fff3cd; border-radius: 8px;">
+                        <h3 style="color: #ffc107; margin: 0;">${verificationResults.partial}</h3>
+                        <p style="margin: 5px 0;">Partial Surahs ⚠️</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #f8d7da; border-radius: 8px;">
+                        <h3 style="color: #dc3545; margin: 0;">${verificationResults.incomplete}</h3>
+                        <p style="margin: 5px 0;">Incomplete Surahs ❌</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+                        <h3 style="color: #007bff; margin: 0;">${verificationResults.total}</h3>
+                        <p style="margin: 5px 0;">Total Surahs</p>
+                    </div>
+                </div>
+                <p><strong>Success Rate:</strong> ${Math.round((verificationResults.complete / verificationResults.total) * 100)}%</p>
+                <p><strong>Overall Status:</strong> ${verificationResults.incomplete === 0 ? '🎉 ALL SURAHS VERIFIED!' : '⚠️ Some surahs need attention'}</p>
+            `;
+            
+            // Hide progress bar
+            progressDiv.style.display = 'none';
+        }
+
+        // Start verification when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCompleteQuran();
+        });
+    </script>
+</body>
+</html>
