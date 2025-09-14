@@ -565,7 +565,7 @@
                 document.querySelectorAll('.dhikr-option').forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
                 currentDhikr = this.dataset.dhikr;
-                resetTasbih();
+                // Removed resetTasbih() - counter should continue from current count
             });
         });
 
