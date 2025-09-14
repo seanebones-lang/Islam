@@ -145,6 +145,11 @@ const LanguageConfig = {
         
         // Update all elements with data-i18n attribute
         document.querySelectorAll('[data-i18n]').forEach(element => {
+            // Skip the Holy Quran button to preserve its styling
+            if (element.classList.contains('square-btn') || element.querySelector('.quran-text')) {
+                return;
+            }
+            
             const key = element.getAttribute('data-i18n');
             const translation = this.getNestedTranslation(translations, key);
             
