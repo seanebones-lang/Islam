@@ -136,6 +136,85 @@
         </div>
     </div>
 
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Message from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <div class="donation-section">
+                        <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <div class="bismillah">
+                        <p class="arabic-text">بسم الله الرحمن الرحيم</p>
+                    </div>
+                    
+                    <div class="greeting">
+                        <p><strong>As-Salamu Alaikum Wa Rahmatullahi Wa Barakatuh,</strong></p>
+                    </div>
+                    
+                    <div class="vision-section">
+                        <p>I am reaching out to you today with a vision that lies at the intersection of our faith and the future—a vision to make the vast and beautiful knowledge of Islam accessible to every Muslim, for free, in the digital age.</p>
+                        
+                        <p>We are building <strong>DeenBot</strong>, a comprehensive digital platform designed to be a reliable fortress of authentic Islamic knowledge. This project aims to provide:</p>
+                        
+                        <ul>
+                            <li><strong>A Complete Islamic Library:</strong> Integrating major texts from the Qur'an and the six authentic books of Hadith to trusted texts of Fiqh, Tafsir, and Islamic history—all in one place, verified by qualified scholars.</li>
+                            <li><strong>AI-Powered Islamic Guidance:</strong> "DeenBot," an intelligent assistant, will provide scholarly-based answers to your questions, helping to combat misinformation with authentic, well-sourced knowledge.</li>
+                            <li><strong>A Modern, Accessible Experience:</strong> A beautifully designed platform that works on any device, making learning seamless and engaging for everyone, everywhere.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="why-matters">
+                        <h4>Why This Matters Now</h4>
+                        <p>Our communities are struggling. Our youth are searching for answers online but often finding diluted or incorrect information. The deep, scholarly tradition of Islam is being lost in a sea of soundbites. This project is our answer: a dedicated effort to preserve our heritage and make it relevant and accessible for today and tomorrow.</p>
+                    </div>
+                    
+                    <div class="work-progress">
+                        <h4>A Work in Progress, By the Permission of Allah</h4>
+                        <p>This application is currently in a beta rebuild phase. We are rebuilding from the ground up to ensure maximum functionality, reliability, and ease of use. This means features are being re-released gradually as they are perfected. Your patience and duas during this process are invaluable.</p>
+                    </div>
+                    
+                    <div class="sadaqah-section">
+                        <h4>Your Role in This Sadaqah Jariyah</h4>
+                        <p>This project is a labor of love and a duty to our Ummah. To ensure it reaches its full potential and remains completely free, without any ads or subscriptions, we need your support.</p>
+                        
+                        <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                        <ul>
+                            <li>Hosting the platform securely.</li>
+                            <li>Development costs to complete and expand its features.</li>
+                            <li>Ensuring it remains a free resource for all.</li>
+                        </ul>
+                        
+                        <p>Your contribution is not just a donation; it is an investment in a <strong>Sadaqah Jariyah</strong>—a continuous charity that, God willing, will benefit millions of Muslims around the world for generations to come, and you will share in its reward.</p>
+                    </div>
+                    
+                    <div class="join-us">
+                        <h4>Join Us in Building This Legacy</h4>
+                        <p class="hadith">The Prophet Muhammad (ﷺ) said, <em>"The best of people are those who are most beneficial to people."</em></p>
+                        <p>Let us be among those who benefit others. Join me in this mission to empower the Ummah with knowledge.</p>
+                        
+                        <div class="support-section">
+                            <p><strong>Support the development of DeenBot:</strong></p>
+                            <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">https://square.link/u/txN8sC1d</a>
+                        </div>
+                        
+                        <p>Please remember this project in your deepest and most sincere prayers.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p><strong>Jazakum Allahu Khayran,</strong></p>
+                        <p><strong>NextEleven Studios</strong><br>Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Translation System -->
     <script src="js/language-config.js"></script>
     <script src="js/translation-manager.js"></script>
@@ -161,7 +240,9 @@
 
         // Developer Info Function
         function showDeveloperInfo() {
-            alert('Islamic Learning Companion\n\nDeveloped with ❤️ for the Muslim community\n\nThis app provides easy access to the Holy Quran, daily duas, prayer times, and Islamic learning resources.\n\nMay Allah accept our efforts and make this beneficial for all users. Ameen.');
+            const developerModal = document.getElementById('developerModal');
+            developerModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
         // Contact Sheet Functions
@@ -186,11 +267,22 @@
             });
         }
 
-        // Close contact modal when clicking outside
+        // Developer Modal Functions
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            developerModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modals when clicking outside
         window.onclick = function(event) {
             const contactModal = document.getElementById('contactModal');
+            const developerModal = document.getElementById('developerModal');
             if (event.target === contactModal) {
                 closeContactSheet();
+            }
+            if (event.target === developerModal) {
+                closeDeveloperModal();
             }
         }
 
@@ -199,6 +291,7 @@
         window.showDeveloperInfo = showDeveloperInfo;
         window.showContactSheet = showContactSheet;
         window.closeContactSheet = closeContactSheet;
+        window.closeDeveloperModal = closeDeveloperModal;
         window.copyEmail = copyEmail;
     </script>
 </body>
