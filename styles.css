@@ -1449,6 +1449,15 @@ body {
         align-items: center;
     }
     
+    .mobile-menu-header {
+        padding: 1rem 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .mobile-app-title {
+        font-size: 1.2rem;
+    }
+    
     .features-grid {
         grid-template-columns: 1fr;
     }
@@ -11586,6 +11595,15 @@ body {
     
     .mobile-menu-content {
         gap: 0.5rem;
+    }
+    
+    .mobile-menu-header {
+        padding: 1rem 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .mobile-app-title {
+        font-size: 1.1rem;
     }
     
     .mobile-nav-link {
