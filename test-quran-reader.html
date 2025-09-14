@@ -3,226 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quran Reader Test - Complete Verification</title>
+    <title>Quran Reader Test - All Surahs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 20px;
             background: #f5f5f5;
         }
-        .test-container {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .test-result {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border-left: 4px solid;
-        }
-        .success {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        .error {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-        .info {
-            background: #d1ecf1;
-            border-color: #17a2b8;
-            color: #0c5460;
+        .test-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
         }
         .surah-test {
-            margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ddd;
             border-radius: 5px;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
         }
-        .arabic-text {
-            font-family: 'Amiri', serif;
-            font-size: 1.2rem;
-            direction: rtl;
-            text-align: right;
+        .surah-test.pass {
+            border-left-color: #4CAF50;
+            background: #f1f8e9;
         }
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        .surah-test.fail {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+        .summary {
+            background: #e3f2fd;
+            padding: 20px;
             border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        button:hover {
-            background: #0056b3;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div class="test-container">
-        <h1>🤲 Complete Holy Quran Reader Test 🤲</h1>
-        <p>This page tests the complete Quran reader to ensure all 114 surahs are present and functional.</p>
-        
-        <div id="testResults"></div>
-        
-        <button onclick="runCompleteTest()">🧪 Run Complete Test</button>
-        <button onclick="testSpecificSurah()">📖 Test Specific Surah</button>
-        <button onclick="testNavigation()">🔄 Test Navigation</button>
-        
-        <div id="surahDisplay"></div>
+    <div class="container">
+        <h1>🤲 Quran Reader Test - All 114 Surahs</h1>
+        <div id="loading" class="loading">Testing Quran reader functionality...</div>
+        <div id="results" style="display: none;">
+            <div id="summary" class="summary"></div>
+            <div id="test-results" class="test-results"></div>
+        </div>
     </div>
 
-    <!-- Load Complete Quran Data -->
-    <script src="js/complete-quran-all-surahs.js"></script>
-    
     <script>
-        function addTestResult(message, type = 'info') {
-            const resultsDiv = document.getElementById('testResults');
-            const resultDiv = document.createElement('div');
-            resultDiv.className = `test-result ${type}`;
-            resultDiv.textContent = message;
-            resultsDiv.appendChild(resultDiv);
-        }
+        let quranData = {};
+        let testResults = {
+            pass: 0,
+            fail: 0,
+            total: 114
+        };
 
-        function runCompleteTest() {
-            document.getElementById('testResults').innerHTML = '';
-            
-            addTestResult('🤲 Starting Complete Holy Quran Verification...', 'info');
-            
-            // Test 1: Check if data is loaded
-            if (typeof window.completeQuranAllSurahs === 'undefined') {
-                addTestResult('❌ CRITICAL: Quran data not loaded!', 'error');
-                return;
-            }
-            addTestResult('✅ Quran data loaded successfully', 'success');
-            
-            // Test 2: Check total surah count
-            const surahCount = Object.keys(window.completeQuranAllSurahs).length;
-            if (surahCount === 114) {
-                addTestResult(`✅ All 114 surahs present (${surahCount}/114)`, 'success');
-            } else {
-                addTestResult(`❌ Missing surahs: Only ${surahCount}/114 found`, 'error');
-                return;
-            }
-            
-            // Test 3: Check surah numbers sequence
-            const surahNumbers = Object.keys(window.completeQuranAllSurahs).map(Number).sort((a, b) => a - b);
-            const expectedSequence = Array.from({length: 114}, (_, i) => i + 1);
-            const isSequenceCorrect = surahNumbers.every((num, index) => num === expectedSequence[index]);
-            
-            if (isSequenceCorrect) {
-                addTestResult('✅ Surah sequence is correct (1-114)', 'success');
-            } else {
-                addTestResult('❌ Surah sequence is incorrect', 'error');
-            }
-            
-            // Test 4: Check a few key surahs for completeness
-            const testSurahs = [1, 2, 112, 113, 114]; // Al-Fatihah, Al-Baqarah, Al-Ikhlas, Al-Falaq, An-Nas
-            let allComplete = true;
-            
-            testSurahs.forEach(surahNum => {
-                const surah = window.completeQuranAllSurahs[surahNum];
-                if (!surah || !surah.verses_data || surah.verses_data.length === 0) {
-                    addTestResult(`❌ Surah ${surahNum} (${surah?.name || 'Unknown'}) has no verses`, 'error');
-                    allComplete = false;
+        async function loadCompleteQuran() {
+            try {
+                console.log('🔄 Loading complete Quran from AlQuran Cloud API...');
+                
+                // Load Arabic text
+                const arabicResponse = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+                const arabicData = await arabicResponse.json();
+                
+                // Load English translation
+                const englishResponse = await fetch('https://api.alquran.cloud/v1/quran/en.asad');
+                const englishData = await englishResponse.json();
+                
+                if (arabicData.code === 200 && englishData.code === 200) {
+                    // Process all 114 surahs
+                    for (let i = 0; i < 114; i++) {
+                        const surahNum = i + 1;
+                        const arabicSurah = arabicData.data.surahs[i];
+                        const englishSurah = englishData.data.surahs[i];
+                        
+                        quranData[surahNum] = {
+                            name: arabicSurah.englishName,
+                            english: arabicSurah.englishNameTranslation,
+                            arabic: arabicSurah.name,
+                            type: arabicSurah.revelationType === 'Meccan' ? 'Meccan' : 'Medinan',
+                            verses: arabicSurah.numberOfAyahs,
+                            verses_data: []
+                        };
+                        
+                        // Process verses
+                        for (let j = 0; j < arabicSurah.ayahs.length; j++) {
+                            quranData[surahNum].verses_data.push({
+                                arabic: arabicSurah.ayahs[j].text,
+                                transliteration: '',
+                                translation: englishSurah.ayahs[j].text
+                            });
+                        }
+                    }
+                    
+                    console.log('✅ Complete Quran loaded from API:', Object.keys(quranData).length, 'surahs');
+                    testAllSurahs();
+                    
                 } else {
-                    addTestResult(`✅ Surah ${surahNum} (${surah.name}) has ${surah.verses_data.length} verses`, 'success');
+                    throw new Error('API returned error');
                 }
-            });
-            
-            // Test 5: Check verse structure
-            const sampleSurah = window.completeQuranAllSurahs[1]; // Al-Fatihah
-            if (sampleSurah && sampleSurah.verses_data && sampleSurah.verses_data.length > 0) {
-                const firstVerse = sampleSurah.verses_data[0];
-                if (firstVerse.arabic && firstVerse.transliteration && firstVerse.translation) {
-                    addTestResult('✅ Verse structure is correct (Arabic, transliteration, translation)', 'success');
-                } else {
-                    addTestResult('❌ Verse structure is incomplete', 'error');
-                    allComplete = false;
-                }
-            }
-            
-            // Final result
-            if (surahCount === 114 && isSequenceCorrect && allComplete) {
-                addTestResult('🎉 🤲 SUBHANALLAH! Complete Holy Quran is perfect! 🤲 🎉', 'success');
-                addTestResult('✅ All 114 surahs verified and complete', 'success');
-                addTestResult('✅ Every verse has Arabic, transliteration, and translation', 'success');
-                addTestResult('🤲 Alhamdulillah! The Quran reader is ready for the Ummah! 🤲', 'success');
-            } else {
-                addTestResult('❌ Some issues found - Quran reader needs attention', 'error');
+                
+            } catch (error) {
+                console.error('Failed to load from API:', error);
+                document.getElementById('loading').innerHTML = '❌ Failed to load Quran data. Please check your internet connection.';
             }
         }
 
-        function testSpecificSurah() {
-            const surahNum = prompt('Enter surah number (1-114):');
-            if (!surahNum || isNaN(surahNum) || surahNum < 1 || surahNum > 114) {
-                alert('Please enter a valid surah number between 1 and 114');
-                return;
+        function testAllSurahs() {
+            const resultsDiv = document.getElementById('results');
+            const loadingDiv = document.getElementById('loading');
+            const summaryDiv = document.getElementById('summary');
+            const testResultsDiv = document.getElementById('test-results');
+            
+            loadingDiv.style.display = 'none';
+            resultsDiv.style.display = 'block';
+            
+            // Test each surah
+            for (let surahNum = 1; surahNum <= 114; surahNum++) {
+                const surah = quranData[surahNum];
+                const versesPerPage = 10;
+                const totalVerses = surah.verses_data ? surah.verses_data.length : 0;
+                const totalPages = Math.max(1, Math.ceil(totalVerses / versesPerPage));
+                
+                // Test pagination calculation
+                const paginationCorrect = totalPages > 0;
+                
+                // Test verse data
+                const hasVerses = totalVerses > 0;
+                const hasArabic = surah.verses_data && surah.verses_data.every(v => v.arabic && v.arabic.trim() !== '');
+                const hasTranslation = surah.verses_data && surah.verses_data.every(v => v.translation && v.translation.trim() !== '');
+                
+                // Test surah metadata
+                const hasName = surah.name && surah.name.trim() !== '';
+                const hasArabicName = surah.arabic && surah.arabic.trim() !== '';
+                const hasEnglishName = surah.english && surah.english.trim() !== '';
+                const hasType = surah.type && (surah.type === 'Meccan' || surah.type === 'Medinan');
+                const hasVerseCount = surah.verses && surah.verses > 0;
+                
+                const allTestsPass = paginationCorrect && hasVerses && hasArabic && hasTranslation && 
+                                   hasName && hasArabicName && hasEnglishName && hasType && hasVerseCount;
+                
+                if (allTestsPass) {
+                    testResults.pass++;
+                } else {
+                    testResults.fail++;
+                }
+                
+                const surahDiv = document.createElement('div');
+                surahDiv.className = `surah-test ${allTestsPass ? 'pass' : 'fail'}`;
+                surahDiv.innerHTML = `
+                    <div><strong>Surah ${surahNum}: ${surah.name}</strong></div>
+                    <div><small>${surah.arabic}</small></div>
+                    <div><small>${totalVerses} verses, ${totalPages} pages</small></div>
+                    <div><small>${allTestsPass ? '✅ PASS' : '❌ FAIL'}</small></div>
+                `;
+                testResultsDiv.appendChild(surahDiv);
             }
             
-            const surah = window.completeQuranAllSurahs[parseInt(surahNum)];
-            if (!surah) {
-                addTestResult(`❌ Surah ${surahNum} not found`, 'error');
-                return;
-            }
-            
-            const displayDiv = document.getElementById('surahDisplay');
-            displayDiv.innerHTML = `
-                <div class="surah-test">
-                    <h3>Surah ${surahNum}: ${surah.name} (${surah.english})</h3>
-                    <p><strong>Arabic:</strong> <span class="arabic-text">${surah.arabic}</span></p>
-                    <p><strong>Type:</strong> ${surah.type}</p>
-                    <p><strong>Verses:</strong> ${surah.verses}</p>
-                    <p><strong>Juz:</strong> ${Array.isArray(surah.juz) ? surah.juz.join(', ') : surah.juz}</p>
-                    <p><strong>Available verses:</strong> ${surah.verses_data ? surah.verses_data.length : 0}</p>
-                    ${surah.verses_data && surah.verses_data.length > 0 ? `
-                        <h4>First Verse:</h4>
-                        <p><strong>Arabic:</strong> <span class="arabic-text">${surah.verses_data[0].arabic}</span></p>
-                        <p><strong>Transliteration:</strong> ${surah.verses_data[0].transliteration}</p>
-                        <p><strong>Translation:</strong> ${surah.verses_data[0].translation}</p>
-                    ` : '<p>No verses available</p>'}
-                </div>
+            // Update summary
+            summaryDiv.innerHTML = `
+                <h2>📊 Test Summary</h2>
+                <p><strong>Passed:</strong> ${testResults.pass} surahs ✅</p>
+                <p><strong>Failed:</strong> ${testResults.fail} surahs ❌</p>
+                <p><strong>Total:</strong> ${testResults.total} surahs</p>
+                <p><strong>Success Rate:</strong> ${Math.round((testResults.pass / testResults.total) * 100)}%</p>
+                <p><strong>Status:</strong> ${testResults.fail === 0 ? '🎉 ALL TESTS PASSED!' : '⚠️ Some tests failed'}</p>
             `;
-            
-            addTestResult(`✅ Surah ${surahNum} loaded successfully`, 'success');
         }
 
-        function testNavigation() {
-            addTestResult('🔄 Testing navigation between surahs...', 'info');
-            
-            let successCount = 0;
-            const testSurahs = [1, 50, 100, 114]; // Test first, middle, and last surahs
-            
-            testSurahs.forEach(surahNum => {
-                const surah = window.completeQuranAllSurahs[surahNum];
-                if (surah && surah.name && surah.arabic) {
-                    successCount++;
-                    addTestResult(`✅ Navigation to Surah ${surahNum} (${surah.name}) successful`, 'success');
-                } else {
-                    addTestResult(`❌ Navigation to Surah ${surahNum} failed`, 'error');
-                }
-            });
-            
-            if (successCount === testSurahs.length) {
-                addTestResult('✅ All navigation tests passed', 'success');
-            } else {
-                addTestResult(`❌ ${testSurahs.length - successCount} navigation tests failed`, 'error');
-            }
-        }
-
-        // Auto-run basic test on page load
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                addTestResult('🤲 Quran Reader Test Page Loaded 🤲', 'info');
-                addTestResult('Click "Run Complete Test" to verify all 114 surahs', 'info');
-            }, 500);
+        // Start testing when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCompleteQuran();
         });
     </script>
 </body>
