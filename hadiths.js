@@ -1877,6 +1877,63 @@ const hadithData = [
         hadith: 1243,
         category: "death",
         lesson: "We will be resurrected in the state we die in, so we must die in a good state."
+    },
+
+    // Debt and Financial Related Hadiths
+    {
+        id: 166,
+        arabic: "نَفْسُ الْمُؤْمِنِ مُعَلَّقَةٌ بِدَيْنِهِ حَتَّى يُقْضَى عَنْهُ",
+        english: "The soul of a believer is suspended by his debt until it is paid for him.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 2,
+        hadith: 1244,
+        category: "debt",
+        lesson: "Debts must be settled as they can prevent the soul from resting peacefully."
+    },
+    {
+        id: 167,
+        arabic: "مَنْ أَخَذَ أَمْوَالَ النَّاسِ يُرِيدُ أَدَاءَهَا أَدَّى اللَّهُ عَنْهُ",
+        english: "Whoever takes people's money intending to pay it back, Allah will pay it back for him.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 2,
+        hadith: 1245,
+        category: "debt",
+        lesson: "Sincere intention to repay debts brings Allah's help in repayment."
+    },
+    {
+        id: 168,
+        arabic: "مَنْ أَدَّانَ دَيْنًا وَهُوَ مُنْوٍ أَدَاءَهُ فَمَاتَ قَبْلَ أَنْ يُؤَدِّيَهُ",
+        english: "Whoever takes a debt intending to pay it back and dies before paying it, he will be forgiven.",
+        source: "Sahih Muslim",
+        book: "Sahih Muslim",
+        volume: 3,
+        hadith: 1246,
+        category: "debt",
+        lesson: "Sincere intention to repay debts brings forgiveness even if death occurs before repayment."
+    },
+    {
+        id: 169,
+        arabic: "إِنَّ الرَّجُلَ إِذَا غَرِمَ حَدَّثَ فَكَذَبَ وَوَعَدَ فَأَخْلَفَ",
+        english: "When a man is in debt, he speaks and lies, and he makes a promise and breaks it.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 2,
+        hadith: 1247,
+        category: "debt",
+        lesson: "Debt can lead to lying and breaking promises, so it should be avoided when possible."
+    },
+    {
+        id: 170,
+        arabic: "مَنْ أَخَذَ أَمْوَالَ النَّاسِ يُرِيدُ إِتْلَافَهَا أَتْلَفَهُ اللَّهُ",
+        english: "Whoever takes people's money intending to destroy it, Allah will destroy him.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 2,
+        hadith: 1248,
+        category: "debt",
+        lesson: "Misusing borrowed money or not intending to repay brings divine punishment."
     }
 ];
 
@@ -2056,8 +2113,8 @@ async function performHadithSearch(query) {
             }
         });
         
-        // If we have good API results, use them
-        if (allResults.length >= 3) {
+        // Always use API results if we have any, regardless of count
+        if (allResults.length > 0) {
             const uniqueResults = removeDuplicateHadiths(allResults);
             const limitedResults = uniqueResults.slice(0, 20);
             console.log('✅ Found', limitedResults.length, 'online hadith results');
@@ -2092,13 +2149,14 @@ async function searchSunnahAPI(query) {
         const collections = ['bukhari', 'muslim', 'tirmidhi', 'nasai', 'abudawud', 'ibnmajah'];
         const allResults = [];
         
-        for (const collection of collections) {
+        // Search all collections in parallel for faster results
+        const searchPromises = collections.map(async (collection) => {
             try {
-                const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(query)}&limit=5`);
+                const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(query)}&limit=8`);
                 const data = await response.json();
                 
                 if (data.code === 200 && data.data && data.data.hadiths) {
-                    const results = data.data.hadiths.map(hadith => ({
+                    return data.data.hadiths.map(hadith => ({
                         id: `${collection}_${hadith.number}`,
                         arabic: hadith.arabic,
                         english: hadith.english,
@@ -2110,12 +2168,18 @@ async function searchSunnahAPI(query) {
                         narrator: hadith.narrator || 'Unknown',
                         apiSource: 'sunnah'
                     }));
-                    allResults.push(...results);
                 }
             } catch (err) {
                 console.warn(`Error fetching ${collection}:`, err);
             }
-        }
+            return [];
+        });
+        
+        // Wait for all searches to complete
+        const results = await Promise.all(searchPromises);
+        results.forEach(collectionResults => {
+            allResults.push(...collectionResults);
+        });
         
         return allResults.slice(0, 15); // Limit total results
     } catch (error) {
@@ -2140,24 +2204,19 @@ function getCollectionName(collection) {
 // Search using alternative hadith API
 async function searchHadithAPI(query) {
     try {
-        // Try multiple alternative APIs
-        const apis = [
-            `https://api.hadith.gading.dev/books/muslim?search=${encodeURIComponent(query)}&limit=5`,
-            `https://api.hadith.gading.dev/books/tirmidhi?search=${encodeURIComponent(query)}&limit=5`,
-            `https://api.hadith.gading.dev/books/nasai?search=${encodeURIComponent(query)}&limit=5`
-        ];
-        
+        // Try additional collections for comprehensive coverage
+        const additionalCollections = ['bukhari', 'muslim', 'tirmidhi', 'nasai', 'abudawud', 'ibnmajah'];
         const allResults = [];
         
-        for (const apiUrl of apis) {
+        // Search additional collections in parallel
+        const searchPromises = additionalCollections.map(async (collection) => {
             try {
-                const response = await fetch(apiUrl);
+                const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?search=${encodeURIComponent(query)}&limit=6`);
                 const data = await response.json();
                 
                 if (data.code === 200 && data.data && data.data.hadiths) {
-                    const collection = apiUrl.split('/books/')[1].split('?')[0];
-                    const results = data.data.hadiths.map(hadith => ({
-                        id: `${collection}_${hadith.number}`,
+                    return data.data.hadiths.map(hadith => ({
+                        id: `${collection}_alt_${hadith.number}`,
                         arabic: hadith.arabic,
                         english: hadith.english,
                         source: getCollectionName(collection),
@@ -2168,14 +2227,20 @@ async function searchHadithAPI(query) {
                         narrator: hadith.narrator || 'Unknown',
                         apiSource: 'hadith'
                     }));
-                    allResults.push(...results);
                 }
             } catch (err) {
-                console.warn(`Error fetching from ${apiUrl}:`, err);
+                console.warn(`Error fetching ${collection} from alt API:`, err);
             }
-        }
+            return [];
+        });
         
-        return allResults.slice(0, 10);
+        // Wait for all searches to complete
+        const results = await Promise.all(searchPromises);
+        results.forEach(collectionResults => {
+            allResults.push(...collectionResults);
+        });
+        
+        return allResults.slice(0, 15);
     } catch (error) {
         console.warn('Hadith API error:', error);
     }
