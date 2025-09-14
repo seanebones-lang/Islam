@@ -364,7 +364,7 @@
         <div class="quran-container">
             <div class="quran-header">
                 <h1><i class="fas fa-book-quran"></i> Quran Reader</h1>
-                <p>Available Surahs: 12 of 114 Complete</p>
+                <p>Available Surahs: 19 of 114 Complete</p>
             </div>
             
             <!-- Surah Selector -->
@@ -400,12 +400,13 @@
     <script src="js/surah-4-an-nisa-complete.js"></script>
     <script src="js/complete-surah5.js"></script>
     <script src="js/complete-surah-7.js"></script>
+    <script src="js/complete-quran-critical-missing.js"></script>
     
     <script>
         // Global variables
         let currentSurah = 1;
         let quranData = null;
-        let completeSurahs = [1, 4, 5, 7, 8, 108, 109, 110, 111, 112, 113, 114];
+        let completeSurahs = [1, 4, 5, 7, 8, 93, 94, 95, 97, 103, 105, 106, 108, 109, 110, 111, 112, 113, 114];
         
         // Initialize the Quran reader
         document.addEventListener('DOMContentLoaded', function() {
@@ -416,6 +417,12 @@
             // Load Quran data
             if (typeof window.completeQuranMasterFinal !== 'undefined') {
                 quranData = window.completeQuranMasterFinal.getAllSurahs();
+                
+                // Merge critical missing surahs
+                if (typeof window.completeQuranCriticalMissing !== 'undefined') {
+                    Object.assign(quranData, window.completeQuranCriticalMissing);
+                }
+                
                 loadSurahGrid();
                 loadSurah(currentSurah);
             } else {
