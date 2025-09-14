@@ -2024,6 +2024,118 @@ const hadithData = [
         hadith: 1256,
         category: "inheritance",
         lesson: "Clear lineage is essential for inheritance rights, and doubtful cases should be blocked."
+    },
+
+    // Divorce and Marriage Related Hadiths
+    {
+        id: 179,
+        arabic: "أَبْغَضُ الْحَلَالِ إِلَى اللَّهِ الطَّلَاقُ",
+        english: "The most detestable of lawful things to Allah is divorce.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1257,
+        category: "divorce",
+        lesson: "Divorce, while lawful, is the most disliked of permissible acts to Allah."
+    },
+    {
+        id: 180,
+        arabic: "إِنَّ اللَّهَ لَا يُحِبُّ الْفُحْشَ وَلَا التَّفَحُّشَ",
+        english: "Allah does not like obscenity or making obscene statements.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1258,
+        category: "divorce",
+        lesson: "Divorce should be handled with dignity and without obscene language."
+    },
+    {
+        id: 181,
+        arabic: "الطَّلَاقُ مَرَّتَانِ فَإِمْسَاكٌ بِمَعْرُوفٍ أَوْ تَسْرِيحٌ بِإِحْسَانٍ",
+        english: "Divorce is twice, then either keep her in an acceptable manner or release her with kindness.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1259,
+        category: "divorce",
+        lesson: "Divorce should be done with kindness and proper treatment of the wife."
+    },
+    {
+        id: 182,
+        arabic: "إِذَا طَلَّقَ الرَّجُلُ امْرَأَتَهُ ثَلَاثًا فَقَدْ بَانَتْ مِنْهُ",
+        english: "When a man divorces his wife three times, she is separated from him.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1260,
+        category: "divorce",
+        lesson: "Three divorces constitute a final separation that requires a new marriage contract."
+    },
+    {
+        id: 183,
+        arabic: "لَا طَلَاقَ وَلَا عَتَاقَ فِي إِغْلَاقٍ",
+        english: "There is no divorce or emancipation in a state of anger.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1261,
+        category: "divorce",
+        lesson: "Divorce pronounced in extreme anger may not be valid."
+    },
+    {
+        id: 184,
+        arabic: "الْمُطَلَّقَاتُ يَتَرَبَّصْنَ بِأَنْفُسِهِنَّ ثَلَاثَةَ قُرُوءٍ",
+        english: "Divorced women should wait for three periods.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1262,
+        category: "divorce",
+        lesson: "Divorced women must observe a waiting period of three menstrual cycles."
+    },
+    {
+        id: 185,
+        arabic: "وَالْمُطَلَّقَاتُ يَتَرَبَّصْنَ بِأَنْفُسِهِنَّ ثَلَاثَةَ قُرُوءٍ وَلَا يَحِلُّ لَهُنَّ أَنْ يَكْتُمْنَ مَا خَلَقَ اللَّهُ فِي أَرْحَامِهِنَّ",
+        english: "Divorced women should wait for three periods and it is not lawful for them to hide what Allah has created in their wombs.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1263,
+        category: "divorce",
+        lesson: "During the waiting period, women must not hide pregnancy if they are pregnant."
+    },
+    {
+        id: 186,
+        arabic: "إِذَا طَلَّقَ الرَّجُلُ امْرَأَتَهُ فَلَيْسَ لَهُ عَلَيْهَا رَجْعَةٌ حَتَّى تَنْكِحَ زَوْجًا غَيْرَهُ",
+        english: "When a man divorces his wife, he has no right to take her back until she marries another husband.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1264,
+        category: "divorce",
+        lesson: "After three divorces, the couple cannot remarry until the woman marries someone else first."
+    },
+    {
+        id: 187,
+        arabic: "الرَّجُلُ أَوْلَى بِمَالِ نَفْسِهِ مِنْ وَلِيِّهِ",
+        english: "A man has more right to his own property than his guardian.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1265,
+        category: "divorce",
+        lesson: "A man has full control over his own property and decisions, including divorce."
+    },
+    {
+        id: 188,
+        arabic: "إِنَّ اللَّهَ يَغَارُ وَالْمُؤْمِنُ يَغَارُ وَغَيْرَةُ اللَّهِ أَنْ يَأْتِيَ الْمُؤْمِنُ مَا حَرَّمَ اللَّهُ عَلَيْهِ",
+        english: "Allah is jealous and the believer is jealous, and Allah's jealousy is that the believer should not do what Allah has forbidden.",
+        source: "Sahih al-Bukhari",
+        book: "Sahih al-Bukhari",
+        volume: 7,
+        hadith: 1266,
+        category: "divorce",
+        lesson: "Divorce should be considered carefully as it affects the sanctity of marriage."
     }
 ];
 
@@ -2249,8 +2361,10 @@ async function searchSunnahAPI(query) {
                 const searchVariations = [
                     query,
                     query.split(' ')[0], // First word only
+                    query.substring(0, 2), // First 2 characters
                     query.substring(0, 3), // First 3 characters
-                    query.substring(0, 4)  // First 4 characters
+                    query.substring(0, 4), // First 4 characters
+                    query.substring(0, 5)  // First 5 characters
                 ].filter(term => term.length >= 2);
                 
                 let allResults = [];
@@ -2327,8 +2441,10 @@ async function searchHadithAPI(query) {
                 const searchVariations = [
                     query,
                     query.split(' ')[0], // First word only
+                    query.substring(0, 2), // First 2 characters
                     query.substring(0, 3), // First 3 characters
-                    query.substring(0, 4)  // First 4 characters
+                    query.substring(0, 4), // First 4 characters
+                    query.substring(0, 5)  // First 5 characters
                 ].filter(term => term.length >= 2);
                 
                 let allResults = [];
@@ -2385,6 +2501,15 @@ function searchLocalHadiths(query) {
     // Split query into individual words for partial matching
     const queryWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
     
+    // Also create partial word variations for better matching
+    const partialWords = [];
+    queryWords.forEach(word => {
+        partialWords.push(word);
+        if (word.length > 2) partialWords.push(word.substring(0, 2));
+        if (word.length > 3) partialWords.push(word.substring(0, 3));
+        if (word.length > 4) partialWords.push(word.substring(0, 4));
+    });
+    
     return hadithData.filter(hadith => {
         const arabicText = hadith.arabic.toLowerCase();
         const englishText = hadith.english.toLowerCase();
@@ -2392,15 +2517,15 @@ function searchLocalHadiths(query) {
         const sourceText = hadith.source.toLowerCase();
         const categoryText = hadith.category.toLowerCase();
         
-        // Check if any word from the query matches any part of the hadith
-        return queryWords.some(word => 
+        // Check if any word or partial word from the query matches any part of the hadith
+        return partialWords.some(word => 
             arabicText.includes(word) ||
             englishText.includes(word) ||
             lessonText.includes(word) ||
             sourceText.includes(word) ||
             categoryText.includes(word)
         );
-    }).slice(0, 15).map(hadith => ({
+    }).slice(0, 20).map(hadith => ({
         ...hadith,
         apiSource: 'local'
     }));
