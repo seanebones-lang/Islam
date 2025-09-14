@@ -8,6 +8,285 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* AI Search Widget Styles */
+        .ai-search-widget {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(34, 197, 94, 0.1));
+            padding: 3rem 0;
+            margin: 2rem 0;
+        }
+        
+        .ai-widget {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .ai-widget-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .ai-widget-header h3 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ai-widget-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+        
+        .ai-search-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .ai-search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .ai-search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .ai-search-btn {
+            background: var(--gold);
+            color: var(--dark-green);
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-search-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .ai-quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .ai-quick-tag {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .ai-quick-tag:hover {
+            background: var(--gold);
+            color: var(--dark-green);
+            transform: translateY(-2px);
+            border-color: var(--gold);
+        }
+        
+        .ai-results {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .ai-loading {
+            text-align: center;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        
+        .ai-error {
+            color: #ff6b6b;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .ai-result h4 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .ai-result p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .ai-result ul {
+            color: rgba(255,255,255,0.9);
+            margin-left: 1.5rem;
+        }
+        
+        .ai-result li {
+            margin-bottom: 0.5rem;
+        }
+        
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .ai-additional-results {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        
+        .ai-additional-results h5 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .ai-additional-item {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+        }
+        
+        .ai-additional-item strong {
+            color: var(--gold);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ai-additional-item p {
+            color: rgba(255,255,255,0.8);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Groq Disclaimer Styles */
+        .groq-disclaimer {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .disclaimer-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffc107;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .disclaimer-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Sources Section Styles */
+        .sources-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--gold);
+        }
+        
+        .sources-section strong {
+            color: var(--gold);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .source-item {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .source-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .source-link:hover {
+            color: var(--gold-light);
+        }
+        
+        .source-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            margin-left: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .ai-search-container {
+                flex-direction: column;
+            }
+            
+            .ai-quick-questions {
+                justify-content: flex-start;
+            }
+            
+            .ai-widget {
+                padding: 1.5rem;
+            }
+            
+            .ai-widget-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .groq-disclaimer {
+                padding: 0.8rem;
+            }
+            
+            .sources-section {
+                padding: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -26,6 +305,10 @@
                     <i class="fas fa-book-quran"></i>
                     <span>Quran Reader</span>
                 </a>
+                <a href="rag-assistant.html" class="nav-link ai-link">
+                    <i class="fas fa-mosque"></i>
+                    <span>DeenBot</span>
+                </a>
             </div>
             <div class="nav-actions">
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
@@ -38,6 +321,7 @@
             <div class="mobile-menu-content">
                 <a href="index.html" class="mobile-nav-link active">Home</a>
                 <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                <a href="rag-assistant.html" class="mobile-nav-link">DeenBot</a>
                 <div class="mobile-menu-divider"></div>
                 <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
                 <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
@@ -70,6 +354,31 @@
                 </div>
             </div>
             <div class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Search Widget -->
+    <section class="ai-search-widget">
+        <div class="container">
+            <div class="ai-widget">
+                <div class="ai-widget-header">
+                    <h3><i class="fas fa-mosque"></i> Ask DeenBot</h3>
+                    <p>Your Islamic AI companion - Get instant answers about Islam, find verses, hadiths, or navigate the app</p>
+                </div>
+                <div class="ai-search-container">
+                    <input type="text" id="aiSearchInput" placeholder="Ask me anything about Islam..." class="ai-search-input">
+                    <button onclick="quickAISearch()" class="ai-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="ai-quick-questions">
+                    <span class="ai-quick-tag" onclick="quickAISearch('How do I perform wudu?')">Wudu Guide</span>
+                    <span class="ai-quick-tag" onclick="quickAISearch('Show me verses about patience')">Patience</span>
+                    <span class="ai-quick-tag" onclick="quickAISearch('Find hadiths about charity')">Charity</span>
+                    <span class="ai-quick-tag" onclick="quickAISearch('How do I pray?')">Prayer</span>
+                </div>
+                <div class="ai-results" id="aiResults" style="display: none;"></div>
             </div>
         </div>
     </section>
@@ -324,6 +633,16 @@
     <script src="js/language-config.js"></script>
     <script src="js/translation-manager.js"></script>
     
+    <!-- RAG System -->
+    <script src="js/complete-quran-data.js"></script>
+    <script src="hadiths.js"></script>
+    <script src="js/comprehensive-islamic-knowledge.js"></script>
+    <script src="js/extensive-islamic-knowledge.js"></script>
+    <script src="js/specialized-islamic-knowledge.js"></script>
+    <script src="js/detailed-quranic-hadith-database.js"></script>
+    <script src="js/rag-system.js"></script>
+    <script src="js/floating-deenbot-widget.js"></script>
+    
     <script>
         // Mobile Menu Functions
         function toggleMobileMenu() {
@@ -522,6 +841,108 @@
             }
         }
 
+        // AI Search Functions
+        async function quickAISearch(question = null) {
+            const input = document.getElementById('aiSearchInput');
+            const query = question || input.value.trim();
+            
+            if (!query) return;
+            
+            const resultsDiv = document.getElementById('aiResults');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<div class="ai-loading"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+            
+            try {
+                if (window.islamicRAG && window.islamicRAG.isInitialized) {
+                    const response = await window.islamicRAG.getIntelligentResponse(query);
+                    displayAIResults(response, query);
+                } else {
+                    resultsDiv.innerHTML = '<div class="ai-error">AI Assistant is still loading. Please try again in a moment.</div>';
+                }
+            } catch (error) {
+                console.error('AI Search Error:', error);
+                resultsDiv.innerHTML = '<div class="ai-error">Sorry, I encountered an error. Please try again.</div>';
+            }
+        }
+        
+        function displayAIResults(response, query) {
+            const resultsDiv = document.getElementById('aiResults');
+            
+            if (response.type === 'no_results') {
+                resultsDiv.innerHTML = `
+                    <div class="ai-result">
+                        <h4>I couldn't find specific information about that.</h4>
+                        <p>Try asking about:</p>
+                        <ul>
+                            <li>Quranic verses by topic</li>
+                            <li>Authentic Hadiths</li>
+                            <li>Prayer and worship</li>
+                            <li>Islamic practices</li>
+                        </ul>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `<div class="ai-result">
+                <h4>${response.response_text}</h4>`;
+            
+            // Add Groq disclaimer if Groq was used
+            if (response.groq_used && response.disclaimer) {
+                html += `<div class="groq-disclaimer">
+                    <div class="disclaimer-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Important Notice</strong>
+                    </div>
+                    <div class="disclaimer-text">${response.disclaimer}</div>
+                </div>`;
+            }
+            
+            // Add sources if available (from Groq)
+            if (response.sources && response.sources.length > 0) {
+                html += '<div class="sources-section">';
+                html += '<strong><i class="fas fa-link"></i> Recommended Sources:</strong>';
+                response.sources.forEach(source => {
+                    html += `<div class="source-item">
+                        <a href="${source.url}" target="_blank" class="source-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            ${source.name}
+                        </a>
+                        <div class="source-description">${source.description}</div>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            
+            
+            if (response.additional_results && response.additional_results.length > 0) {
+                html += '<div class="ai-additional-results"><h5>Related Results:</h5>';
+                response.additional_results.forEach(result => {
+                    html += `<div class="ai-additional-item">
+                        <strong>${result.title || result.surah_english || result.source}</strong>
+                        <p>${result.description || result.translation || result.english}</p>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            
+            
+            html += '</div>';
+            resultsDiv.innerHTML = html;
+        }
+        
+        // Handle Enter key for AI search
+        document.addEventListener('DOMContentLoaded', function() {
+            const aiSearchInput = document.getElementById('aiSearchInput');
+            if (aiSearchInput) {
+                aiSearchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        quickAISearch();
+                    }
+                });
+            }
+        });
+
         // Global functions
         window.toggleMobileMenu = toggleMobileMenu;
         window.showDeveloperInfo = showDeveloperInfo;
@@ -532,6 +953,7 @@
         window.closeDonationModal = closeDonationModal;
         window.togglePanel = togglePanel;
         window.copyEmail = copyEmail;
+        window.quickAISearch = quickAISearch;
     </script>
 </body>
 </html>
