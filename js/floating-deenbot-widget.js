@@ -490,11 +490,11 @@ class FloatingDeenBotWidget {
     // Initialize DeenBot integration
     async initializeDeenBot() {
         try {
-            // Wait for DeenBot to be available
-            if (typeof window.deenBot !== 'undefined') {
+            // Wait for Islamic RAG system to be available
+            if (typeof window.islamicRAG !== 'undefined' && window.islamicRAG.isInitialized) {
                 this.isInitialized = true;
                 this.updateStatus('Ready');
-                console.log('🕌 Floating DeenBot Widget initialized and connected');
+                console.log('🕌 Floating DeenBot Widget initialized and connected to RAG system');
             } else {
                 // Wait a bit and try again
                 setTimeout(() => this.initializeDeenBot(), 1000);
@@ -577,8 +577,8 @@ class FloatingDeenBotWidget {
         this.showTyping();
 
         try {
-            // Get response from DeenBot
-            const response = await window.deenBot.getIntelligentResponse(message);
+            // Get response from Islamic RAG system
+            const response = await window.islamicRAG.getIntelligentResponse(message);
             
             // Hide typing indicator
             this.hideTyping();
