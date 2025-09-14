@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* DeenBot specific styles only */
+
         .rag-assistant {
             background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
             min-height: 100vh;
-            padding: 2rem 0;
+            padding: 8rem 0 2rem 0;
         }
         
         .rag-container {
@@ -390,15 +392,37 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
             <div class="nav-logo">
                 <i class="fas fa-mosque"></i>
                 <span>Islamic Learning Companion</span>
             </div>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="complete-quran-reader.html" class="nav-link">Quran</a>
-                <a href="hadiths.html" class="nav-link">Hadiths</a>
-                <a href="rag-assistant.html" class="nav-link active">AI Assistant</a>
+            <div class="nav-right">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                        <a href="rag-assistant.html" class="mobile-nav-link active">DeenBot</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
             </div>
         </div>
     </nav>
@@ -412,20 +436,6 @@
             </div>
 
 
-            <!-- Suggestions -->
-            <div class="suggestions">
-                <h3>Try asking me:</h3>
-                <div class="suggestion-tags">
-                    <span class="suggestion-tag" onclick="askQuickQuestion('What are the five pillars of Islam?')">Five Pillars</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('Show me verses about forgiveness')">Forgiveness</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('Find hadiths about good character')">Good Character</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('How do I find the qibla?')">Qibla Direction</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('What is Ramadan?')">Ramadan</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('Show me daily duas')">Daily Duas</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('What is the Islamic calendar?')">Islamic Calendar</span>
-                    <span class="suggestion-tag" onclick="askQuickQuestion('How do I learn Arabic?')">Learn Arabic</span>
-                </div>
-            </div>
 
             <!-- Chat Interface -->
             <div class="chat-container">
@@ -435,21 +445,8 @@
                             <i class="fas fa-mosque"></i> DeenBot
                         </div>
                         <div class="message-content">
-                            <p><strong>As-salamu alaykum wa rahmatullahi wa barakatuh!</strong></p>
-                            <p>I am DeenBot, your comprehensive Islamic AI companion, created to serve the Ummah with authentic knowledge from the Quran, Sunnah, Islamic history, Seerah, and all aspects of Islam. I can help you with:</p>
-                            <ul>
-                                <li>📖 Finding Quranic verses by topic with proper citations</li>
-                                <li>💬 Searching authentic Hadiths from reliable collections</li>
-                                <li>📚 Islamic history, Seerah, and biographies of the Prophet (PBUH)</li>
-                                <li>🕌 Islamic law, jurisprudence, and contemporary issues</li>
-                                <li>🧭 Navigating this Islamic learning platform</li>
-                                <li>⚖️ Islamic ethics, business practices, and family law</li>
-                                <li>🌙 Islamic calendar, festivals, and cultural aspects</li>
-                                <li>🔬 Islam and modern science, environmental stewardship</li>
-                                <li>👥 Women's rights, Islamic architecture, and arts</li>
-                                <li>🛠️ Information about features under development</li>
-                            </ul>
-                            <p><strong>I have comprehensive knowledge of all aspects of Islam. Some app features are currently under reconstruction and will return very soon, insha'Allah. May Allah bless your journey of seeking knowledge. What would you like to learn about Islam today?</strong></p>
+                            <p><strong>Peace, mercy, and blessings of Allah be upon you.</strong></p>
+                            <p>I am the program "Deen Bot". The developer is still working diligently to launch me in the required manner. We ask for your pardon and patience, and we ask Allah for success for us and for you.</p>
                         </div>
                     </div>
                 </div>
@@ -476,11 +473,11 @@
     <script src="js/complete-quran-data.js"></script>
     <script src="hadiths.js"></script>
     <script src="js/comprehensive-islamic-knowledge.js"></script>
+    <script src="js/comprehensive-islamic-knowledge-expanded.js"></script>
     <script src="js/extensive-islamic-knowledge.js"></script>
     <script src="js/specialized-islamic-knowledge.js"></script>
     <script src="js/detailed-quranic-hadith-database.js"></script>
     <script src="js/rag-system.js"></script>
-    <script src="js/floating-deenbot-widget.js"></script>
     
     <script>
         let chatHistory = [];
@@ -677,10 +674,50 @@
             return null;
         }
         
+        // Navigation functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            header.classList.toggle('active');
+        }
+        
+        function showContactSheet() {
+            alert('Contact us at: support@islamicapp.com');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
         // Global functions for external access
         window.askQuickQuestion = askQuickQuestion;
         window.clearChat = clearChat;
         window.getSystemStatus = getSystemStatus;
+        window.goBack = goBack;
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.showContactSheet = showContactSheet;
     </script>
 </body>
 </html>

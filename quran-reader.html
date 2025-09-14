@@ -346,15 +346,37 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
             <div class="nav-logo">
                 <i class="fas fa-mosque"></i>
                 <span>Islamic Learning Companion</span>
             </div>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="complete-quran-reader.html" class="nav-link active">Quran</a>
-                <a href="hadiths.html" class="nav-link">Hadiths</a>
-                <a href="rag-assistant.html" class="nav-link">DeenBot</a>
+            <div class="nav-right">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link active">Quran Reader</a>
+                        <a href="rag-assistant.html" class="mobile-nav-link">DeenBot</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
             </div>
         </div>
     </nav>
@@ -405,9 +427,45 @@
     <script src="js/extensive-islamic-knowledge.js"></script>
     <script src="js/specialized-islamic-knowledge.js"></script>
     <script src="js/rag-system.js"></script>
-    <script src="js/floating-deenbot-widget.js"></script>
     
     <script>
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            header.classList.toggle('active');
+        }
+        
+        function showContactSheet() {
+            alert('Contact us at: support@islamicapp.com');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
         // Global variables
         let currentSurah = 1;
         let quranData = null;

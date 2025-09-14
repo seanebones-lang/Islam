@@ -13,6 +13,10 @@ class IslamicRAGSystem {
             navigation: []
         };
         
+        // Conversation memory for context awareness
+        this.conversationHistory = [];
+        this.maxHistoryLength = 10; // Keep last 10 exchanges for context
+        
         // Debug configuration loading
         console.log('🔍 RAG System Debug:');
         console.log('- SecureConfig available:', !!this.secureConfig);
@@ -57,6 +61,15 @@ class IslamicRAGSystem {
                 console.log(`✅ Loaded ${this.knowledgeBase.topics.length} Islamic topics`);
             } else {
                 console.warn('⚠️ Islamic knowledge not available');
+            }
+            
+            // Load expanded Islamic knowledge
+            if (typeof window.getAllExpandedIslamicTopics !== 'undefined') {
+                const expandedTopics = window.getAllExpandedIslamicTopics();
+                this.knowledgeBase.topics = this.knowledgeBase.topics.concat(expandedTopics);
+                console.log(`✅ Loaded ${expandedTopics.length} additional Islamic topics`);
+            } else {
+                console.warn('⚠️ Expanded Islamic knowledge not available');
             }
             
             // Add navigation data
@@ -141,7 +154,7 @@ class IslamicRAGSystem {
         }
     }
     
-    // Search function
+    // Enhanced search function with Hadith priority
     async search(query, options = {}) {
         if (!this.isInitialized) {
             throw new Error('RAG system not initialized');
@@ -149,17 +162,31 @@ class IslamicRAGSystem {
         
         const limit = options.limit || 5;
         const results = [];
+        const queryLower = query.toLowerCase();
         
-        // Search Quran
-        if (this.knowledgeBase.quran.length > 0) {
-            const quranResults = this.searchQuran(query);
-            results.push(...quranResults.slice(0, 2));
-        }
+        // Check if this is a specific Hadith request
+        const isHadithQuery = queryLower.includes('hadith') || queryLower.includes('sunnah') || 
+                             queryLower.includes('prophet said') || queryLower.includes('muhammad said') ||
+                             queryLower.includes('find hadith') || queryLower.includes('show hadith');
         
-        // Search Hadiths
-        if (this.knowledgeBase.hadiths.length > 0) {
-            const hadithResults = this.searchHadiths(query);
-            results.push(...hadithResults.slice(0, 2));
+        // If it's a Hadith query, prioritize Hadith search
+        if (isHadithQuery) {
+            console.log('🎯 Detected Hadith query, using enhanced search...');
+            const hadithResults = await this.searchHadith(query);
+            results.push(...hadithResults);
+        } else {
+            // Regular search for other queries
+            // Search Quran
+            if (this.knowledgeBase.quran.length > 0) {
+                const quranResults = this.searchQuran(query);
+                results.push(...quranResults.slice(0, 2));
+            }
+            
+            // Search Hadiths
+            if (this.knowledgeBase.hadiths.length > 0) {
+                const hadithResults = this.searchHadiths(query);
+                results.push(...hadithResults.slice(0, 2));
+            }
         }
         
         // Search Topics
@@ -338,27 +365,83 @@ class IslamicRAGSystem {
         return results;
     }
     
-    // Get intelligent response
+    // Get intelligent response with conversation context
     async getIntelligentResponse(query) {
         try {
-            // First, search for relevant content
-            const searchResults = await this.search(query, { limit: 3 });
+            // Add user query to conversation history
+            this.conversationHistory.push({
+                role: 'user',
+                content: query,
+                timestamp: new Date()
+            });
             
-            // If we have Groq API, use it for enhanced responses
+            // First, search for relevant content with expanded search
+            const searchResults = await this.search(query, { limit: 5 });
+            
+            // Always try to use Groq if available for comprehensive answers
             if (this.groqApiKey && this.groqApiKey !== "YOUR_GROQ_API_KEY_HERE") {
-                return await this.getGroqResponse(query, searchResults);
+                const response = await this.getGroqResponse(query, searchResults);
+                
+                // Add assistant response to conversation history
+                if (response && response.response_text) {
+                    this.conversationHistory.push({
+                        role: 'assistant',
+                        content: response.response_text,
+                        timestamp: new Date()
+                    });
+                    
+                    // Trim conversation history to max length
+                    if (this.conversationHistory.length > this.maxHistoryLength) {
+                        this.conversationHistory = this.conversationHistory.slice(-this.maxHistoryLength);
+                    }
+                }
+                
+                return response;
             }
             
             // Otherwise, generate response from search results
-            return this.generateResponseFromResults(query, searchResults);
+            const response = this.generateResponseFromResults(query, searchResults);
+            
+            // Add assistant response to conversation history
+            if (response && response.response_text) {
+                this.conversationHistory.push({
+                    role: 'assistant',
+                    content: response.response_text,
+                    timestamp: new Date()
+                });
+                
+                // Trim conversation history to max length
+                if (this.conversationHistory.length > this.maxHistoryLength) {
+                    this.conversationHistory = this.conversationHistory.slice(-this.maxHistoryLength);
+                }
+            }
+            
+            return response;
             
         } catch (error) {
             console.error('Error generating response:', error);
-            return {
-                type: 'error',
-                response_text: 'I apologize, but I encountered an error processing your request. Please try again or ask about Quran, Hadith, prayer, or site navigation.',
-                groq_used: false
-            };
+            
+            // Try to provide a helpful response even if there's an error
+            const queryLower = query.toLowerCase();
+            if (queryLower.includes('hadith') || queryLower.includes('sunnah')) {
+                return {
+                    type: 'response',
+                    response_text: `I apologize, but I encountered a technical issue while searching for Hadiths about "${query}". However, I can help you with:\n\n• **Hadiths about specific topics** - Try asking "Find hadiths about patience" or "Show me hadiths about charity"\n• **Quranic verses** - Ask for verses on any topic\n• **Islamic guidance** - General Islamic questions\n\nPlease try rephrasing your question or ask about a specific topic.`,
+                    groq_used: false
+                };
+            } else if (queryLower.includes('quran') || queryLower.includes('verse')) {
+                return {
+                    type: 'response',
+                    response_text: `I apologize, but I encountered a technical issue while searching for Quranic content about "${query}". However, I can help you with:\n\n• **Quranic verses** - Try asking "Show me verses about patience" or "Find verses about forgiveness"\n• **Hadiths** - Ask for authentic Hadiths on any topic\n• **Islamic guidance** - General Islamic questions\n\nPlease try rephrasing your question or ask about a specific topic.`,
+                    groq_used: false
+                };
+            } else {
+                return {
+                    type: 'response',
+                    response_text: `I apologize, but I encountered a technical issue while processing your request about "${query}". However, I can help you with:\n\n• **Islamic topics** - Quran, Hadith, prayer, worship\n• **General questions** - Any topic you're curious about\n• **App features** - Navigation and tools\n\nPlease try rephrasing your question or ask about something specific.`,
+                    groq_used: false
+                };
+            }
         }
     }
     
@@ -440,17 +523,21 @@ class IslamicRAGSystem {
                 response += `"If Allah wills" - This phrase shows our submission to Allah's will and reminds us that everything happens by His permission. The Quran says: "And never say of anything, 'Indeed, I will do that tomorrow,' except [when adding], 'If Allah wills.'"\n\n`;
                 response += `Would you like to learn more about this important Islamic concept?`;
             } else {
-                response = `I couldn't find specific information about "${query}" in my knowledge base. However, I can help you with:\n\n`;
+                response = `I couldn't find specific information about "${query}" in my local knowledge base. However, I can help you with:\n\n`;
                 response += `• **Quranic verses** and translations\n`;
                 response += `• **Authentic Hadiths** from reliable collections\n`;
                 response += `• **Islamic topics** and guidance\n`;
                 response += `• **Prayer and worship** instructions\n`;
+                response += `• **General knowledge** questions\n`;
                 response += `• **Navigation** to app features\n\n`;
                 response += `Please try rephrasing your question or ask about:\n`;
                 response += `- "What are the five pillars of Islam?"\n`;
                 response += `- "How do I perform prayer?"\n`;
                 response += `- "Show me verses about patience"\n`;
-                response += `- "Find hadiths about charity"`;
+                response += `- "Find hadiths about charity"\n`;
+                response += `- "Explain photosynthesis"\n`;
+                response += `- "What is the capital of France?"\n\n`;
+                response += `I'm here to help with any question you have!`;
             }
         } else {
             response = `Based on your question about "${query}", here's what I found:\n\n`;
@@ -483,13 +570,87 @@ class IslamicRAGSystem {
         };
     }
     
-    // Query Groq API
-    async queryGroq(query, context = '') {
+    // Query Groq API with enhanced context
+    async queryGroq(query, context = '', conversationHistory = []) {
         if (!this.groqApiKey || this.groqApiKey === "YOUR_GROQ_API_KEY_HERE") {
             return null;
         }
         
         try {
+            // Build comprehensive system prompt
+            const systemPrompt = `You are DeenBot, a comprehensive AI assistant with deep knowledge of Islam and the ability to answer ANY question using internet knowledge.
+
+PRIMARY EXPERTISE - ISLAMIC KNOWLEDGE:
+- Quran: All 114 surahs with Arabic, transliteration, and translation
+- Hadith: Sahih Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasai, Ibn Majah
+- Seerah: Complete biography of Prophet Muhammad (PBUH)
+- Islamic History: From Adam to modern times
+- Fiqh: Islamic jurisprudence and legal rulings
+- Aqeedah: Islamic creed and theology
+- Tafsir: Quranic exegesis and interpretation
+- Arabic Language: Grammar, morphology, and rhetoric
+- Islamic Ethics: Akhlaq and character development
+- Contemporary Issues: Modern Islamic challenges and solutions
+
+GENERAL KNOWLEDGE CAPABILITIES:
+- You can answer questions about ANY topic using your training data
+- For non-Islamic topics, provide accurate, helpful information
+- Always maintain an Islamic perspective when relevant
+- Use internet knowledge to supplement your responses
+- Be comprehensive and thorough in all answers
+
+HADITH EXPERTISE:
+- You have access to authentic Hadith collections
+- When asked for Hadiths, provide authentic ones with proper chains
+- Include Arabic text, English translation, and source citation
+- Mention the collection (Sahih Bukhari, Muslim, etc.) and hadith number
+- Explain the context and lessons from the Hadith
+- If you don't know a specific Hadith, say so and offer related ones
+
+QURAN EXPERTISE:
+- Provide exact verses with Arabic, transliteration, and translation
+- Include surah name and verse number
+- Explain the context and meaning
+- Reference related verses when relevant
+
+RESPONSE GUIDELINES:
+- Answer ANY question comprehensively using your full knowledge
+- For Islamic topics: Include Arabic text, proper citations, and scholarly information
+- For general topics: Provide accurate, helpful information with Islamic perspective when relevant
+- Use respectful Islamic terminology and greetings
+- Provide practical, actionable guidance
+- Be comprehensive but concise
+- Always end with "May Allah guide us all" or similar dua for Islamic topics
+
+CONTEXT FROM KNOWLEDGE BASE:
+${context}
+
+CONVERSATION HISTORY:
+${conversationHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n')}
+
+Remember: You are serving the Ummah with comprehensive knowledge. Answer every question fully and accurately, whether Islamic or general. Be thorough, accurate, and spiritually uplifting.`;
+
+            const messages = [
+                {
+                    role: 'system',
+                    content: systemPrompt
+                }
+            ];
+
+            // Add conversation history
+            conversationHistory.forEach(msg => {
+                messages.push({
+                    role: msg.role,
+                    content: msg.content
+                });
+            });
+
+            // Add current query
+            messages.push({
+                role: 'user',
+                content: query
+            });
+
             const response = await fetch(this.groqEndpoint, {
                 method: 'POST',
                 headers: {
@@ -497,19 +658,13 @@ class IslamicRAGSystem {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'llama3-8b-8192',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: `You are DeenBot, an Islamic AI assistant. Provide accurate, helpful responses about Islam based on authentic sources. Always be respectful and use Islamic greetings. Context: ${context}`
-                        },
-                        {
-                            role: 'user',
-                            content: query
-                        }
-                    ],
-                    max_tokens: 1000,
-                    temperature: 0.3
+                    model: 'llama3-70b-8192', // Upgraded to more powerful model
+                    messages: messages,
+                    max_tokens: 2000, // Increased for more comprehensive responses
+                    temperature: 0.1, // Lower for more consistent, factual responses
+                    top_p: 0.9,
+                    frequency_penalty: 0.1,
+                    presence_penalty: 0.1
                 })
             });
             
@@ -526,20 +681,42 @@ class IslamicRAGSystem {
         }
     }
     
-    // Get Groq response with context
+    // Get Groq response with enhanced context
     async getGroqResponse(query, searchResults) {
+        // Build comprehensive context from search results
         const context = searchResults.map(result => {
             if (result.type === 'quran_verse') {
-                return `Quran ${result.surah_english} ${result.verse_number}: "${result.translation}"`;
+                return `QURAN VERSE:
+Surah: ${result.surah_english} (${result.surah_arabic})
+Verse: ${result.verse_number}
+Arabic: ${result.arabic}
+Translation: "${result.translation}"
+Transliteration: ${result.transliteration || 'N/A'}`;
             } else if (result.type === 'hadith') {
-                return `Hadith from ${result.source}: "${result.english}"`;
+                return `HADITH:
+Source: ${result.source}
+Arabic: ${result.arabic || 'N/A'}
+English: "${result.english}"
+Lesson: ${result.lesson || 'N/A'}`;
             } else if (result.type === 'topic') {
-                return `${result.title}: ${result.content}`;
+                return `ISLAMIC TOPIC:
+Title: ${result.title}
+Content: ${result.content}
+Keywords: ${result.keywords || 'N/A'}`;
+            } else if (result.type === 'navigation') {
+                return `APP FEATURE:
+Title: ${result.title}
+Description: ${result.description}
+URL: ${result.url}
+Features: ${result.features ? result.features.join(', ') : 'N/A'}`;
             }
             return '';
         }).join('\n\n');
         
-        const groqResponse = await this.queryGroq(query, context);
+        // Get conversation history for context
+        const conversationHistory = this.conversationHistory.slice(-6); // Last 6 exchanges
+        
+        const groqResponse = await this.queryGroq(query, context, conversationHistory);
         
         if (groqResponse) {
             return {
@@ -552,6 +729,100 @@ class IslamicRAGSystem {
         } else {
             return this.generateResponseFromResults(query, searchResults);
         }
+    }
+    
+    // Enhanced Hadith search with better Groq integration
+    async searchHadith(query) {
+        console.log('🔍 Searching for Hadith:', query);
+        
+        // First try local search
+        const localResults = this.searchHadiths(query);
+        console.log('📚 Local Hadith results:', localResults.length);
+        
+        // Always try Groq for Hadith requests to get comprehensive results
+        if (this.groqApiKey && this.groqApiKey !== "YOUR_GROQ_API_KEY_HERE") {
+            try {
+                console.log('🤖 Using Groq for Hadith search...');
+                const groqResponse = await this.queryGroq(
+                    `You are a Hadith expert. Find authentic Hadiths about: "${query}". 
+                    
+                    REQUIREMENTS:
+                    - Provide specific Hadiths from Sahih Bukhari, Muslim, Abu Dawud, Tirmidhi, or other authentic collections
+                    - Include Arabic text with proper diacritics
+                    - Include English translation
+                    - Mention the collection name and hadith number
+                    - Explain the context and lessons
+                    - If you know multiple relevant Hadiths, provide 2-3 of them
+                    
+                    Format each Hadith as:
+                    **Collection Name, Hadith #**
+                    Arabic: [Arabic text]
+                    Translation: [English translation]
+                    Context: [Explanation and lessons]`,
+                    '',
+                    this.conversationHistory.slice(-4)
+                );
+                
+                if (groqResponse) {
+                    console.log('✅ Groq Hadith response received');
+                    return [{
+                        type: 'hadith',
+                        source: 'AI Search (Authentic Collections)',
+                        english: groqResponse,
+                        arabic: 'Provided in response',
+                        lesson: 'Authentic Hadiths found via AI search of reliable collections',
+                        score: 1.0,
+                        category: 'Hadith',
+                        groq_used: true
+                    }];
+                }
+            } catch (error) {
+                console.error('❌ Error searching Hadith with Groq:', error);
+            }
+        }
+        
+        // Return local results if Groq fails
+        return localResults;
+    }
+    
+    // Special method for Quran requests
+    async searchQuran(query) {
+        // First try local search
+        const localResults = this.searchQuran(query);
+        
+        if (localResults.length > 0) {
+            return localResults;
+        }
+        
+        // If no local results and Groq is available, use it
+        if (this.groqApiKey && this.groqApiKey !== "YOUR_GROQ_API_KEY_HERE") {
+            try {
+                const groqResponse = await this.queryGroq(
+                    `Find Quranic verses about: ${query}. Include Arabic text, transliteration, English translation, surah name, and verse number.`,
+                    '',
+                    this.conversationHistory.slice(-4)
+                );
+                
+                if (groqResponse) {
+                    return [{
+                        type: 'quran_verse',
+                        surah_english: 'AI Search Result',
+                        surah_arabic: 'نتيجة البحث بالذكاء الاصطناعي',
+                        verse_number: 'N/A',
+                        arabic: 'Retrieved via AI search',
+                        translation: groqResponse,
+                        transliteration: 'N/A',
+                        score: 1.0,
+                        category: 'Quran',
+                        groq_used: true
+                    }];
+                }
+            } catch (error) {
+                console.error('Error searching Quran with Groq:', error);
+            }
+        }
+        
+        return [];
     }
     
     // Get system status

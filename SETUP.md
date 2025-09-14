@@ -1,4 +1,4 @@
-# DeenBot Setup Instructions
+# Islamic Learning Platform Setup Instructions
 
 ## 🔑 API Key Configuration
 
@@ -32,18 +32,18 @@ Make sure to include the config file before the RAG system:
 
 ## 🚀 Features
 
-### DeenBot AI Assistant
+### AI Assistant (Currently in Development)
 - Comprehensive Islamic knowledge base
 - RAG (Retrieval-Augmented Generation) system
 - Groq API integration for enhanced responses
 - Authentic source attribution
 - Islamic greetings and appropriate language
 
-### Floating Widget
-- Universal access across all pages
+### Quran Reader
+- Complete Quran with all 114 surahs
+- Page-by-page navigation
+- Arabic text with translations
 - Mobile-responsive design
-- Clean interface without unnecessary buttons
-- Easy integration for future pages
 
 ### Knowledge Base Coverage
 - Quranic sciences (Tajweed, Tafsir, Grammar)
@@ -61,26 +61,19 @@ Make sure to include the config file before the RAG system:
 js/
 ├── config.js                           # Configuration file (API keys)
 ├── rag-system.js                       # Core RAG system
-├── floating-deenbot-widget.js          # Floating widget
 ├── extensive-islamic-knowledge.js      # Core Islamic sciences
 ├── specialized-islamic-knowledge.js    # Advanced topics
 ├── detailed-quranic-hadith-database.js # Scriptural knowledge
 ├── comprehensive-islamic-knowledge.js  # Original knowledge base
-└── deenbot-widget-include.js           # Easy widget integration
+└── complete-quran-data.js              # Complete Quran data
 
-rag-assistant.html                      # Main DeenBot interface
-deenbot-widget-template.html            # Widget integration template
+rag-assistant.html                      # AI Assistant interface (in development)
+complete-quran-reader.html              # Main Quran reader interface
 ```
 
 ## 🔧 Integration
 
-### Adding DeenBot to New Pages
-Simply include the widget include script:
-```html
-<script src="js/deenbot-widget-include.js"></script>
-```
-
-### Manual Integration
+### Adding AI Assistant to New Pages
 ```html
 <script src="js/config.js"></script>
 <script src="js/complete-quran-data.js"></script>
@@ -90,7 +83,6 @@ Simply include the widget include script:
 <script src="js/specialized-islamic-knowledge.js"></script>
 <script src="js/detailed-quranic-hadith-database.js"></script>
 <script src="js/rag-system.js"></script>
-<script src="js/floating-deenbot-widget.js"></script>
 ```
 
 ## ⚠️ Security Notes
@@ -102,26 +94,26 @@ Simply include the widget include script:
 
 ## 🛠️ Troubleshooting
 
-### DeenBot Not Responding
+### AI Assistant Not Responding
 1. Check if the API key is correctly configured
 2. Verify all JavaScript files are loaded
 3. Check browser console for errors
 4. Ensure internet connection for Groq API calls
 
-### Widget Not Appearing
-1. Verify `js/floating-deenbot-widget.js` is loaded
+### Quran Reader Issues
+1. Verify `js/complete-quran-data.js` is loaded
 2. Check for JavaScript errors in console
 3. Ensure CSS is properly loaded
 
 ### Knowledge Base Issues
 1. Verify all knowledge base files are loaded
-2. Check if `window.deenBot` is available in console
+2. Check if the RAG system is properly initialized
 3. Ensure proper file loading order
 
 ## 📞 Support
 
-For technical support or questions about DeenBot implementation, please refer to the documentation or contact the development team.
+For technical support or questions about the platform implementation, please refer to the documentation or contact the development team.
 
 ---
 
-**Note**: This setup ensures DeenBot has access to comprehensive Islamic knowledge while maintaining security best practices for API key management.
+**Note**: This setup ensures the AI assistant has access to comprehensive Islamic knowledge while maintaining security best practices for API key management.

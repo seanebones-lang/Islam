@@ -56,6 +56,125 @@ body {
     align-items: center;
 }
 
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.back-btn, .mobile-menu-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn:hover, .mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu-content {
+    padding: 2rem;
+}
+
+.mobile-nav-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.3s ease;
+}
+
+.mobile-nav-link:hover, .mobile-nav-link.active {
+    color: var(--gold);
+}
+
+.mobile-menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 1rem 0;
+}
+
+.contact-link {
+    color: var(--gold) !important;
+}
+
+.mobile-menu-section {
+    margin-bottom: 1rem;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    cursor: pointer;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.3s ease;
+}
+
+.mobile-menu-header:hover {
+    color: var(--gold);
+}
+
+.mobile-menu-header i {
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu-header.active i {
+    transform: rotate(180deg);
+}
+
+.mobile-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.mobile-dropdown.active {
+    max-height: 300px;
+}
+
+.mobile-dropdown .mobile-nav-link {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-dropdown .mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
 .nav-logo {
     display: flex;
     align-items: center;
@@ -126,6 +245,7 @@ body {
     background: linear-gradient(135deg, var(--dark-green) 0%, var(--medium-green) 100%);
     position: relative;
     overflow: hidden;
+    padding-top: 4rem;
 }
 
 .hero::before {
