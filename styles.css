@@ -9994,18 +9994,96 @@ body {
     padding-bottom: 0.5rem;
 }
 
+/* Date Panel Styles */
+.date-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.date-panel:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--gold);
+}
+
+.date-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.date-header:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.date-title {
+    color: var(--gold);
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.total-hours {
+    color: var(--white);
+    font-size: 0.9rem;
+    background: rgba(255, 215, 0, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.date-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.update-count {
+    color: var(--light-green);
+    font-size: 0.9rem;
+    background: rgba(95, 179, 115, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.panel-icon {
+    color: var(--gold);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.date-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+/* Individual Update Item Styles */
 .update-item {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
     border-left: 4px solid var(--gold);
     transition: all 0.3s ease;
 }
 
 .update-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .update-item.major {
@@ -10035,20 +10113,21 @@ body {
 .update-title {
     color: var(--white);
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     flex: 1;
     min-width: 200px;
 }
 
-.update-date {
+.update-hours {
     color: var(--gold);
     font-size: 0.9rem;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    background: rgba(255, 215, 0, 0.2);
     padding: 0.3rem 0.8rem;
-    border-radius: 20px;
+    border-radius: 15px;
     white-space: nowrap;
+    border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 .update-content {
@@ -10079,6 +10158,17 @@ body {
 
 /* Mobile Responsive for Updates */
 @media (max-width: 768px) {
+    .date-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .date-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
     .update-header {
         flex-direction: column;
         align-items: flex-start;
@@ -10087,16 +10177,20 @@ body {
     
     .update-title {
         min-width: auto;
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     
-    .update-date {
+    .update-hours {
         font-size: 0.8rem;
         align-self: flex-end;
     }
     
     .update-list {
         padding-left: 1rem;
+    }
+    
+    .date-content {
+        padding: 0 1rem 1rem 1rem;
     }
 }
 

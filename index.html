@@ -286,39 +286,45 @@
         const updates = [
             {
                 date: "January 15, 2025",
-                title: "Complete Quran Reader Implementation",
-                content: [
-                    "✅ Fixed Quran reader to display all 114 surahs with complete verses",
-                    "✅ Implemented proper page-by-page navigation system",
-                    "✅ Added external API integration for complete Quran data",
-                    "✅ Created comprehensive surah verification system",
-                    "✅ Fixed pagination to show correct page counts (e.g., Al-Baqarah now shows 29 pages instead of 3)"
+                updates: [
+                    {
+                        title: "Complete Quran Reader Implementation",
+                        content: [
+                            "✅ Fixed Quran reader to display all 114 surahs with complete verses",
+                            "✅ Implemented proper page-by-page navigation system",
+                            "✅ Added external API integration for complete Quran data",
+                            "✅ Created comprehensive surah verification system",
+                            "✅ Fixed pagination to show correct page counts (e.g., Al-Baqarah now shows 29 pages instead of 3)"
+                        ],
+                        type: "major",
+                        hours: 12
+                    },
+                    {
+                        title: "UI/UX Enhancements",
+                        content: [
+                            "✅ Redesigned 'Read the Quran' button to square format with 'Holy Quran' text",
+                            "✅ Added beautiful verse display with Arabic, transliteration, and translation",
+                            "✅ Updated mobile menu with green theme and better organization",
+                            "✅ Added 'Contact Us' functionality with email integration",
+                            "✅ Enhanced landing page with additional content sections"
+                        ],
+                        type: "enhancement",
+                        hours: 8
+                    },
+                    {
+                        title: "Developer Communication System",
+                        content: [
+                            "✅ Created comprehensive developer message modal",
+                            "✅ Added donation integration with Square payment system",
+                            "✅ Implemented dynamic updates tracking system",
+                            "✅ Added vision statement for DeenBot platform",
+                            "✅ Enhanced user engagement with Sadaqah Jariyah concept"
+                        ],
+                        type: "feature",
+                        hours: 6
+                    }
                 ],
-                type: "major"
-            },
-            {
-                date: "January 15, 2025",
-                title: "UI/UX Enhancements",
-                content: [
-                    "✅ Redesigned 'Read the Quran' button to square format with 'Holy Quran' text",
-                    "✅ Added beautiful verse display with Arabic, transliteration, and translation",
-                    "✅ Updated mobile menu with green theme and better organization",
-                    "✅ Added 'Contact Us' functionality with email integration",
-                    "✅ Enhanced landing page with additional content sections"
-                ],
-                type: "enhancement"
-            },
-            {
-                date: "January 15, 2025",
-                title: "Developer Communication System",
-                content: [
-                    "✅ Created comprehensive developer message modal",
-                    "✅ Added donation integration with Square payment system",
-                    "✅ Implemented dynamic updates tracking system",
-                    "✅ Added vision statement for DeenBot platform",
-                    "✅ Enhanced user engagement with Sadaqah Jariyah concept"
-                ],
-                type: "feature"
+                totalHours: 26
             }
         ];
 
@@ -328,24 +334,58 @@
 
             updatesList.innerHTML = '';
 
-            updates.forEach((update, index) => {
-                const updateElement = document.createElement('div');
-                updateElement.className = `update-item ${update.type}`;
+            updates.forEach((dateGroup, index) => {
+                const datePanel = document.createElement('div');
+                datePanel.className = 'date-panel';
                 
-                updateElement.innerHTML = `
-                    <div class="update-header">
-                        <h5 class="update-title">${update.title}</h5>
-                        <span class="update-date">${update.date}</span>
+                const isFirst = index === 0;
+                const panelId = `panel-${index}`;
+                
+                datePanel.innerHTML = `
+                    <div class="date-header" onclick="togglePanel('${panelId}')">
+                        <div class="date-info">
+                            <h5 class="date-title">${dateGroup.date}</h5>
+                            <span class="total-hours">${dateGroup.totalHours} hours</span>
+                        </div>
+                        <div class="date-stats">
+                            <span class="update-count">${dateGroup.updates.length} updates</span>
+                            <i class="fas fa-chevron-down panel-icon" id="icon-${panelId}"></i>
+                        </div>
                     </div>
-                    <div class="update-content">
-                        <ul class="update-list">
-                            ${update.content.map(item => `<li>${item}</li>`).join('')}
-                        </ul>
+                    <div class="date-content" id="${panelId}" style="display: ${isFirst ? 'block' : 'none'}">
+                        ${dateGroup.updates.map(update => `
+                            <div class="update-item ${update.type}">
+                                <div class="update-header">
+                                    <h6 class="update-title">${update.title}</h6>
+                                    <span class="update-hours">${update.hours}h</span>
+                                </div>
+                                <div class="update-content">
+                                    <ul class="update-list">
+                                        ${update.content.map(item => `<li>${item}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 `;
                 
-                updatesList.appendChild(updateElement);
+                updatesList.appendChild(datePanel);
             });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            const icon = document.getElementById(`icon-${panelId}`);
+            
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                panel.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
         }
 
         // Load updates when modal opens
@@ -374,6 +414,7 @@
         window.showContactSheet = showContactSheet;
         window.closeContactSheet = closeContactSheet;
         window.closeDeveloperModal = closeDeveloperModal;
+        window.togglePanel = togglePanel;
         window.copyEmail = copyEmail;
     </script>
 </body>
