@@ -17,17 +17,36 @@ class IslamicRAGSystem {
         try {
             // Load Quran data
             if (typeof window.completeQuranData !== 'undefined') {
-                this.knowledgeBase.quran = window.completeQuranData;
+                // Convert object to array format for easier searching
+                this.knowledgeBase.quran = Object.values(window.completeQuranData).map(surah => ({
+                    english_name: surah.name,
+                    arabic_name: surah.arabic,
+                    verses: surah.verses_data.map(verse => ({
+                        verse_number: verse.verse_number || 1,
+                        arabic: verse.arabic,
+                        translation: verse.translation,
+                        transliteration: verse.transliteration
+                    }))
+                }));
+                console.log(`✅ Loaded ${this.knowledgeBase.quran.length} surahs`);
+            } else {
+                console.warn('⚠️ Quran data not available');
             }
             
             // Load Hadith data
             if (typeof window.hadithDatabase !== 'undefined') {
                 this.knowledgeBase.hadiths = window.hadithDatabase;
+                console.log(`✅ Loaded ${this.knowledgeBase.hadiths.length} hadiths`);
+            } else {
+                console.warn('⚠️ Hadith data not available');
             }
             
             // Load Islamic knowledge
             if (typeof window.getAllIslamicTopics !== 'undefined') {
                 this.knowledgeBase.topics = window.getAllIslamicTopics();
+                console.log(`✅ Loaded ${this.knowledgeBase.topics.length} Islamic topics`);
+            } else {
+                console.warn('⚠️ Islamic knowledge not available');
             }
             
             // Add navigation data
@@ -338,12 +357,57 @@ class IslamicRAGSystem {
         let response = '';
         
         if (results.length === 0) {
-            response = `I couldn't find specific information about "${query}" in my knowledge base. However, I can help you with:\n\n`;
-            response += `• Quranic verses and translations\n`;
-            response += `• Authentic Hadiths from reliable collections\n`;
-            response += `• Islamic topics and guidance\n`;
-            response += `• Navigation to app features\n\n`;
-            response += `Please try rephrasing your question or ask about a specific Islamic topic.`;
+            // Provide helpful fallback responses based on common queries
+            const queryLower = query.toLowerCase();
+            
+            if (queryLower.includes('pillar') || queryLower.includes('five')) {
+                response = `**The Five Pillars of Islam:**\n\n`;
+                response += `1. **Shahada** (Declaration of Faith): "La ilaha illa Allah, Muhammadun rasul Allah"\n`;
+                response += `2. **Salah** (Prayer): Five daily prayers at prescribed times\n`;
+                response += `3. **Zakat** (Charity): Obligatory charity to help the needy\n`;
+                response += `4. **Sawm** (Fasting): Fasting during the month of Ramadan\n`;
+                response += `5. **Hajj** (Pilgrimage): Pilgrimage to Mecca once in a lifetime for those who are able\n\n`;
+                response += `These pillars form the foundation of Muslim life and worship.`;
+            } else if (queryLower.includes('prayer') || queryLower.includes('salah')) {
+                response = `**Islamic Prayer (Salah):**\n\n`;
+                response += `Salah is the second pillar of Islam. Muslims perform five daily prayers:\n\n`;
+                response += `• **Fajr** (Dawn prayer) - Before sunrise\n`;
+                response += `• **Dhuhr** (Midday prayer) - After the sun passes its zenith\n`;
+                response += `• **Asr** (Afternoon prayer) - Late afternoon\n`;
+                response += `• **Maghrib** (Sunset prayer) - Just after sunset\n`;
+                response += `• **Isha** (Evening prayer) - Night time\n\n`;
+                response += `Each prayer consists of units called rak'ahs with recitation, bowing (ruku), and prostration (sujud).`;
+            } else if (queryLower.includes('wudu') || queryLower.includes('ablution')) {
+                response = `**Wudu (Ablution) Steps:**\n\n`;
+                response += `1. **Intention** (Niyyah) - Make intention to perform wudu\n`;
+                response += `2. **Wash hands** three times\n`;
+                response += `3. **Rinse mouth** three times\n`;
+                response += `4. **Rinse nose** three times\n`;
+                response += `5. **Wash face** three times\n`;
+                response += `6. **Wash arms** up to elbows three times\n`;
+                response += `7. **Wipe head** once\n`;
+                response += `8. **Wash feet** up to ankles three times\n\n`;
+                response += `Wudu purifies the body and soul before prayer.`;
+            } else if (queryLower.includes('quran') || queryLower.includes('verse')) {
+                response = `**About the Quran:**\n\n`;
+                response += `The Quran is the holy book of Islam, revealed to Prophet Muhammad (PBUH) over 23 years. It contains 114 surahs (chapters) and over 6,000 verses covering all aspects of life.\n\n`;
+                response += `You can explore the complete Quran with Arabic text, transliteration, and translation in our Quran Reader section.`;
+            } else if (queryLower.includes('hadith') || queryLower.includes('sunnah')) {
+                response = `**About Hadith:**\n\n`;
+                response += `Hadith are the sayings, actions, and approvals of Prophet Muhammad (PBUH). They are the second source of Islamic guidance after the Quran.\n\n`;
+                response += `Major collections include Sahih al-Bukhari, Sahih Muslim, and others. You can search our comprehensive Hadith collection for authentic teachings.`;
+            } else {
+                response = `I couldn't find specific information about "${query}" in my knowledge base. However, I can help you with:\n\n`;
+                response += `• **Quranic verses** and translations\n`;
+                response += `• **Authentic Hadiths** from reliable collections\n`;
+                response += `• **Islamic topics** and guidance\n`;
+                response += `• **Navigation** to app features\n\n`;
+                response += `Please try rephrasing your question or ask about:\n`;
+                response += `- "What are the five pillars of Islam?"\n`;
+                response += `- "How do I perform prayer?"\n`;
+                response += `- "Show me verses about patience"\n`;
+                response += `- "Find hadiths about charity"`;
+            }
         } else {
             response = `Based on your question about "${query}", here's what I found:\n\n`;
             

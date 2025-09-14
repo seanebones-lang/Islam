@@ -2380,3 +2380,8 @@ additionalStyles.textContent = `
     }
 `;
 document.head.appendChild(additionalStyles);
+
+// Export hadith data for RAG system
+if (typeof window !== 'undefined') {
+    window.hadithDatabase = hadithData;
+}

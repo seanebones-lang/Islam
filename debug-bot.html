@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeenBot Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .debug-container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .warning { background: #fff3cd; border-color: #ffeaa7; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #output { margin-top: 20px; }
+        .test-query { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 DeenBot Debug Console</h1>
+        
+        <div class="debug-section">
+            <h3>System Status</h3>
+            <button onclick="checkSystemStatus()">Check System Status</button>
+            <div id="systemStatus"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>Knowledge Base Check</h3>
+            <button onclick="checkKnowledgeBase()">Check Knowledge Base</button>
+            <div id="knowledgeStatus"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>Test Queries</h3>
+            <div class="test-query">
+                <button onclick="testQuery('What are the five pillars of Islam?')">Test: Five Pillars</button>
+                <button onclick="testQuery('Show me verses about patience')">Test: Patience Verses</button>
+                <button onclick="testQuery('Find hadiths about charity')">Test: Charity Hadiths</button>
+                <button onclick="testQuery('How do I perform wudu?')">Test: Wudu Guide</button>
+            </div>
+            <div id="queryResults"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>Console Output</h3>
+            <div id="consoleOutput"></div>
+        </div>
+    </div>
+
+    <!-- Load Required Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/complete-quran-data.js"></script>
+    <script src="hadiths.js"></script>
+    <script src="js/comprehensive-islamic-knowledge.js"></script>
+    <script src="js/extensive-islamic-knowledge.js"></script>
+    <script src="js/specialized-islamic-knowledge.js"></script>
+    <script src="js/rag-system.js"></script>
+    
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToConsole(message, type = 'log') {
+            const output = document.getElementById('consoleOutput');
+            const div = document.createElement('div');
+            div.style.margin = '5px 0';
+            div.style.padding = '5px';
+            div.style.borderRadius = '3px';
+            div.style.fontFamily = 'monospace';
+            div.style.fontSize = '12px';
+            
+            if (type === 'error') {
+                div.style.background = '#f8d7da';
+                div.style.color = '#721c24';
+            } else if (type === 'warn') {
+                div.style.background = '#fff3cd';
+                div.style.color = '#856404';
+            } else {
+                div.style.background = '#d1ecf1';
+                div.style.color = '#0c5460';
+            }
+            
+            div.textContent = `[${type.toUpperCase()}] ${message}`;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole(args.join(' '), 'warn');
+        };
+        
+        function checkSystemStatus() {
+            const statusDiv = document.getElementById('systemStatus');
+            statusDiv.innerHTML = '<p>Checking system status...</p>';
+            
+            setTimeout(() => {
+                let html = '<h4>System Status:</h4>';
+                
+                // Check RAG System
+                if (typeof window.islamicRAG !== 'undefined') {
+                    const status = window.islamicRAG.getStatus();
+                    html += `<div class="success"><strong>✅ RAG System:</strong> ${status.initialized ? 'Initialized' : 'Not Initialized'}</div>`;
+                    html += `<div class="info"><strong>Content Counts:</strong><br>`;
+                    html += `- Quran: ${status.contentCounts.quran}<br>`;
+                    html += `- Hadiths: ${status.contentCounts.hadiths}<br>`;
+                    html += `- Topics: ${status.contentCounts.topics}<br>`;
+                    html += `- Navigation: ${status.contentCounts.navigation}</div>`;
+                    html += `<div class="${status.groqAvailable ? 'success' : 'warning'}"><strong>Groq API:</strong> ${status.groqAvailable ? 'Available' : 'Not Available (using fallback)'}</div>`;
+                } else {
+                    html += '<div class="error"><strong>❌ RAG System:</strong> Not Found</div>';
+                }
+                
+                // Check Config
+                if (typeof window.CONFIG !== 'undefined') {
+                    const hasGroqKey = window.CONFIG.GROQ_API_KEY && window.CONFIG.GROQ_API_KEY !== 'YOUR_GROQ_API_KEY_HERE';
+                    html += `<div class="${hasGroqKey ? 'success' : 'warning'}"><strong>Config:</strong> ${hasGroqKey ? 'Groq Key Set' : 'Using Placeholder Key'}</div>`;
+                } else {
+                    html += '<div class="error"><strong>❌ Config:</strong> Not Found</div>';
+                }
+                
+                statusDiv.innerHTML = html;
+            }, 1000);
+        }
+        
+        function checkKnowledgeBase() {
+            const statusDiv = document.getElementById('knowledgeStatus');
+            statusDiv.innerHTML = '<p>Checking knowledge base...</p>';
+            
+            setTimeout(() => {
+                let html = '<h4>Knowledge Base Status:</h4>';
+                
+                // Check Quran Data
+                if (typeof window.completeQuranData !== 'undefined') {
+                    html += `<div class="success"><strong>✅ Quran Data:</strong> ${window.completeQuranData.length} surahs loaded</div>`;
+                } else {
+                    html += '<div class="error"><strong>❌ Quran Data:</strong> Not loaded</div>';
+                }
+                
+                // Check Hadith Data
+                if (typeof window.hadithDatabase !== 'undefined') {
+                    html += `<div class="success"><strong>✅ Hadith Data:</strong> ${window.hadithDatabase.length} hadiths loaded</div>`;
+                } else {
+                    html += '<div class="error"><strong>❌ Hadith Data:</strong> Not loaded</div>';
+                }
+                
+                // Check Islamic Knowledge
+                if (typeof window.getAllIslamicTopics !== 'undefined') {
+                    const topics = window.getAllIslamicTopics();
+                    html += `<div class="success"><strong>✅ Islamic Topics:</strong> ${topics.length} topics loaded</div>`;
+                } else {
+                    html += '<div class="error"><strong>❌ Islamic Topics:</strong> Not loaded</div>';
+                }
+                
+                statusDiv.innerHTML = html;
+            }, 1000);
+        }
+        
+        async function testQuery(query) {
+            const resultsDiv = document.getElementById('queryResults');
+            resultsDiv.innerHTML = `<p>Testing query: "${query}"</p>`;
+            
+            if (typeof window.islamicRAG !== 'undefined' && window.islamicRAG.isInitialized) {
+                try {
+                    console.log(`Testing query: ${query}`);
+                    
+                    // Test search first
+                    const searchResults = await window.islamicRAG.search(query, { limit: 3 });
+                    console.log('Search results:', searchResults);
+                    
+                    // Test full response
+                    const response = await window.islamicRAG.getIntelligentResponse(query);
+                    console.log('Full response:', response);
+                    
+                    let html = `<div class="test-query"><h4>Query: "${query}"</h4>`;
+                    
+                    if (searchResults.length > 0) {
+                        html += '<div class="success"><strong>Search Results:</strong></div>';
+                        searchResults.forEach((result, index) => {
+                            html += `<div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">`;
+                            html += `<strong>${index + 1}. ${result.type} (Score: ${result.score || 'N/A'})</strong><br>`;
+                            if (result.type === 'quran_verse') {
+                                html += `Quran ${result.surah_english} ${result.verse_number}: "${result.translation}"`;
+                            } else if (result.type === 'hadith') {
+                                html += `Hadith from ${result.source}: "${result.english}"`;
+                            } else if (result.type === 'topic') {
+                                html += `${result.title}: ${result.content}`;
+                            } else if (result.type === 'navigation') {
+                                html += `${result.title}: ${result.description}`;
+                            }
+                            html += '</div>';
+                        });
+                    } else {
+                        html += '<div class="warning"><strong>No search results found</strong></div>';
+                    }
+                    
+                    html += '<div class="info"><strong>Response:</strong><br>';
+                    html += `<pre>${JSON.stringify(response, null, 2)}</pre>`;
+                    html += '</div></div>';
+                    
+                    resultsDiv.innerHTML = html;
+                    
+                } catch (error) {
+                    console.error('Query test error:', error);
+                    resultsDiv.innerHTML = `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
+                }
+            } else {
+                resultsDiv.innerHTML = '<div class="error"><strong>RAG System not initialized</strong></div>';
+            }
+        }
+        
+        // Auto-check on load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                console.log('DeenBot Debug Console loaded');
+                checkSystemStatus();
+                checkKnowledgeBase();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
