@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quran Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .pass { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .fail { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Simple Quran Data Test</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testQuranData() {
+            try {
+                console.log('Testing Quran data loading...');
+                
+                // Load Arabic text
+                const arabicResponse = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+                const arabicData = await arabicResponse.json();
+                
+                // Load English translation
+                const englishResponse = await fetch('https://api.alquran.cloud/v1/quran/en.asad');
+                const englishData = await englishResponse.json();
+                
+                const resultsDiv = document.getElementById('results');
+                
+                if (arabicData.code === 200 && englishData.code === 200) {
+                    // Test Al-Baqarah specifically
+                    const alBaqarah = arabicData.data.surahs[1]; // Index 1 for surah 2
+                    const alBaqarahEnglish = englishData.data.surahs[1];
+                    
+                    const versesPerPage = 10;
+                    const totalVerses = alBaqarah.ayahs.length;
+                    const totalPages = Math.ceil(totalVerses / versesPerPage);
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="test-result pass">
+                            <h3>✅ API Connection: SUCCESS</h3>
+                            <p>Arabic API: ${arabicData.code}</p>
+                            <p>English API: ${englishData.code}</p>
+                        </div>
+                        
+                        <div class="test-result pass">
+                            <h3>✅ Al-Baqarah Data: SUCCESS</h3>
+                            <p>Name: ${alBaqarah.englishName}</p>
+                            <p>Arabic Name: ${alBaqarah.name}</p>
+                            <p>Total Verses: ${totalVerses}</p>
+                            <p>Expected: 286</p>
+                            <p>Total Pages: ${totalPages}</p>
+                            <p>Expected: 29</p>
+                        </div>
+                        
+                        <div class="test-result ${totalVerses === 286 ? 'pass' : 'fail'}">
+                            <h3>${totalVerses === 286 ? '✅' : '❌'} Verse Count: ${totalVerses === 286 ? 'CORRECT' : 'INCORRECT'}</h3>
+                            <p>Actual: ${totalVerses}, Expected: 286</p>
+                        </div>
+                        
+                        <div class="test-result ${totalPages === 29 ? 'pass' : 'fail'}">
+                            <h3>${totalPages === 29 ? '✅' : '❌'} Pagination: ${totalPages === 29 ? 'CORRECT' : 'INCORRECT'}</h3>
+                            <p>Actual: ${totalPages} pages, Expected: 29 pages</p>
+                        </div>
+                        
+                        <div class="test-result pass">
+                            <h3>✅ Sample Verse Data</h3>
+                            <p><strong>Arabic:</strong> ${alBaqarah.ayahs[0].text.substring(0, 50)}...</p>
+                            <p><strong>Translation:</strong> ${alBaqarahEnglish.ayahs[0].text.substring(0, 100)}...</p>
+                        </div>
+                    `;
+                    
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result fail">
+                            <h3>❌ API Error</h3>
+                            <p>Arabic API: ${arabicData.code}</p>
+                            <p>English API: ${englishData.code}</p>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <div class="test-result fail">
+                        <h3>❌ Connection Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Run test when page loads
+        document.addEventListener('DOMContentLoaded', testQuranData);
+    </script>
+</body>
+</html>
