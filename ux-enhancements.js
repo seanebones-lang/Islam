@@ -587,7 +587,7 @@ function showQuickActions() {
                 <span>Learn</span>
             </button>
             <button onclick="window.location.href='practice.html'" class="quick-action-btn">
-                <i class="fas fa-hands-praying"></i>
+                <i class="fas fa-star"></i>
                 <span>Practice</span>
             </button>
             <button onclick="showHelp()" class="quick-action-btn">
