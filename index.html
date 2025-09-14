@@ -40,7 +40,7 @@
                 <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
                 <div class="mobile-menu-divider"></div>
                 <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
-                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Info from the Developer</a>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
             </div>
         </div>
     </nav>
@@ -140,13 +140,21 @@
     <div class="developer-modal" id="developerModal">
         <div class="developer-modal-content">
             <div class="developer-modal-header">
-                <h3>Message from the Developer</h3>
+                <h3>Updates from the Developer</h3>
                 <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
             </div>
             <div class="developer-modal-body">
                 <div class="developer-info">
                     <div class="donation-section">
                         <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <!-- Recent Updates Section -->
+                    <div class="updates-section">
+                        <h4>Recent Updates</h4>
+                        <div id="updatesList">
+                            <!-- Updates will be dynamically loaded here -->
+                        </div>
                     </div>
                     
                     <div class="bismillah">
@@ -272,6 +280,80 @@
             const developerModal = document.getElementById('developerModal');
             developerModal.style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        // Updates System
+        const updates = [
+            {
+                date: "January 15, 2025",
+                title: "Complete Quran Reader Implementation",
+                content: [
+                    "✅ Fixed Quran reader to display all 114 surahs with complete verses",
+                    "✅ Implemented proper page-by-page navigation system",
+                    "✅ Added external API integration for complete Quran data",
+                    "✅ Created comprehensive surah verification system",
+                    "✅ Fixed pagination to show correct page counts (e.g., Al-Baqarah now shows 29 pages instead of 3)"
+                ],
+                type: "major"
+            },
+            {
+                date: "January 15, 2025",
+                title: "UI/UX Enhancements",
+                content: [
+                    "✅ Redesigned 'Read the Quran' button to square format with 'Holy Quran' text",
+                    "✅ Added beautiful verse display with Arabic, transliteration, and translation",
+                    "✅ Updated mobile menu with green theme and better organization",
+                    "✅ Added 'Contact Us' functionality with email integration",
+                    "✅ Enhanced landing page with additional content sections"
+                ],
+                type: "enhancement"
+            },
+            {
+                date: "January 15, 2025",
+                title: "Developer Communication System",
+                content: [
+                    "✅ Created comprehensive developer message modal",
+                    "✅ Added donation integration with Square payment system",
+                    "✅ Implemented dynamic updates tracking system",
+                    "✅ Added vision statement for DeenBot platform",
+                    "✅ Enhanced user engagement with Sadaqah Jariyah concept"
+                ],
+                type: "feature"
+            }
+        ];
+
+        function loadUpdates() {
+            const updatesList = document.getElementById('updatesList');
+            if (!updatesList) return;
+
+            updatesList.innerHTML = '';
+
+            updates.forEach((update, index) => {
+                const updateElement = document.createElement('div');
+                updateElement.className = `update-item ${update.type}`;
+                
+                updateElement.innerHTML = `
+                    <div class="update-header">
+                        <h5 class="update-title">${update.title}</h5>
+                        <span class="update-date">${update.date}</span>
+                    </div>
+                    <div class="update-content">
+                        <ul class="update-list">
+                            ${update.content.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                updatesList.appendChild(updateElement);
+            });
+        }
+
+        // Load updates when modal opens
+        function showDeveloperInfo() {
+            loadUpdates();
+            const developerModal = document.getElementById('developerModal');
+            developerModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
         // Close modals when clicking outside

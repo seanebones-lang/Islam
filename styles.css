@@ -9976,6 +9976,130 @@ body {
     align-items: center;
 }
 
+/* Updates Section Styles */
+.updates-section {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.updates-section h4 {
+    color: var(--gold);
+    margin: 0 0 1.5rem 0;
+    font-size: 1.3rem;
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 0.5rem;
+}
+
+.update-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--gold);
+    transition: all 0.3s ease;
+}
+
+.update-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+}
+
+.update-item.major {
+    border-left-color: var(--gold);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.update-item.enhancement {
+    border-left-color: var(--light-green);
+    background: rgba(95, 179, 115, 0.05);
+}
+
+.update-item.feature {
+    border-left-color: var(--highlight-green);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.update-title {
+    color: var(--white);
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex: 1;
+    min-width: 200px;
+}
+
+.update-date {
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.update-content {
+    margin-top: 1rem;
+}
+
+.update-list {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style: none;
+}
+
+.update-list li {
+    color: var(--white);
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.update-list li::before {
+    content: "•";
+    color: var(--gold);
+    font-weight: bold;
+    position: absolute;
+    left: -1rem;
+}
+
+/* Mobile Responsive for Updates */
+@media (max-width: 768px) {
+    .update-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .update-title {
+        min-width: auto;
+        font-size: 1rem;
+    }
+    
+    .update-date {
+        font-size: 0.8rem;
+        align-self: flex-end;
+    }
+    
+    .update-list {
+        padding-left: 1rem;
+    }
+}
+
 .developer-modal-content {
     background: var(--dark-green);
     border-radius: 20px;
