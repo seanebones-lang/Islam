@@ -1796,7 +1796,7 @@ body {
     margin: 2rem 0;
 }
 
-.arabic-verse, .hadith-text {
+.arabic-verse {
     font-size: 1.5rem;
     color: var(--gold);
     font-weight: 600;
