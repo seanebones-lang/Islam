@@ -377,7 +377,6 @@
 
     <!-- Scripts -->
     <script src="js/complete-quran-all-surahs.js"></script>
-    <script src="js/complete-al-baqarah-286.js"></script>
 
     <!-- Sacred verification script -->
     <script>
@@ -410,13 +409,6 @@
             
             if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
                 surahData = window.completeQuranAllSurahs;
-                
-                // Use complete Al-Baqarah data if available
-                if (window.completeAlBaqarah286) {
-                    surahData[2] = window.completeAlBaqarah286;
-                    console.log('✅ Complete Al-Baqarah (286 verses) loaded and merged');
-                }
-                
                 console.log('✅ Complete Quran data loaded:', Object.keys(surahData).length, 'surahs');
                 initializeQuranReader();
             } else {
@@ -494,6 +486,8 @@
             // Calculate total pages for this surah
             const totalVerses = surah.verses_data ? surah.verses_data.length : 0;
             totalPages = Math.ceil(totalVerses / versesPerPage);
+            
+            console.log(`📊 Surah ${surahNumber} (${surah.name}): ${totalVerses} verses, ${totalPages} pages (${versesPerPage} verses per page)`);
             
             // Reset to page 1 when changing surahs
             currentPage = 1;
@@ -614,6 +608,8 @@
             
             const surah = surahData[currentSurah];
             const surahName = surah ? surah.name : `Surah ${currentSurah}`;
+            
+            console.log(`📄 Updating page info: ${surahName} - Page ${currentPage} of ${totalPages}`);
             pageInfo.textContent = `${surahName} - Page ${currentPage} of ${totalPages}`;
         }
 
