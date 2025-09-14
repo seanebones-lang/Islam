@@ -10489,6 +10489,18 @@ body {
     font-size: 1.1rem;
 }
 
+.quran-verse {
+    color: var(--gold) !important;
+    font-style: italic;
+    font-size: 1.05rem;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--gold);
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
 .cost-category {
     margin: 2rem 0;
     background: rgba(255, 255, 255, 0.03);
