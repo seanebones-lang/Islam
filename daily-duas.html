@@ -1291,24 +1291,61 @@
 
         // Contact and Info Functions
         function showContactSheet() {
-            const contactSheet = document.getElementById('contactSheet');
-            if (contactSheet) {
-                contactSheet.style.display = 'flex';
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
 
         function showDonationBreakdown() {
-            const donationSheet = document.getElementById('donationSheet');
-            if (donationSheet) {
-                donationSheet.style.display = 'flex';
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
 
         function showDeveloperInfo() {
-            const developerSheet = document.getElementById('developerSheet');
-            if (developerSheet) {
-                developerSheet.style.display = 'flex';
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
+        }
+        
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function copyEmail() {
+            const email = 'nextelevenstudios@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                alert('Email copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Could not copy email. Please copy manually: ' + email);
+            });
         }
 
         // Close mobile menu when clicking outside
@@ -1323,5 +1360,95 @@
             }
         });
     </script>
+
+    <!-- Contact Sheet Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contact Us</h3>
+                <button class="contact-close" onclick="closeContactSheet()">&times;</button>
+            </div>
+            <div class="contact-modal-body">
+                <p>We'd love to hear from you! Get in touch with us:</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-details">
+                            <strong>Email:</strong>
+                            <a href="mailto:nextelevenstudios@gmail.com" class="contact-email">nextelevenstudios@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <button class="btn-primary" onclick="copyEmail()">Copy Email</button>
+                    <button class="btn-secondary" onclick="closeContactSheet()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Updates from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <h4>Recent Updates</h4>
+                    <div class="updates-section">
+                        <h4>Latest Features</h4>
+                        <div id="updatesList">
+                            <p><strong>Version 2.0 - Complete Quran Implementation</strong></p>
+                            <ul>
+                                <li>Full 114 surahs with Arabic text, translations, and transliterations</li>
+                                <li>Advanced search functionality across all surahs</li>
+                                <li>Audio playback with verse-by-verse controls</li>
+                                <li>Bookmarking and note-taking features</li>
+                                <li>Mobile-responsive design for all devices</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>About the Development</h4>
+                    <p>This Islamic Learning Companion is being developed with the goal of providing authentic, accessible Islamic education to Muslims worldwide. We strive to draw our content solely from the Qur'an and authentic Sunnah, verified by qualified scholars.</p>
+                    
+                    <h4>Support the Development</h4>
+                    <p>Your support helps us continue developing and improving this platform. All donations go directly towards development costs, server maintenance, and content creation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>What are donations used for?</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-info">
+                    <h4>How Your Donations Help</h4>
+                    <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                    <ul>
+                        <li><strong>Development costs</strong> to complete and expand features</li>
+                        <li><strong>Server maintenance</strong> to ensure reliable access</li>
+                        <li><strong>Content creation</strong> and scholarly review</li>
+                        <li><strong>Translation services</strong> for multiple languages</li>
+                        <li><strong>Audio production</strong> for Quran recitations</li>
+                    </ul>
+                    
+                    <h4>Transparency Promise</h4>
+                    <p>We believe in complete transparency. All donation usage will be publicly documented and available for review.</p>
+                    
+                    <div class="donation-actions">
+                        <button class="btn-primary" onclick="closeDonationModal()">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

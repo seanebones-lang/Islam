@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { margin: 0; padding: 0; }
+        .test-navbar {
+            background: rgba(26, 79, 58, 0.95);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .test-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-nav-right {
+            display: flex;
+            align-items: center;
+        }
+        .test-content {
+            margin-top: 100px;
+            padding: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="test-navbar">
+        <div class="test-nav-container">
+            <div class="test-nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Test Menu</span>
+            </div>
+            <div class="test-nav-right">
+                <button class="mobile-menu-btn" onclick="alert('Menu clicked!')" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="test-content">
+        <h1>Menu Test Page</h1>
+        <p>This page tests if there are duplicate menu buttons.</p>
+        <p>You should see only ONE hamburger menu button in the top-right corner.</p>
+    </div>
+</body>
+</html>

@@ -117,3 +117,7 @@ if (typeof window.completeQuranMasterFinal !== 'undefined') {
 
 
 
+
+
+
+

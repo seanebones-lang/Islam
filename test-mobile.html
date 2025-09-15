@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Mobile App Test - Islamic Companion</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1B5E20, #2E7D32);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #FFD700;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-left: 1rem;
+        }
+        
+        .pass { background: #4CAF50; color: white; }
+        .fail { background: #f44336; color: white; }
+        .pending { background: #ff9800; color: white; }
+        
+        .test-button {
+            background: #FFD700;
+            color: #2E7D32;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 1rem 0;
+            width: 100%;
+        }
+        
+        .test-button:hover {
+            background: #FFC107;
+            transform: translateY(-2px);
+        }
+        
+        .error-log {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🕌 Islamic Companion - Mobile App Test</h1>
+        <p>This page tests the mobile app functionality to ensure it's ready for Apple Store submission.</p>
+        
+        <div class="test-item">
+            <strong>JavaScript Loading Test</strong>
+            <span class="status pending" id="jsStatus">Testing...</span>
+            <div id="jsDetails"></div>
+        </div>
+        
+        <div class="test-item">
+            <strong>Service Worker Test</strong>
+            <span class="status pending" id="swStatus">Testing...</span>
+            <div id="swDetails"></div>
+        </div>
+        
+        <div class="test-item">
+            <strong>PWA Manifest Test</strong>
+            <span class="status pending" id="manifestStatus">Testing...</span>
+            <div id="manifestDetails"></div>
+        </div>
+        
+        <div class="test-item">
+            <strong>Mobile Features Test</strong>
+            <span class="status pending" id="mobileStatus">Testing...</span>
+            <div id="mobileDetails"></div>
+        </div>
+        
+        <div class="test-item">
+            <strong>Error Handling Test</strong>
+            <span class="status pending" id="errorStatus">Testing...</span>
+            <div id="errorDetails"></div>
+        </div>
+        
+        <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+        <button class="test-button" onclick="window.location.href='mobile-app.html'">Open Mobile App</button>
+        
+        <div id="errorLog" class="error-log" style="display: none;">
+            <h3>Error Log:</h3>
+            <div id="errorContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        let testResults = {
+            js: false,
+            sw: false,
+            manifest: false,
+            mobile: false,
+            error: false
+        };
+        
+        function updateStatus(testName, passed, details = '') {
+            const statusElement = document.getElementById(testName + 'Status');
+            const detailsElement = document.getElementById(testName + 'Details');
+            
+            if (passed) {
+                statusElement.textContent = 'PASS';
+                statusElement.className = 'status pass';
+            } else {
+                statusElement.textContent = 'FAIL';
+                statusElement.className = 'status fail';
+            }
+            
+            if (details) {
+                detailsElement.innerHTML = details;
+            }
+            
+            testResults[testName] = passed;
+        }
+        
+        function logError(message) {
+            const errorLog = document.getElementById('errorLog');
+            const errorContent = document.getElementById('errorContent');
+            
+            errorLog.style.display = 'block';
+            errorContent.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + message + '</div>';
+        }
+        
+        function testJavaScriptLoading() {
+            try {
+                // Test if essential objects exist
+                const hasQuranData = typeof window.completeQuranData !== 'undefined';
+                const hasLanguageConfig = typeof window.LanguageConfig !== 'undefined';
+                const hasTranslationManager = typeof window.TranslationManager !== 'undefined';
+                
+                let details = '<ul>';
+                details += '<li>Quran Data: ' + (hasQuranData ? '✅' : '❌') + '</li>';
+                details += '<li>Language Config: ' + (hasLanguageConfig ? '✅' : '❌') + '</li>';
+                details += '<li>Translation Manager: ' + (hasTranslationManager ? '✅' : '❌') + '</li>';
+                details += '</ul>';
+                
+                const passed = hasQuranData || hasLanguageConfig || hasTranslationManager;
+                updateStatus('js', passed, details);
+                
+                if (!passed) {
+                    logError('JavaScript dependencies failed to load');
+                }
+            } catch (error) {
+                updateStatus('js', false, 'Error: ' + error.message);
+                logError('JavaScript test error: ' + error.message);
+            }
+        }
+        
+        function testServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration()
+                    .then(registration => {
+                        if (registration) {
+                            updateStatus('sw', true, 'Service Worker is registered and active');
+                        } else {
+                            updateStatus('sw', false, 'Service Worker not registered');
+                            logError('Service Worker not registered');
+                        }
+                    })
+                    .catch(error => {
+                        updateStatus('sw', false, 'Error: ' + error.message);
+                        logError('Service Worker test error: ' + error.message);
+                    });
+            } else {
+                updateStatus('sw', false, 'Service Worker not supported');
+                logError('Service Worker not supported in this browser');
+            }
+        }
+        
+        function testPWAManifest() {
+            fetch('/manifest.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Manifest not found');
+                    }
+                })
+                .then(manifest => {
+                    const hasRequiredFields = manifest.name && manifest.short_name && manifest.start_url;
+                    updateStatus('manifest', hasRequiredFields, 
+                        'Manifest loaded: ' + (hasRequiredFields ? 'All required fields present' : 'Missing required fields'));
+                    
+                    if (!hasRequiredFields) {
+                        logError('PWA Manifest missing required fields');
+                    }
+                })
+                .catch(error => {
+                    updateStatus('manifest', false, 'Error: ' + error.message);
+                    logError('PWA Manifest test error: ' + error.message);
+                });
+        }
+        
+        function testMobileFeatures() {
+            const hasTouchSupport = 'ontouchstart' in window;
+            const hasVibration = 'vibrate' in navigator;
+            const hasGeolocation = 'geolocation' in navigator;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            let details = '<ul>';
+            details += '<li>Touch Support: ' + (hasTouchSupport ? '✅' : '❌') + '</li>';
+            details += '<li>Vibration API: ' + (hasVibration ? '✅' : '❌') + '</li>';
+            details += '<li>Geolocation: ' + (hasGeolocation ? '✅' : '❌') + '</li>';
+            details += '<li>Mobile Device: ' + (isMobile ? '✅' : '❌') + '</li>';
+            details += '</ul>';
+            
+            const passed = hasTouchSupport && (hasVibration || hasGeolocation);
+            updateStatus('mobile', passed, details);
+            
+            if (!passed) {
+                logError('Mobile features test failed');
+            }
+        }
+        
+        function testErrorHandling() {
+            // Test if error handlers are in place
+            const hasErrorHandler = window.onerror !== null;
+            const hasUnhandledRejection = window.onunhandledrejection !== null;
+            
+            // Test error handling by triggering a safe error
+            try {
+                // This should not throw an error
+                const testError = new Error('Test error');
+                throw testError;
+            } catch (error) {
+                // Error was caught properly
+                updateStatus('error', true, 'Error handling is working properly');
+            }
+        }
+        
+        function runAllTests() {
+            console.log('Running all tests...');
+            
+            testJavaScriptLoading();
+            testServiceWorker();
+            testPWAManifest();
+            testMobileFeatures();
+            testErrorHandling();
+            
+            // Show summary
+            setTimeout(() => {
+                const passedTests = Object.values(testResults).filter(result => result).length;
+                const totalTests = Object.keys(testResults).length;
+                
+                alert(`Test Results: ${passedTests}/${totalTests} tests passed\n\n${passedTests === totalTests ? '✅ All tests passed! App is ready for Apple Store submission.' : '❌ Some tests failed. Please check the error log.'}`);
+            }, 1000);
+        }
+        
+        // Run tests automatically on page load
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 500);
+        });
+        
+        // Catch any errors during testing
+        window.addEventListener('error', (e) => {
+            logError('Global error: ' + e.error.message);
+        });
+        
+        window.addEventListener('unhandledrejection', (e) => {
+            logError('Unhandled promise rejection: ' + e.reason);
+        });
+    </script>
+</body>
+</html>

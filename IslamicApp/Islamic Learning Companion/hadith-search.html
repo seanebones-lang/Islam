@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadith Search - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hadith-search-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            padding: 2rem 0;
+        }
+        
+        .search-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .search-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .search-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .search-icon {
+            color: var(--light-green);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        
+        .clear-search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+        
+        .search-results {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            margin-top: 2rem;
+            max-height: 500px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .search-result-source {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        
+        .search-result-grade {
+            background: var(--light-green);
+            color: var(--dark-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .search-result-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            color: var(--light-green);
+            margin-bottom: 1rem;
+            text-align: right;
+            direction: rtl;
+            line-height: 1.8;
+        }
+        
+        .search-result-translation {
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .search-result-narrator {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .search-highlight {
+            background: rgba(212, 175, 55, 0.3);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--light-green);
+        }
+        
+        .loading-spinner i {
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-home:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        .search-stats {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .search-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .suggestion-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .suggestion-tag:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        @media (max-width: 768px) {
+            .search-title {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                padding: 0.8rem 1rem;
+            }
+            
+            .search-input {
+                font-size: 1rem;
+            }
+            
+            .search-result-arabic {
+                font-size: 1.2rem;
+            }
+            
+            .search-results {
+                max-height: 400px;
+            }
+            
+            .back-to-home {
+                position: static;
+                margin: 1rem;
+                text-align: center;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="complete-quran-reader.html" class="nav-link">Quran Reader</a>
+                <a href="hadith-search.html" class="nav-link active">Hadith Search</a>
+                <a href="daily-companion.html" class="nav-link">Daily Companion</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link active">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                        <a href="hadith-search.html" class="mobile-nav-link">Hadith Search</a>
+                        <a href="daily-companion.html" class="mobile-nav-link">Daily Companion</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
+                <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hadith Search Section -->
+    <section class="hadith-search-page">
+        <div class="container">
+            <!-- Search Header -->
+            <div class="search-header">
+                <h1 class="search-title">
+                    <i class="fas fa-search"></i>
+                    Hadith Search
+                </h1>
+                <p class="search-subtitle">Search authentic hadiths from all 6 major collections</p>
+                
+                <!-- Search Suggestions -->
+                <div class="search-suggestions">
+                    <span class="suggestion-tag" onclick="searchFor('prayer')">Prayer</span>
+                    <span class="suggestion-tag" onclick="searchFor('charity')">Charity</span>
+                    <span class="suggestion-tag" onclick="searchFor('patience')">Patience</span>
+                    <span class="suggestion-tag" onclick="searchFor('family')">Family</span>
+                    <span class="suggestion-tag" onclick="searchFor('mercy')">Mercy</span>
+                    <span class="suggestion-tag" onclick="searchFor('knowledge')">Knowledge</span>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="hadithSearch" placeholder="Search hadiths by topic, keyword, or Arabic text..." class="search-input">
+                    <button id="clearHadithSearch" class="clear-search-btn" onclick="clearHadithSearch()" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="hadithSearchResults" style="display: none;">
+                    <!-- Search results will be populated here -->
+                </div>
+                <div class="search-stats" id="searchStats" style="display: none;">
+                    <!-- Search statistics will be shown here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="hadiths.js"></script>
+    
+    <script>
+        // Initialize the hadith search page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeHadithSearch();
+        });
+        
+        // Search for suggestion tags
+        function searchFor(term) {
+            const searchInput = document.getElementById('hadithSearch');
+            searchInput.value = term;
+            performHadithSearch(term);
+        }
+        
+        // Enhanced search results display for the dedicated page
+        function displayHadithSearchResults(results, query) {
+            const searchResults = document.getElementById('hadithSearchResults');
+            const clearBtn = document.getElementById('clearHadithSearch');
+            const searchStats = document.getElementById('searchStats');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-header">
+                            <div class="search-result-source">No hadiths found</div>
+                        </div>
+                        <div class="search-result-translation">Try searching with different keywords or check your spelling.</div>
+                    </div>
+                `;
+            } else {
+                searchResults.innerHTML = results.map(hadith => `
+                    <div class="search-result-item" onclick="viewHadithDetails('${hadith.id}')">
+                        <div class="search-result-header">
+                            <div class="search-result-source">${hadith.source} - Hadith ${hadith.hadith}</div>
+                            <div class="search-result-grade">${hadith.grade || 'Sahih'}</div>
+                        </div>
+                        <div class="search-result-arabic">${highlightText(hadith.arabic, query)}</div>
+                        <div class="search-result-translation">${highlightText(hadith.english, query)}</div>
+                        <div class="search-result-narrator">
+                            ${hadith.narrator ? `Narrated by: ${hadith.narrator}` : ''} 
+                            ${hadith.apiSource ? `• Source: ${hadith.apiSource.toUpperCase()}` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Show search statistics
+            searchStats.innerHTML = `Found ${results.length} hadith${results.length !== 1 ? 's' : ''} for "${query}"`;
+            searchStats.style.display = 'block';
+            
+            searchResults.style.display = 'block';
+            clearBtn.style.display = 'block';
+        }
+        
+        // Override the original display function
+        window.displayHadithSearchResults = displayHadithSearchResults;
+
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            chevron.classList.toggle('active');
+        }
+
+        // Contact and Info Functions
+        function showContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showDonationBreakdown() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showDeveloperInfo() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function copyEmail() {
+            const email = 'nextelevenstudios@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                alert('Email copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Could not copy email. Please copy manually: ' + email);
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Contact Sheet Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contact Us</h3>
+                <button class="contact-close" onclick="closeContactSheet()">&times;</button>
+            </div>
+            <div class="contact-modal-body">
+                <p>We'd love to hear from you! Get in touch with us:</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-details">
+                            <strong>Email:</strong>
+                            <a href="mailto:nextelevenstudios@gmail.com" class="contact-email">nextelevenstudios@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <button class="btn-primary" onclick="copyEmail()">Copy Email</button>
+                    <button class="btn-secondary" onclick="closeContactSheet()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Updates from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <div class="donation-section">
+                        <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <!-- Recent Updates Section -->
+                    <div class="updates-section">
+                        <h4>Recent Updates</h4>
+                        <div id="updatesList">
+                            <!-- Updates will be dynamically loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bismillah">
+                        <p class="arabic-text">بسم الله الرحمن الرحيم</p>
+                    </div>
+                    
+                    <div class="greeting">
+                        <p><strong>As-Salamu Alaikum Wa Rahmatullahi Wa Barakatuh,</strong></p>
+                    </div>
+                    
+                    <div class="vision-section">
+                        <p>I am reaching out to you today with a vision that lies at the intersection of our faith and the future—a vision to make the vast and beautiful knowledge of Islam accessible to every Muslim, for free, in the digital age.</p>
+                        
+                        <p>We are building a comprehensive digital platform designed to be a reliable fortress of authentic Islamic knowledge. This project aims to provide:</p>
+                        
+                        <ul>
+                            <li><strong>A Complete Islamic Library:</strong> Integrating major texts from the Qur'an and the six authentic books of Hadith to trusted texts of Fiqh, Tafsir, and Islamic history—all in one place, verified by qualified scholars.</li>
+                            <li><strong>AI-Powered Islamic Guidance:</strong> An intelligent assistant will provide scholarly-based answers to your questions, helping to combat misinformation with authentic, well-sourced knowledge.</li>
+                            <li><strong>A Modern, Accessible Experience:</strong> A beautifully designed platform that works on any device, making learning seamless and engaging for everyone, everywhere.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="why-matters">
+                        <h4>Why This Matters Now</h4>
+                        <p>Our communities are struggling. Our youth are searching for answers online but often finding diluted or incorrect information. The deep, scholarly tradition of Islam is being lost in a sea of soundbites. This project is our answer: a dedicated effort to preserve our heritage and make it relevant and accessible for today and tomorrow.</p>
+                    </div>
+                    
+                    <div class="work-progress">
+                        <h4>A Work in Progress, By the Permission of Allah</h4>
+                        <p>This application is currently in a beta rebuild phase. We are rebuilding from the ground up to ensure maximum functionality, reliability, and ease of use. This means features are being re-released gradually as they are perfected. Your patience and duas during this process are invaluable.</p>
+                    </div>
+                    
+                    <div class="sadaqah-section">
+                        <h4>Your Role in This Sadaqah Jariyah</h4>
+                        <p>This project is a labor of love and a duty to our Ummah. To ensure it reaches its full potential and remains completely free, without any ads or subscriptions, we need your support.</p>
+                        
+                        <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                        <ul>
+                            <li>Hosting the platform securely.</li>
+                            <li>Development costs to complete and expand its features.</li>
+                            <li>Ensuring it remains a free resource for all.</li>
+                        </ul>
+                        
+                        <p>Your contribution is not just a donation; it is an investment in a <strong>Sadaqah Jariyah</strong>—a continuous charity that, God willing, will benefit millions of Muslims around the world for generations to come, and you will share in its reward.</p>
+                    </div>
+                    
+                    <div class="join-us">
+                        <h4>Join Us in Building This Legacy</h4>
+                        <p class="hadith">The Prophet Muhammad (ﷺ) said, <em>"The best of people are those who are most beneficial to people."</em></p>
+                        <p>Let us be among those who benefit others. Join me in this mission to empower the Ummah with knowledge.</p>
+                        
+                        <div class="support-section">
+                            <p><strong>Support the development of this platform:</strong></p>
+                            <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        </div>
+                        
+                        <p>Please remember this project in your deepest and most sincere prayers.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p><strong>Jazakum Allahu Khayran,</strong></p>
+                        <p><strong>NextEleven Studios</strong><br>Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Breakdown Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>Where Your Donation Goes</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-breakdown">
+                    <div class="transparency-intro">
+                        <div class="bismillah">
+                            <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                        </div>
+                        <p><strong>Your Support is a Sadaqah Jariyah in the Path of Knowledge</strong></p>
+                        <p class="quran-verse">"Who is it that would loan Allāh a goodly loan so He may multiply it for him many times over?" (Surah Al-Baqarah: 245)</p>
+                        <p>Your contribution is far more than a donation; it is a virtuous loan to Allah (Qardh Hasan) and a direct investment in building a lasting infrastructure for authentic Islamic knowledge—preserving our Deen for the digital age.</p>
+                        <p>Here is a precise breakdown of how your contributions are allocated:</p>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>1. Server Hosting & Infrastructure (The Digital Foundation)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Current Basic Server:</div>
+                            <div class="cost-amount">$48/month</div>
+                            <div class="cost-description">This hosts the current beta version of the application.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Near-Future Scaling:</div>
+                            <div class="cost-amount">$120-$200/month</div>
+                            <div class="cost-description">As we add the Qur'an, Hadith libraries, and user accounts, we will immediately need a more powerful VPS (Virtual Private Server).</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">AI Assistant Server:</div>
+                            <div class="cost-amount">$300-$500/month</div>
+                            <div class="cost-description">To run the complex AI models that power the intelligent assistant, a dedicated, high-performance server is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>2. Development Tools & Software (The Builder's Toolkit)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Essential Software & APIs:</div>
+                            <div class="cost-amount">$60-$100/day</div>
+                            <div class="cost-description">Licenses for essential programming software, code libraries, AI APIs, and security tools are critical for professional development. This investment ensures the platform is built on a secure, stable, and modern foundation.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>3. Development Time (A Full-Time Commitment)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Full-Time Development:</div>
+                            <div class="cost-amount">14-16 hours/day</div>
+                            <div class="cost-description">I have left my job to dedicate myself completely to this project. Your support helps cover the essential living costs that allow me to continue this work full-time without having to abandon the project for other work. This ensures development continues uninterrupted.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>4. Future Critical Expenses (Preparing for Growth)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Mobile Apps:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Costs for developer accounts (Apple App Store & Google Play Store) and build tools.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Security & Backup:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Advanced security certificates, daily backups, and protection from cyber threats to keep user data and Islamic content safe.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Content Licensing:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Fees associated with formally licensing certain authoritative translations and scholarly texts to ensure we distribute them legally and ethically.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Quality Assurance:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">In the future, funds may be used to bring on a part-time tester to help find bugs faster, ensuring a higher quality product for the Ummah.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transparency-pledge">
+                        <h4>Our Pledge: 100% Transparency</h4>
+                        <p><strong>100% of your donation</strong>, after Square's standard payment processing fee (2.9% + $0.30 per transaction), is dedicated solely to the above expenses. We are committed to no ads, no subscriptions, and no hidden costs.</p>
+                        <p>Your donation, large or small, directly powers this mission. You are not just keeping a server online; you are enabling a developer to focus entirely on building a legacy for the Ummah.</p>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h4>Support the Development:</h4>
+                        <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        <p class="prayer-request">May Allah reward you immensely for your support and trust. Please remember this project in your dua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

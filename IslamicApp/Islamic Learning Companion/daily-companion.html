@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Islamic Companion - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .daily-companion-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            padding: 2rem 0;
+        }
+        
+        .companion-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .companion-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .companion-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .companion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .companion-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .companion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .companion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--highlight-green));
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .card-button {
+            background: linear-gradient(135deg, var(--highlight-green), var(--gold));
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(95, 179, 115, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .card-button-small {
+            background: linear-gradient(135deg, var(--highlight-green), var(--gold));
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+        
+        .card-button-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(95, 179, 115, 0.3);
+        }
+        
+        .prayer-times-widget {
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .prayer-times-widget h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .prayer-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .prayer-name {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prayer-time {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .current-prayer {
+            background: linear-gradient(135deg, var(--highlight-green), var(--gold));
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+        
+        .qibla-compass {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .compass-circle {
+            width: 200px;
+            height: 200px;
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            position: relative;
+            background: conic-gradient(from 0deg, var(--gold), var(--highlight-green), var(--gold));
+            animation: rotate 20s linear infinite;
+        }
+        
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            background: var(--white);
+            transform: translate(-50%, -50%);
+            border-radius: 2px;
+        }
+        
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--white);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .tasbih-counter {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .counter-display {
+            font-size: 4rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .counter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .counter-btn {
+            background: var(--highlight-green);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .counter-btn:hover {
+            background: var(--gold);
+            transform: scale(1.05);
+        }
+        
+        .dhikr-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .dhikr-option {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dhikr-option.active {
+            background: var(--gold);
+            color: var(--dark-green);
+        }
+        
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-home:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        @media (max-width: 768px) {
+            .companion-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .companion-card {
+                padding: 1.5rem;
+            }
+            
+            .prayer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .compass-circle {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="complete-quran-reader.html" class="nav-link">Quran Reader</a>
+                <a href="hadith-search.html" class="nav-link">Hadith Search</a>
+                <a href="daily-companion.html" class="nav-link active">Daily Companion</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link active">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                        <a href="hadith-search.html" class="mobile-nav-link">Hadith Search</a>
+                        <a href="daily-companion.html" class="mobile-nav-link">Daily Companion</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
+                <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Daily Companion Page -->
+    <section class="daily-companion-page">
+        <div class="container">
+            <!-- Header -->
+            <div class="companion-header">
+                <h1 class="companion-title">
+                    <i class="fas fa-mosque"></i>
+                    Daily Islamic Companion
+                </h1>
+                <p class="companion-subtitle">Your comprehensive guide for daily Islamic practice and worship</p>
+            </div>
+
+            <!-- Prayer Times Widget -->
+            <div class="prayer-times-widget">
+                <h3><i class="fas fa-clock"></i> Prayer Times</h3>
+                <div class="prayer-grid" id="prayerGrid">
+                    <!-- Prayer times will be loaded here -->
+                </div>
+                <div class="current-prayer" id="currentPrayer">
+                    <p>Loading prayer times...</p>
+                </div>
+            </div>
+
+            <!-- Main Features Grid -->
+            <div class="companion-grid">
+                <!-- Quran & Hadith Search -->
+                <div class="companion-card">
+                    <i class="fas fa-book-quran card-icon"></i>
+                    <h3 class="card-title">Quran & Hadith</h3>
+                    <p class="card-description">Search the complete Quran and authentic Hadith collections with advanced search capabilities</p>
+                    <div class="button-group">
+                        <a href="complete-quran-reader.html" class="card-button-small">Quran</a>
+                        <a href="hadith-search.html" class="card-button-small">Hadith</a>
+                    </div>
+                </div>
+
+                <!-- Qibla Compass -->
+                <div class="companion-card">
+                    <i class="fas fa-compass card-icon"></i>
+                    <h3 class="card-title">Qibla Finder</h3>
+                    <p class="card-description">Find the direction of the Kaaba for accurate prayer orientation</p>
+                    <div class="qibla-compass">
+                        <div class="compass-circle">
+                            <div class="compass-needle"></div>
+                            <div class="compass-center"></div>
+                        </div>
+                        <p style="color: var(--white);">Point your device towards Mecca</p>
+                    </div>
+                </div>
+
+                <!-- Digital Tasbih -->
+                <div class="companion-card">
+                    <i class="fas fa-circle-notch card-icon"></i>
+                    <h3 class="card-title">Digital Tasbih</h3>
+                    <p class="card-description">Count your Dhikr and remembrances with this digital prayer counter</p>
+                    <div class="tasbih-counter">
+                        <div class="counter-display" id="tasbihCount">0</div>
+                        <div class="dhikr-options">
+                            <div class="dhikr-option active" data-dhikr="subhanallah">SubhanAllah</div>
+                            <div class="dhikr-option" data-dhikr="alhamdulillah">Alhamdulillah</div>
+                            <div class="dhikr-option" data-dhikr="allahuakbar">Allahu Akbar</div>
+                            <div class="dhikr-option" data-dhikr="laillahaillallah">La ilaha illa Allah</div>
+                        </div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn" onclick="incrementTasbih()">+</button>
+                            <button class="counter-btn" onclick="resetTasbih()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Prayer Times Data (simplified for demo)
+        const prayerTimes = {
+            fajr: "5:30 AM",
+            dhuhr: "12:15 PM",
+            asr: "3:45 PM",
+            maghrib: "6:20 PM",
+            isha: "8:00 PM"
+        };
+
+        // Load prayer times
+        function loadPrayerTimes() {
+            const prayerGrid = document.getElementById('prayerGrid');
+            const currentPrayer = document.getElementById('currentPrayer');
+            
+            prayerGrid.innerHTML = Object.entries(prayerTimes).map(([prayer, time]) => `
+                <div class="prayer-item">
+                    <div class="prayer-name">${prayer.charAt(0).toUpperCase() + prayer.slice(1)}</div>
+                    <div class="prayer-time">${time}</div>
+                </div>
+            `).join('');
+            
+            // Determine current prayer (simplified logic)
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            
+            let current = "Fajr";
+            if (currentTime >= 300 && currentTime < 720) current = "Fajr";
+            else if (currentTime >= 720 && currentTime < 900) current = "Dhuhr";
+            else if (currentTime >= 900 && currentTime < 1080) current = "Asr";
+            else if (currentTime >= 1080 && currentTime < 1200) current = "Maghrib";
+            else current = "Isha";
+            
+            currentPrayer.innerHTML = `
+                <p><strong>Current Prayer: ${current}</strong></p>
+                <p>Next prayer time will be calculated based on your location</p>
+            `;
+        }
+
+        // Tasbih Counter
+        let tasbihCount = 0;
+        let currentDhikr = 'subhanallah';
+        const dhikrTargets = {
+            'subhanallah': 33,
+            'alhamdulillah': 33,
+            'allahuakbar': 33,
+            'laillahaillallah': 100
+        };
+
+        function incrementTasbih() {
+            tasbihCount++;
+            document.getElementById('tasbihCount').textContent = tasbihCount;
+            
+            // Check if target reached
+            const target = dhikrTargets[currentDhikr];
+            if (tasbihCount >= target) {
+                // Reset counter and show completion message
+                setTimeout(() => {
+                    tasbihCount = 0;
+                    document.getElementById('tasbihCount').textContent = tasbihCount;
+                    showCompletionMessage();
+                }, 1000);
+            }
+            
+            // Haptic feedback (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function showCompletionMessage() {
+            const messages = {
+                'subhanallah': 'SubhanAllah! 33 times completed. BarakAllahu feeki!',
+                'alhamdulillah': 'Alhamdulillah! 33 times completed. BarakAllahu feeki!',
+                'allahuakbar': 'Allahu Akbar! 33 times completed. BarakAllahu feeki!',
+                'laillahaillallah': 'La ilaha illa Allah! 100 times completed. BarakAllahu feeki!'
+            };
+            
+            alert(messages[currentDhikr]);
+        }
+
+        function resetTasbih() {
+            tasbihCount = 0;
+            document.getElementById('tasbihCount').textContent = tasbihCount;
+        }
+
+        // Dhikr selection
+        document.querySelectorAll('.dhikr-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.dhikr-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentDhikr = this.dataset.dhikr;
+                // Removed resetTasbih() - counter should continue from current count
+            });
+        });
+
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPrayerTimes();
+        });
+
+        // Qibla Compass (simplified)
+        function updateQibla() {
+            // In a real implementation, this would use device orientation
+            // and calculate the actual Qibla direction based on location
+            console.log('Qibla direction would be calculated based on device location and orientation');
+        }
+
+        // Request location permission for accurate prayer times and Qibla
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    console.log('Location obtained for accurate prayer times and Qibla');
+                    updateQibla();
+                },
+                function(error) {
+                    console.log('Location access denied, using default settings');
+                }
+            );
+        }
+
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            chevron.classList.toggle('active');
+        }
+
+        // Contact and Info Functions
+        function showContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showDonationBreakdown() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showDeveloperInfo() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function copyEmail() {
+            const email = 'nextelevenstudios@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                alert('Email copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Could not copy email. Please copy manually: ' + email);
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Translation System -->
+    <script src="js/language-config.js"></script>
+    <script src="js/translation-manager.js"></script>
+    
+    <!-- RAG System -->
+    <script src="js/secure-config.js"></script>
+    <script src="js/local-config.js"></script>
+    <script src="js/complete-quran-data.js"></script>
+    <script src="hadiths.js"></script>
+    <script src="js/comprehensive-islamic-knowledge.js"></script>
+    <script src="js/comprehensive-islamic-knowledge-expanded.js"></script>
+    <script src="js/extensive-islamic-knowledge.js"></script>
+    <script src="js/specialized-islamic-knowledge.js"></script>
+    <script src="js/detailed-quranic-hadith-database.js"></script>
+    <script src="js/rag-system.js"></script>
+
+    <!-- Contact Sheet Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contact Us</h3>
+                <button class="contact-close" onclick="closeContactSheet()">&times;</button>
+            </div>
+            <div class="contact-modal-body">
+                <p><strong>We Value Your Nasihah (Sincere Advice)</strong></p>
+                <p>As believers are mirrors to one another, we warmly welcome your questions, suggestions, or any errors you may have found. Please reach out and may Allah reward you with good.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-details">
+                            <strong>Email</strong>
+                            <a href="mailto:nextelevenstudios@gmail.com" class="contact-email">nextelevenstudios@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <button class="btn-primary" onclick="window.location.href='mailto:nextelevenstudios@gmail.com'">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </button>
+                    <button class="btn-secondary" onclick="copyEmail()">
+                        <i class="fas fa-copy"></i> Copy Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Updates from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <div class="donation-section">
+                        <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <!-- Recent Updates Section -->
+                    <div class="updates-section">
+                        <h4>Recent Updates</h4>
+                        <div id="updatesList">
+                            <!-- Updates will be dynamically loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bismillah">
+                        <p class="arabic-text">بسم الله الرحمن الرحيم</p>
+                    </div>
+                    
+                    <div class="greeting">
+                        <p><strong>As-Salamu Alaikum Wa Rahmatullahi Wa Barakatuh,</strong></p>
+                    </div>
+                    
+                    <div class="vision-section">
+                        <p>I am reaching out to you today with a vision that lies at the intersection of our faith and the future—a vision to make the vast and beautiful knowledge of Islam accessible to every Muslim, for free, in the digital age.</p>
+                        
+                        <p>We are building a comprehensive digital platform designed to be a reliable fortress of authentic Islamic knowledge. This project aims to provide:</p>
+                        
+                        <ul>
+                            <li><strong>A Complete Islamic Library:</strong> Integrating major texts from the Qur'an and the six authentic books of Hadith to trusted texts of Fiqh, Tafsir, and Islamic history—all in one place, verified by qualified scholars.</li>
+                            <li><strong>AI-Powered Islamic Guidance:</strong> An intelligent assistant will provide scholarly-based answers to your questions, helping to combat misinformation with authentic, well-sourced knowledge.</li>
+                            <li><strong>A Modern, Accessible Experience:</strong> A beautifully designed platform that works on any device, making learning seamless and engaging for everyone, everywhere.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="why-matters">
+                        <h4>Why This Matters Now</h4>
+                        <p>Our communities are struggling. Our youth are searching for answers online but often finding diluted or incorrect information. The deep, scholarly tradition of Islam is being lost in a sea of soundbites. This project is our answer: a dedicated effort to preserve our heritage and make it relevant and accessible for today and tomorrow.</p>
+                    </div>
+                    
+                    <div class="work-progress">
+                        <h4>A Work in Progress, By the Permission of Allah</h4>
+                        <p>This application is currently in a beta rebuild phase. We are rebuilding from the ground up to ensure maximum functionality, reliability, and ease of use. This means features are being re-released gradually as they are perfected. Your patience and duas during this process are invaluable.</p>
+                    </div>
+                    
+                    <div class="sadaqah-section">
+                        <h4>Your Role in This Sadaqah Jariyah</h4>
+                        <p>This project is a labor of love and a duty to our Ummah. To ensure it reaches its full potential and remains completely free, without any ads or subscriptions, we need your support.</p>
+                        
+                        <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                        <ul>
+                            <li>Hosting the platform securely.</li>
+                            <li>Development costs to complete and expand its features.</li>
+                            <li>Ensuring it remains a free resource for all.</li>
+                        </ul>
+                        
+                        <p>Your contribution is not just a donation; it is an investment in a <strong>Sadaqah Jariyah</strong>—a continuous charity that, God willing, will benefit millions of Muslims around the world for generations to come, and you will share in its reward.</p>
+                    </div>
+                    
+                    <div class="join-us">
+                        <h4>Join Us in Building This Legacy</h4>
+                        <p class="hadith">The Prophet Muhammad (ﷺ) said, <em>"The best of people are those who are most beneficial to people."</em></p>
+                        <p>Let us be among those who benefit others. Join me in this mission to empower the Ummah with knowledge.</p>
+                        
+                        <div class="support-section">
+                            <p><strong>Support the development of this platform:</strong></p>
+                            <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        </div>
+                        
+                        <p>Please remember this project in your deepest and most sincere prayers.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p><strong>Jazakum Allahu Khayran,</strong></p>
+                        <p><strong>NextEleven Studios</strong><br>Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>What are donations used for?</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-breakdown">
+                    <div class="transparency-intro">
+                        <div class="bismillah">
+                            <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                        </div>
+                        <p><strong>Your Support is a Sadaqah Jariyah in the Path of Knowledge</strong></p>
+                        <p class="quran-verse">"Who is it that would loan Allāh a goodly loan so He may multiply it for him many times over?" (Surah Al-Baqarah: 245)</p>
+                        <p>Your contribution is far more than a donation; it is a virtuous loan to Allah (Qardh Hasan) and a direct investment in building a lasting infrastructure for authentic Islamic knowledge—preserving our Deen for the digital age.</p>
+                        <p>Here is a precise breakdown of how your contributions are allocated:</p>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>1. Server Hosting & Infrastructure (The Digital Foundation)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Current Basic Server:</div>
+                            <div class="cost-amount">$48/month</div>
+                            <div class="cost-description">This hosts the current beta version of the application.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Near-Future Scaling:</div>
+                            <div class="cost-amount">$120-$200/month</div>
+                            <div class="cost-description">As we add the Qur'an, Hadith libraries, and user accounts, we will immediately need a more powerful VPS (Virtual Private Server).</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">AI Assistant Server:</div>
+                            <div class="cost-amount">$300-$500/month</div>
+                            <div class="cost-description">To run the complex AI models that power the intelligent assistant, a dedicated, high-performance server is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>2. Development Tools & Software (The Builder's Toolkit)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Essential Software & APIs:</div>
+                            <div class="cost-amount">$60-$100/day</div>
+                            <div class="cost-description">Licenses for essential programming software, code libraries, AI APIs, and security tools are critical for professional development. This investment ensures the platform is built on a secure, stable, and modern foundation.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>3. Development Time (A Full-Time Commitment)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Full-Time Development:</div>
+                            <div class="cost-amount">14-16 hours/day</div>
+                            <div class="cost-description">I have left my job to dedicate myself completely to this project. Your support helps cover the essential living costs that allow me to continue this work full-time without having to abandon the project for other work. This ensures development continues uninterrupted.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>4. Future Critical Expenses (Preparing for Growth)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Mobile Apps:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Costs for developer accounts (Apple App Store & Google Play Store) and build tools.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Security & Backup:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Advanced security certificates, daily backups, and protection from cyber threats to keep user data and Islamic content safe.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Content Licensing:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Fees associated with formally licensing certain authoritative translations and scholarly texts to ensure we distribute them legally and ethically.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Quality Assurance:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">In the future, funds may be used to bring on a part-time tester to help find bugs faster, ensuring a higher quality product for the Ummah.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transparency-pledge">
+                        <h4>Our Pledge: 100% Transparency</h4>
+                        <p><strong>100% of your donation</strong>, after Square's standard payment processing fee (2.9% + $0.30 per transaction), is dedicated solely to the above expenses. We are committed to no ads, no subscriptions, and no hidden costs.</p>
+                        <p>Your donation, large or small, directly powers this mission. You are not just keeping a server online; you are enabling a developer to focus entirely on building a legacy for the Ummah.</p>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h4>Support the Development:</h4>
+                        <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        <p class="prayer-request">May Allah reward you immensely for your support and trust. Please remember this project in your dua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

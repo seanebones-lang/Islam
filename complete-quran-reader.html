@@ -1545,24 +1545,61 @@
 
         // Contact and Info Functions
         function showContactSheet() {
-            const contactSheet = document.getElementById('contactSheet');
-            if (contactSheet) {
-                contactSheet.style.display = 'flex';
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
-
+        
+        function closeContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
         function showDonationBreakdown() {
-            const donationSheet = document.getElementById('donationSheet');
-            if (donationSheet) {
-                donationSheet.style.display = 'flex';
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
-
-        function showDeveloperInfo() {
-            const developerSheet = document.getElementById('developerSheet');
-            if (developerSheet) {
-                developerSheet.style.display = 'flex';
+        
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
+        }
+        
+        function showDeveloperInfo() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function copyEmail() {
+            const email = 'nextelevenstudios@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                alert('Email copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Could not copy email. Please copy manually: ' + email);
+            });
         }
 
         // Close mobile menu when clicking outside
@@ -1577,5 +1614,219 @@
             }
         });
     </script>
+
+    <!-- Contact Sheet Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contact Us</h3>
+                <button class="contact-close" onclick="closeContactSheet()">&times;</button>
+            </div>
+            <div class="contact-modal-body">
+                <p><strong>We Value Your Nasihah (Sincere Advice)</strong></p>
+                <p>As believers are mirrors to one another, we warmly welcome your questions, suggestions, or any errors you may have found. Please reach out and may Allah reward you with good.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-details">
+                            <strong>Email</strong>
+                            <a href="mailto:nextelevenstudios@gmail.com" class="contact-email">nextelevenstudios@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <button class="btn-primary" onclick="window.location.href='mailto:nextelevenstudios@gmail.com'">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </button>
+                    <button class="btn-secondary" onclick="copyEmail()">
+                        <i class="fas fa-copy"></i> Copy Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Updates from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <div class="donation-section">
+                        <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <!-- Recent Updates Section -->
+                    <div class="updates-section">
+                        <h4>Recent Updates</h4>
+                        <div id="updatesList">
+                            <!-- Updates will be dynamically loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bismillah">
+                        <p class="arabic-text">بسم الله الرحمن الرحيم</p>
+                    </div>
+                    
+                    <div class="greeting">
+                        <p><strong>As-Salamu Alaikum Wa Rahmatullahi Wa Barakatuh,</strong></p>
+                    </div>
+                    
+                    <div class="vision-section">
+                        <p>I am reaching out to you today with a vision that lies at the intersection of our faith and the future—a vision to make the vast and beautiful knowledge of Islam accessible to every Muslim, for free, in the digital age.</p>
+                        
+                        <p>We are building a comprehensive digital platform designed to be a reliable fortress of authentic Islamic knowledge. This project aims to provide:</p>
+                        
+                        <ul>
+                            <li><strong>A Complete Islamic Library:</strong> Integrating major texts from the Qur'an and the six authentic books of Hadith to trusted texts of Fiqh, Tafsir, and Islamic history—all in one place, verified by qualified scholars.</li>
+                            <li><strong>AI-Powered Islamic Guidance:</strong> An intelligent assistant will provide scholarly-based answers to your questions, helping to combat misinformation with authentic, well-sourced knowledge.</li>
+                            <li><strong>A Modern, Accessible Experience:</strong> A beautifully designed platform that works on any device, making learning seamless and engaging for everyone, everywhere.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="why-matters">
+                        <h4>Why This Matters Now</h4>
+                        <p>Our communities are struggling. Our youth are searching for answers online but often finding diluted or incorrect information. The deep, scholarly tradition of Islam is being lost in a sea of soundbites. This project is our answer: a dedicated effort to preserve our heritage and make it relevant and accessible for today and tomorrow.</p>
+                    </div>
+                    
+                    <div class="work-progress">
+                        <h4>A Work in Progress, By the Permission of Allah</h4>
+                        <p>This application is currently in a beta rebuild phase. We are rebuilding from the ground up to ensure maximum functionality, reliability, and ease of use. This means features are being re-released gradually as they are perfected. Your patience and duas during this process are invaluable.</p>
+                    </div>
+                    
+                    <div class="sadaqah-section">
+                        <h4>Your Role in This Sadaqah Jariyah</h4>
+                        <p>This project is a labor of love and a duty to our Ummah. To ensure it reaches its full potential and remains completely free, without any ads or subscriptions, we need your support.</p>
+                        
+                        <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                        <ul>
+                            <li>Hosting the platform securely.</li>
+                            <li>Development costs to complete and expand its features.</li>
+                            <li>Ensuring it remains a free resource for all.</li>
+                        </ul>
+                        
+                        <p>Your contribution is not just a donation; it is an investment in a <strong>Sadaqah Jariyah</strong>—a continuous charity that, God willing, will benefit millions of Muslims around the world for generations to come, and you will share in its reward.</p>
+                    </div>
+                    
+                    <div class="join-us">
+                        <h4>Join Us in Building This Legacy</h4>
+                        <p class="hadith">The Prophet Muhammad (ﷺ) said, <em>"The best of people are those who are most beneficial to people."</em></p>
+                        <p>Let us be among those who benefit others. Join me in this mission to empower the Ummah with knowledge.</p>
+                        
+                        <div class="support-section">
+                            <p><strong>Support the development of this platform:</strong></p>
+                            <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        </div>
+                        
+                        <p>Please remember this project in your deepest and most sincere prayers.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p><strong>Jazakum Allahu Khayran,</strong></p>
+                        <p><strong>NextEleven Studios</strong><br>Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>What are donations used for?</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-breakdown">
+                    <div class="transparency-intro">
+                        <div class="bismillah">
+                            <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                        </div>
+                        <p><strong>Your Support is a Sadaqah Jariyah in the Path of Knowledge</strong></p>
+                        <p class="quran-verse">"Who is it that would loan Allāh a goodly loan so He may multiply it for him many times over?" (Surah Al-Baqarah: 245)</p>
+                        <p>Your contribution is far more than a donation; it is a virtuous loan to Allah (Qardh Hasan) and a direct investment in building a lasting infrastructure for authentic Islamic knowledge—preserving our Deen for the digital age.</p>
+                        <p>Here is a precise breakdown of how your contributions are allocated:</p>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>1. Server Hosting & Infrastructure (The Digital Foundation)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Current Basic Server:</div>
+                            <div class="cost-amount">$48/month</div>
+                            <div class="cost-description">This hosts the current beta version of the application.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Near-Future Scaling:</div>
+                            <div class="cost-amount">$120-$200/month</div>
+                            <div class="cost-description">As we add the Qur'an, Hadith libraries, and user accounts, we will immediately need a more powerful VPS (Virtual Private Server).</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">AI Assistant Server:</div>
+                            <div class="cost-amount">$300-$500/month</div>
+                            <div class="cost-description">To run the complex AI models that power the intelligent assistant, a dedicated, high-performance server is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>2. Development Tools & Software (The Builder's Toolkit)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Essential Software & APIs:</div>
+                            <div class="cost-amount">$60-$100/day</div>
+                            <div class="cost-description">Licenses for essential programming software, code libraries, AI APIs, and security tools are critical for professional development. This investment ensures the platform is built on a secure, stable, and modern foundation.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>3. Development Time (A Full-Time Commitment)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Full-Time Development:</div>
+                            <div class="cost-amount">14-16 hours/day</div>
+                            <div class="cost-description">I have left my job to dedicate myself completely to this project. Your support helps cover the essential living costs that allow me to continue this work full-time without having to abandon the project for other work. This ensures development continues uninterrupted.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>4. Future Critical Expenses (Preparing for Growth)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Mobile Apps:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Costs for developer accounts (Apple App Store & Google Play Store) and build tools.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Security & Backup:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Advanced security certificates, daily backups, and protection from cyber threats to keep user data and Islamic content safe.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Content Licensing:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Fees associated with formally licensing certain authoritative translations and scholarly texts to ensure we distribute them legally and ethically.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Quality Assurance:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">In the future, funds may be used to bring on a part-time tester to help find bugs faster, ensuring a higher quality product for the Ummah.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transparency-pledge">
+                        <h4>Our Pledge: 100% Transparency</h4>
+                        <p><strong>100% of your donation</strong>, after Square's standard payment processing fee (2.9% + $0.30 per transaction), is dedicated solely to the above expenses. We are committed to no ads, no subscriptions, and no hidden costs.</p>
+                        <p>Your donation, large or small, directly powers this mission. You are not just keeping a server online; you are enabling a developer to focus entirely on building a legacy for the Ummah.</p>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h4>Support the Development:</h4>
+                        <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        <p class="prayer-request">May Allah reward you immensely for your support and trust. Please remember this project in your dua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -147,3 +147,7 @@ if (alBaqarahStart !== -1 && alBaqarahEnd !== -1) {
 
 
 
+
+
+
+

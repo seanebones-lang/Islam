@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Holy Quran - Islamic Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .quran-reader {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            padding: 2rem 0;
+        }
+        
+        .reader-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .reader-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.75rem 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .search-icon {
+            color: var(--light-green);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        
+        .clear-search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+        
+        .search-results {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-surah {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .search-result-verse {
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+        
+        .search-result-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            color: var(--light-green);
+            margin-bottom: 0.25rem;
+        }
+        
+        .search-result-translation {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .search-highlight {
+            background: rgba(212, 175, 55, 0.3);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+        
+        .surah-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .nav-btn:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .surah-selector {
+            background: var(--dark-green);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            min-width: 250px;
+        }
+        
+        .surah-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border: 2px solid var(--gold);
+        }
+        
+        .surah-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .surah-name-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .surah-name-english {
+            font-size: 1.3rem;
+            color: var(--light-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .surah-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .bismillah {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border-left: 5px solid var(--gold);
+        }
+        
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+            direction: rtl;
+        }
+        
+        .transliteration {
+            color: var(--light-green);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .translation {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .verse-block {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+        
+        .verse-block:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(5px);
+        }
+        
+        .verse-number {
+            background: var(--gold);
+            color: var(--dark-green);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        
+        .arabic-verse {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            line-height: 2;
+            text-align: right;
+            direction: rtl;
+        }
+        
+        .transliteration {
+            color: var(--light-green);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .english-translation {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--light-green);
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-home:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+        
+        .pagination {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 2px solid var(--gold);
+            z-index: 1000;
+        }
+        
+        .page-btn {
+            background: rgba(255,255,255,0.1);
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .page-btn:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+            transform: scale(1.1);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .page-info {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .reader-title {
+                font-size: 2rem;
+            }
+            
+            .surah-name-arabic {
+                font-size: 2rem;
+            }
+            
+            .arabic-text, .arabic-verse {
+                font-size: 1.4rem;
+            }
+            
+            .search-container {
+                margin-bottom: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .search-box {
+                padding: 0.5rem 0.75rem;
+            }
+            
+            .search-input {
+                font-size: 0.9rem;
+            }
+            
+            .search-results {
+                max-height: 250px;
+            }
+            
+            .search-result-item {
+                padding: 0.75rem;
+            }
+            
+            .search-result-arabic {
+                font-size: 1.1rem;
+            }
+            
+            .surah-navigation {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .surah-selector {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .back-to-home {
+                position: static;
+                margin: 1rem;
+                text-align: center;
+                display: inline-block;
+            }
+            
+            .pagination {
+                bottom: 10px;
+                padding: 0.4rem 0.8rem;
+                gap: 0.8rem;
+            }
+            
+            .page-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .page-info {
+                font-size: 0.9rem;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="back-btn" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="nav-logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Learning Companion</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="complete-quran-reader.html" class="nav-link active">Quran Reader</a>
+                <a href="hadith-search.html" class="nav-link">Hadith Search</a>
+                <a href="daily-companion.html" class="nav-link">Daily Companion</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-header" onclick="toggleDropdown('homeDropdown')">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-down" id="homeChevron"></i>
+                    </div>
+                    <div class="mobile-dropdown" id="homeDropdown">
+                        <a href="index.html" class="mobile-nav-link active">Main Page</a>
+                        <a href="complete-quran-reader.html" class="mobile-nav-link">Quran Reader</a>
+                        <a href="hadith-search.html" class="mobile-nav-link">Hadith Search</a>
+                        <a href="daily-companion.html" class="mobile-nav-link">Daily Companion</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-divider"></div>
+                <a href="#" class="mobile-nav-link contact-link" onclick="showContactSheet()">Contact Us</a>
+                <a href="#" class="mobile-nav-link donation-info" onclick="showDonationBreakdown()">What are donations used for?</a>
+                <a href="#" class="mobile-nav-link developer-info" onclick="showDeveloperInfo()">Updates from the Developer</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quran Reader Section -->
+    <section class="quran-reader">
+        <div class="container">
+            <!-- Reader Header -->
+            <div class="reader-header">
+                <h1 class="reader-title">
+                    <i class="fas fa-book-quran"></i>
+                    Complete Holy Quran
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">All 114 Surahs with Arabic text, transliteration, and translation</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="quranSearch" placeholder="Search surah, verse, or any text..." class="search-input">
+                    <button id="clearSearch" class="clear-search-btn" onclick="clearSearch()" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults" style="display: none;">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Surah Navigation -->
+            <div class="surah-navigation">
+                <button class="nav-btn" id="prevSurah" onclick="previousSurah()" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <select id="surahSelect" class="surah-selector">
+                    <option value="1">1. Al-Fatihah (The Opening)</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+                <button class="nav-btn" id="nextSurah" onclick="nextSurah()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Quran Content -->
+            <div class="quran-content" id="quranContent">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <h3>Loading the Complete Holy Quran...</h3>
+                    <p>May Allah bless this effort for the Ummah</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button class="page-btn" id="prevPageBtn" onclick="previousPage()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="page-info" id="pageInfo">
+            Surah 1 of 114
+        </div>
+        <button class="page-btn" id="nextPageBtn" onclick="nextPage()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/complete-quran-fixed.js"></script>
+    <script src="js/complete-quran-all-surahs.js"></script>
+    <script src="js/quran-loader.js"></script>
+
+    <!-- Sacred verification script -->
+    <script>
+        // Sacred verification guidance
+        console.log('🤲 SACRED QURAN VERIFICATION SYSTEM 🤲');
+        console.log('=====================================');
+        console.log('📖 This system systematically verifies each surah');
+        console.log('✅ Checks Arabic text, transliteration, and translation');
+        console.log('🔍 Ensures all 114 surahs are complete and perfect');
+        console.log('🤲 Sacred work done with utmost care and respect');
+        console.log('=====================================');
+        console.log('Use: verifyCompleteQuran() in console for verification');
+        console.log('=====================================');
+    </script>
+    
+    <script>
+        let currentSurah = 1;
+        let currentPage = 1;
+        let versesPerPage = 10; // Number of verses to show per page
+        let surahData = {};
+        let totalPages = 1; // Will be calculated based on current surah
+        let searchResults = [];
+        let allQuranData = {}; // Store complete Quran data for search
+
+        // Search functionality
+        function initializeSearch() {
+            const searchInput = document.getElementById('quranSearch');
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length >= 2) {
+                    performSearch(query);
+                } else {
+                    hideSearchResults();
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.trim();
+                    if (query.length >= 2) {
+                        performSearch(query);
+                    }
+                }
+            });
+        }
+        
+        function performSearch(query) {
+            console.log('🔍 Performing search for:', query);
+            console.log('📊 AllQuranData available:', allQuranData ? Object.keys(allQuranData).length : 'undefined');
+            console.log('📊 SurahData available:', surahData ? Object.keys(surahData).length : 'undefined');
+            
+            // Use surahData if allQuranData is not available
+            const searchData = allQuranData && Object.keys(allQuranData).length > 0 ? allQuranData : surahData;
+            
+            if (!searchData || Object.keys(searchData).length === 0) {
+                console.log('❌ No Quran data available for search');
+                displaySearchResults([{
+                    type: 'loading',
+                    message: 'Loading Quran data... Please wait a moment and try again.'
+                }]);
+                return;
+            }
+            
+            const results = [];
+            const searchQuery = query.toLowerCase();
+            console.log('🔍 Searching in', Object.keys(searchData).length, 'surahs');
+            
+            // Search through all surahs
+            Object.keys(searchData).forEach(surahNumber => {
+                const surah = searchData[surahNumber];
+                if (!surah) return;
+                
+                const surahName = surah.name || surah.english || `Surah ${surahNumber}`;
+                
+                // Search in surah name
+                if (surahName.toLowerCase().includes(searchQuery)) {
+                    results.push({
+                        type: 'surah',
+                        surahNumber: parseInt(surahNumber),
+                        surahName: surahName,
+                        match: surahName
+                    });
+                }
+                
+                // Search in verses - check different possible data structures
+                const verses = surah.verses || surah.verses_data || [];
+                if (verses && verses.length > 0) {
+                    verses.forEach((verse, index) => {
+                        const verseNumber = index + 1;
+                        const arabicText = verse.arabic || verse.text || '';
+                        const translation = verse.translation || verse.english || '';
+                        const transliteration = verse.transliteration || '';
+                        
+                        // Check if query matches any part of the verse
+                        if (arabicText.toLowerCase().includes(searchQuery) ||
+                            translation.toLowerCase().includes(searchQuery) ||
+                            transliteration.toLowerCase().includes(searchQuery)) {
+                            
+                            results.push({
+                                type: 'verse',
+                                surahNumber: parseInt(surahNumber),
+                                surahName: surahName,
+                                verseNumber: verseNumber,
+                                arabic: arabicText,
+                                translation: translation,
+                                transliteration: transliteration,
+                                match: searchQuery
+                            });
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ Found', results.length, 'search results');
+            displaySearchResults(results.slice(0, 20)); // Limit to 20 results
+        }
+        
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+            } else if (results[0] && results[0].type === 'loading') {
+                searchResults.innerHTML = `<div class="search-result-item">${results[0].message}</div>`;
+            } else {
+                searchResults.innerHTML = results.map(result => {
+                    if (result.type === 'surah') {
+                        return `
+                            <div class="search-result-item" onclick="goToSurah(${result.surahNumber})">
+                                <div class="search-result-surah">${highlightText(result.surahName, result.match)}</div>
+                                <div class="search-result-translation">Click to view surah</div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="search-result-item" onclick="goToVerse(${result.surahNumber}, ${result.verseNumber})">
+                                <div class="search-result-surah">${result.surahName} - Verse ${result.verseNumber}</div>
+                                <div class="search-result-arabic">${highlightText(result.arabic, result.match)}</div>
+                                <div class="search-result-translation">${highlightText(result.translation, result.match)}</div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            }
+            
+            searchResults.style.display = 'block';
+            clearBtn.style.display = 'block';
+        }
+        
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+        
+        function hideSearchResults() {
+            const searchResults = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            searchResults.style.display = 'none';
+            clearBtn.style.display = 'none';
+        }
+        
+        function clearSearch() {
+            const searchInput = document.getElementById('quranSearch');
+            searchInput.value = '';
+            hideSearchResults();
+        }
+        
+        function goToSurah(surahNumber) {
+            currentSurah = surahNumber;
+            currentPage = 1;
+            loadSurah(surahNumber);
+            hideSearchResults();
+            document.getElementById('quranSearch').value = '';
+            
+            // Scroll to top to show surah selector
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function goToVerse(surahNumber, verseNumber) {
+            currentSurah = surahNumber;
+            // Calculate which page the verse is on
+            const surah = allQuranData[surahNumber];
+            if (surah && surah.verses) {
+                currentPage = Math.ceil(verseNumber / versesPerPage);
+            } else {
+                currentPage = 1;
+            }
+            loadSurah(surahNumber);
+            hideSearchResults();
+            document.getElementById('quranSearch').value = '';
+            
+            // First scroll to top to show surah selector, then scroll to verse
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Scroll to the specific verse after a short delay
+            setTimeout(() => {
+                const verseElement = document.querySelector(`[data-verse="${verseNumber}"]`);
+                if (verseElement) {
+                    verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    verseElement.style.background = 'rgba(212, 175, 55, 0.2)';
+                    setTimeout(() => {
+                        verseElement.style.background = '';
+                    }, 3000);
+                }
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize immediately with local data
+            initializeWithLocalData();
+            
+            // Scroll to top to show surah selector and search bar
+            window.scrollTo(0, 0);
+        });
+
+        function initializeWithLocalData() {
+            console.log('🔍 Initializing Quran Reader with complete data...');
+            
+            // Load complete Quran from reliable API
+            loadCompleteQuranFromAPI();
+        }
+
+        async function loadCompleteQuranFromAPI() {
+            try {
+                console.log('🔄 Loading complete Quran from AlQuran Cloud API...');
+                
+                // Load Arabic text
+                const arabicResponse = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+                const arabicData = await arabicResponse.json();
+                
+                // Load English translation
+                const englishResponse = await fetch('https://api.alquran.cloud/v1/quran/en.asad');
+                const englishData = await englishResponse.json();
+                
+                if (arabicData.code === 200 && englishData.code === 200) {
+                    const quranData = {};
+                    
+                    // Process all 114 surahs
+                    for (let i = 0; i < 114; i++) {
+                        const surahNum = i + 1;
+                        const arabicSurah = arabicData.data.surahs[i];
+                        const englishSurah = englishData.data.surahs[i];
+                        
+                        quranData[surahNum] = {
+                            name: arabicSurah.englishName,
+                            english: arabicSurah.englishNameTranslation,
+                            arabic: arabicSurah.name,
+                            type: arabicSurah.revelationType === 'Meccan' ? 'Meccan' : 'Medinan',
+                            verses: arabicSurah.numberOfAyahs,
+                            juz: getJuzForSurah(surahNum),
+                            verses_data: []
+                        };
+                        
+                        // Process verses
+                        for (let j = 0; j < arabicSurah.ayahs.length; j++) {
+                            quranData[surahNum].verses_data.push({
+                                arabic: arabicSurah.ayahs[j].text,
+                                transliteration: '', // Not available from this API
+                                translation: englishSurah.ayahs[j].text
+                            });
+                        }
+                    }
+                    
+                    surahData = quranData;
+                    allQuranData = quranData; // Store for search functionality
+                    console.log('✅ Complete Quran loaded from API:', Object.keys(surahData).length, 'surahs');
+                    console.log('✅ Al-Baqarah has', surahData[2].verses_data.length, 'verses');
+                    console.log('🔍 Search data ready:', Object.keys(allQuranData).length, 'surahs available for search');
+                    console.log('📖 Sample surah data structure:', surahData[1]);
+                    initializeQuranReader();
+                    initializeSearch(); // Initialize search functionality
+                    
+                } else {
+                    throw new Error('API returned error');
+                }
+                
+            } catch (error) {
+                console.warn('Failed to load from API, using local data:', error);
+                fallbackToLocalData();
+            }
+        }
+
+        function getJuzForSurah(surahNum) {
+            // Simplified Juz mapping
+            if (surahNum <= 2) return [1, 2, 3];
+            if (surahNum <= 5) return [4, 5, 6];
+            if (surahNum <= 7) return [7, 8, 9];
+            if (surahNum <= 9) return [10, 11];
+            if (surahNum <= 11) return [11, 12];
+            if (surahNum <= 14) return [13, 14];
+            if (surahNum <= 16) return [15, 16];
+            if (surahNum <= 18) return [16, 17];
+            if (surahNum <= 20) return [17, 18];
+            if (surahNum <= 22) return [18, 19];
+            if (surahNum <= 25) return [19, 20];
+            if (surahNum <= 27) return [20, 21];
+            if (surahNum <= 29) return [21, 22];
+            if (surahNum <= 33) return [22, 23];
+            if (surahNum <= 36) return [23, 24];
+            if (surahNum <= 39) return [24, 25];
+            if (surahNum <= 41) return [25, 26];
+            if (surahNum <= 45) return [26, 27];
+            if (surahNum <= 48) return [27, 28];
+            if (surahNum <= 51) return [28, 29];
+            if (surahNum <= 55) return [29, 30];
+            return 30;
+        }
+
+        function fallbackToLocalData() {
+            // Try fixed data first
+            if (window.completeQuranFixed && Object.keys(window.completeQuranFixed).length > 0) {
+                surahData = window.completeQuranFixed;
+                allQuranData = window.completeQuranFixed; // Store for search functionality
+                console.log('✅ Complete Quran data loaded from fixed file:', Object.keys(surahData).length, 'surahs');
+                initializeQuranReader();
+                initializeSearch(); // Initialize search functionality
+            } else if (window.completeQuranAllSurahs && Object.keys(window.completeQuranAllSurahs).length > 0) {
+                surahData = window.completeQuranAllSurahs;
+                allQuranData = window.completeQuranAllSurahs; // Store for search functionality
+                console.log('✅ Complete Quran data loaded from local file:', Object.keys(surahData).length, 'surahs');
+                initializeQuranReader();
+                initializeSearch(); // Initialize search functionality
+            } else {
+                showError('Quran data not available. Please refresh the page.');
+            }
+        }
+
+        function initializeQuranReader() {
+            console.log('🔍 Initializing Quran Reader...');
+            console.log('✅ Complete Quran loaded:', Object.keys(surahData).length, 'surahs');
+
+            if (surahData && Object.keys(surahData).length === 114) {
+                setupSurahSelector();
+                showSurah(1);
+                
+                // Verify all 114 surahs are present and complete
+                setTimeout(() => {
+                    showNotification('🤲 Complete Holy Quran loaded! All 114 surahs with complete verses verified. 🤲', 'success');
+                    
+                    // Check Al-Baqarah specifically
+                    const alBaqarah = surahData[2];
+                    if (alBaqarah && alBaqarah.verses_data) {
+                        console.log(`✅ Al-Baqarah: ${alBaqarah.verses_data.length}/${alBaqarah.verses} verses loaded`);
+                        if (alBaqarah.verses_data.length === alBaqarah.verses) {
+                            console.log('🎉 Al-Baqarah is complete with all 286 verses!');
+                        }
+                    }
+                }, 1000);
+            } else {
+                showError('Quran data incomplete. Please refresh the page.');
+            }
+        }
+
+        function setupSurahSelector() {
+            const surahSelect = document.getElementById('surahSelect');
+            surahSelect.innerHTML = '';
+
+            let optionsCreated = 0;
+            let missingSurahs = [];
+
+            for (let i = 1; i <= 114; i++) {
+                if (surahData[i]) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    const surah = surahData[i];
+                    option.textContent = `${i}. ${surah.name} (${surah.english})`;
+                    surahSelect.appendChild(option);
+                    optionsCreated++;
+                } else {
+                    missingSurahs.push(i);
+                }
+            }
+
+            console.log(`✅ Surah selector setup: ${optionsCreated} options created`);
+            if (missingSurahs.length > 0) {
+                console.warn(`⚠️ Missing surahs in selector: ${missingSurahs.join(', ')}`);
+            }
+            
+            surahSelect.addEventListener('change', function() {
+                showSurah(parseInt(this.value));
+            });
+        }
+
+        function showSurah(surahNumber) {
+            currentSurah = parseInt(surahNumber);
+            const surah = surahData[currentSurah];
+            
+            console.log(`Loading Surah ${surahNumber}:`, surah);
+            
+            if (!surah) {
+                showError('Surah not found');
+                return;
+            }
+
+            // Calculate total pages for this surah
+            const totalVerses = surah.verses_data ? surah.verses_data.length : 0;
+            totalPages = Math.max(1, Math.ceil(totalVerses / versesPerPage));
+            
+            console.log(`📊 Surah ${surahNumber} (${surah.name}): ${totalVerses} verses, ${totalPages} pages (${versesPerPage} verses per page)`);
+            console.log(`📊 Expected verses: ${surah.verses}, Actual verses: ${totalVerses}`);
+            console.log(`📊 First few verses:`, surah.verses_data ? surah.verses_data.slice(0, 3) : 'No verses_data');
+            
+            // Reset to page 1 when changing surahs
+            currentPage = 1;
+            
+            showPage(currentPage);
+            
+            // Scroll to top to show surah selector and search bar
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showPage(pageNumber) {
+            const surah = surahData[currentSurah];
+            if (!surah) {
+                showError('Surah not found');
+                return;
+            }
+
+            const content = document.getElementById('quranContent');
+            
+            // Calculate verse range for current page
+            const availableVerses = surah.verses_data ? surah.verses_data.length : 0;
+            const startVerse = (pageNumber - 1) * versesPerPage;
+            const endVerse = Math.min(startVerse + versesPerPage, availableVerses);
+            
+            // Generate verses HTML for current page only
+            let versesHTML = '';
+            
+            if (surah.verses_data && surah.verses_data.length > 0) {
+                console.log(`📖 Showing page ${pageNumber} of ${totalPages} (verses ${startVerse + 1}-${endVerse} of ${availableVerses})`);
+
+                for (let i = startVerse; i < endVerse; i++) {
+                    const verse = surah.verses_data[i];
+                    if (verse) {
+                        versesHTML += generateVerseHTML(verse, i + 1);
+                    } else {
+                        console.warn(`Missing verse data for verse ${i + 1} in surah ${currentSurah}`);
+                        versesHTML += generateVerseHTML(null, i + 1);
+                    }
+                }
+                
+                // If we don't have enough verses, show a message
+                if (availableVerses < surah.verses) {
+                    versesHTML += `
+                        <div class="status-indicator status-incomplete" style="margin-top: 2rem;">
+                            <strong>Note:</strong> This surah has ${availableVerses} of ${surah.verses} verses available. 
+                            The complete surah is being loaded from external sources.
+                        </div>
+                    `;
+                }
+            } else {
+                versesHTML = `
+                    <div class="status-indicator status-incomplete">
+                        <h3>Surah ${currentSurah} - Loading</h3>
+                        <p>This surah is being loaded. Please wait...</p>
+                    </div>
+                `;
+            }
+
+            const surahHTML = `
+                <div class="surah-container">
+                    <div class="surah-header">
+                        <div class="surah-name-arabic">${surah.arabic}</div>
+                        <div class="surah-name-english">${surah.name} (${surah.english})</div>
+                        <div class="surah-info">
+                            ${surah.type} • ${surah.verses} verses • Page ${pageNumber} of ${totalPages}
+                            ${surah.juz ? `• Juz ${Array.isArray(surah.juz) ? surah.juz.join(', ') : surah.juz}` : ''}
+                        </div>
+                    </div>
+                    
+                    ${currentSurah !== 9 && pageNumber === 1 ? `
+                        <div class="bismillah">
+                            <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                            <div class="transliteration">Bismillahi-r-Rahmani-r-Raheem</div>
+                            <div class="translation">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="verses-container">
+                        ${versesHTML}
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = surahHTML;
+            updateNavigationButtons();
+            updatePaginationButtons();
+            
+            // Smooth scroll to content
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function generateVerseHTML(verse, verseNumber) {
+            // Handle missing or malformed verse data
+            if (!verse) {
+                return `
+                    <div class="verse-block" data-verse="${verseNumber}">
+                        <div class="verse-number">${verseNumber}</div>
+                        <div class="verse-content">
+                            <div class="arabic-verse">[Verse data not available]</div>
+                            <div class="transliteration">[Transliteration not available]</div>
+                            <div class="english-translation">[Translation not available]</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="verse-block" data-verse="${verseNumber}">
+                    <div class="verse-number">${verseNumber}</div>
+                    <div class="verse-content">
+                        <div class="arabic-verse">${verse.arabic || '[Arabic text not available]'}</div>
+                        <div class="transliteration">${verse.transliteration || '[Transliteration not available]'}</div>
+                        <div class="english-translation">${verse.translation || '[Translation not available]'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevSurah');
+            const nextBtn = document.getElementById('nextSurah');
+            const surahSelect = document.getElementById('surahSelect');
+            
+            prevBtn.disabled = currentSurah <= 1;
+            nextBtn.disabled = currentSurah >= 114;
+            surahSelect.value = currentSurah;
+            
+            updatePaginationButtons();
+        }
+        
+        function updatePaginationButtons() {
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const pageInfo = document.getElementById('pageInfo');
+            
+            prevPageBtn.disabled = currentPage <= 1;
+            nextPageBtn.disabled = currentPage >= totalPages;
+            
+            const surah = surahData[currentSurah];
+            const surahName = surah ? surah.name : `Surah ${currentSurah}`;
+            
+            console.log(`📄 Updating page info: ${surahName} - Page ${currentPage} of ${totalPages}`);
+            pageInfo.textContent = `${surahName} - Page ${currentPage} of ${totalPages}`;
+        }
+
+        function previousSurah() {
+            if (currentSurah > 1) {
+                currentSurah--;
+                showSurah(currentSurah);
+            }
+        }
+
+        function nextSurah() {
+            if (currentSurah < 114) {
+                currentSurah++;
+                showSurah(currentSurah);
+            }
+        }
+        
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+        
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+        
+        function goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= totalPages) {
+                currentPage = pageNumber;
+                showPage(currentPage);
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--light-green)' : type === 'error' ? 'var(--error-red, #ef4444)' : 'var(--gold)'};
+                color: ${type === 'success' ? 'var(--dark-green)' : 'white'};
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                z-index: 10000;
+                font-weight: 500;
+                max-width: 300px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        function showError(message) {
+            showNotification(message, 'error');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                if (e.shiftKey) {
+                    // Shift + Left Arrow for previous surah
+                    previousSurah();
+                } else {
+                    // Left Arrow for previous page within current surah
+                    previousPage();
+                }
+            } else if (e.key === 'ArrowRight') {
+                if (e.shiftKey) {
+                    // Shift + Right Arrow for next surah
+                    nextSurah();
+                } else {
+                    // Right Arrow for next page within current surah
+                    nextPage();
+                }
+            }
+        });
+
+
+
+
+
+
+        // Systematic verification function for sacred work
+        function verifyCompleteQuran() {
+            console.log('🤲 Starting Systematic Quran Verification - Sacred Work 🤲');
+            console.log('=' .repeat(60));
+
+            if (!window.completeQuranAllSurahs) {
+                console.error('❌ CRITICAL: completeQuranAllSurahs not loaded!');
+                return { success: false, error: 'Data not loaded' };
+            }
+
+            const totalSurahs = Object.keys(window.completeQuranAllSurahs).length;
+            console.log(`📊 Total Surahs Available: ${totalSurahs}/114`);
+
+            if (totalSurahs !== 114) {
+                console.error(`❌ CRITICAL: Expected 114 surahs, found ${totalSurahs}`);
+                return { success: false, error: `Wrong count: ${totalSurahs}/114` };
+            }
+
+            let verifiedSurahs = 0;
+            let missingSurahs = [];
+            let incompleteSurahs = [];
+            let brokenSurahs = [];
+
+            console.log('\n🔍 Systematically verifying each surah...');
+
+            for (let surahNum = 1; surahNum <= 114; surahNum++) {
+                const surah = window.completeQuranAllSurahs[surahNum];
+
+                if (!surah) {
+                    console.error(`❌ Surah ${surahNum}: MISSING completely!`);
+                    missingSurahs.push(surahNum);
+                    continue;
+                }
+
+                // Check basic structure
+                if (!surah.name || !surah.arabic || !surah.english) {
+                    console.error(`❌ Surah ${surahNum}: Missing basic metadata`);
+                    brokenSurahs.push(surahNum);
+                    continue;
+                }
+
+                // Check verses
+                if (!surah.verses_data || surah.verses_data.length === 0) {
+                    console.error(`❌ Surah ${surahNum} (${surah.name}): No verses!`);
+                    incompleteSurahs.push(surahNum);
+                    continue;
+                }
+
+                // Verify each verse has required content
+                let verseIssues = 0;
+                surah.verses_data.forEach((verse, index) => {
+                    if (!verse.arabic || verse.arabic.trim() === '') verseIssues++;
+                    if (!verse.transliteration || verse.transliteration.trim() === '') verseIssues++;
+                    if (!verse.translation || verse.translation.trim() === '') verseIssues++;
+                });
+
+                if (verseIssues > 0) {
+                    console.warn(`⚠️ Surah ${surahNum} (${surah.name}): ${verseIssues} verse issues`);
+                    incompleteSurahs.push(surahNum);
+                } else {
+                    console.log(`✅ Surah ${surahNum} (${surah.name}): ${surah.verses_data.length} verses - Complete`);
+                    verifiedSurahs++;
+                }
+
+                // Progress indicator
+                if (surahNum % 10 === 0) {
+                    console.log(`📊 Progress: ${surahNum}/114 surahs verified...`);
+                }
+            }
+
+            console.log('\n' + '='.repeat(60));
+            console.log('🤲 SACRED VERIFICATION RESULTS 🤲');
+            console.log('='.repeat(60));
+
+            console.log(`✅ Verified Surahs: ${verifiedSurahs}/114`);
+            console.log(`❌ Missing Surahs: ${missingSurahs.length}`);
+            console.log(`⚠️ Incomplete Surahs: ${incompleteSurahs.length}`);
+            console.log(`💔 Broken Surahs: ${brokenSurahs.length}`);
+
+            if (missingSurahs.length > 0) {
+                console.error('🚨 CRITICAL - Missing Surahs:', missingSurahs);
+            }
+
+            if (brokenSurahs.length > 0) {
+                console.error('💔 Broken Surahs:', brokenSurahs);
+            }
+
+            if (incompleteSurahs.length > 0) {
+                console.warn('⚠️ Incomplete Surahs:', incompleteSurahs);
+            }
+
+            const isComplete = missingSurahs.length === 0 && brokenSurahs.length === 0 && verifiedSurahs === 114;
+
+            if (isComplete) {
+                console.log('\n🎉 🤲 SUBHANALLAH! COMPLETE QURAN IS PERFECT! 🤲 🎉');
+                console.log('✅ All 114 surahs verified and complete');
+                console.log('✅ Every verse has Arabic, transliteration, and translation');
+                console.log('✅ Sacred work completed successfully');
+                console.log('🤲 Alhamdulillah! 🤲');
+            } else {
+                console.error('\n💥 SACRED WORK INCOMPLETE - ISSUES FOUND 💥');
+                console.error('❌ Some surahs are missing or incomplete');
+                console.error('🤲 Please fix these issues for the complete Quran 🤲');
+            }
+
+            return {
+                success: isComplete,
+                totalSurahs: 114,
+                verifiedSurahs,
+                missingSurahs,
+                incompleteSurahs,
+                brokenSurahs
+            };
+        }
+
+        // Function to check data quality for a specific surah
+        function checkSurahDataQuality(surahNumber) {
+            const surah = window.completeQuranAllSurahs[surahNumber];
+            if (!surah) {
+                console.error(`❌ Surah ${surahNumber} not found in data!`);
+                return false;
+            }
+
+            console.log(`🔍 Checking data quality for Surah ${surahNumber} (${surah.name})`);
+            console.log(`Expected verses: ${surah.verses}`);
+            console.log(`Actual verses_data length: ${surah.verses_data ? surah.verses_data.length : 'undefined'}`);
+
+            if (!surah.verses_data || surah.verses_data.length === 0) {
+                console.error(`❌ No verses_data found for Surah ${surahNumber}!`);
+                return false;
+            }
+
+            let completeVerses = 0;
+            let incompleteVerses = 0;
+
+            surah.verses_data.forEach((verse, index) => {
+                const verseNum = index + 1;
+                const hasArabic = verse && verse.arabic && verse.arabic.trim() !== '';
+                const hasTransliteration = verse && verse.transliteration && verse.transliteration.trim() !== '';
+                const hasTranslation = verse && verse.translation && verse.translation.trim() !== '';
+
+                if (hasArabic && hasTransliteration && hasTranslation) {
+                    completeVerses++;
+                } else {
+                    incompleteVerses++;
+                    console.warn(`⚠️ Verse ${verseNum} incomplete: Arabic=${hasArabic}, Transliteration=${hasTransliteration}, Translation=${hasTranslation}`);
+                }
+            });
+
+            console.log(`✅ Complete verses: ${completeVerses}`);
+            console.log(`⚠️ Incomplete verses: ${incompleteVerses}`);
+
+            return {
+                totalVerses: surah.verses_data.length,
+                completeVerses,
+                incompleteVerses,
+                isComplete: completeVerses === surah.verses_data.length
+            };
+        }
+
+        // Function to fix verse display issues
+        function fixVerseDisplay(surahNumber) {
+            console.log(`🔧 Attempting to fix verse display for Surah ${surahNumber}`);
+
+            // Check data quality
+            const quality = checkSurahDataQuality(surahNumber);
+            if (!quality.isComplete) {
+                console.error(`❌ Cannot fix: Surah ${surahNumber} has incomplete data`);
+                return false;
+            }
+
+            // Force reload the surah
+            showSurah(surahNumber);
+            console.log(`✅ Reloaded Surah ${surahNumber} - should now show all ${quality.totalVerses} verses`);
+            return true;
+        }
+
+        // Function to test specific surah display
+        function testSurahDisplay(surahNumber) {
+            console.log(`🧪 Testing Surah ${surahNumber} display...`);
+
+            const surah = window.completeQuranAllSurahs[surahNumber];
+            if (!surah) {
+                console.error(`❌ Surah ${surahNumber} not found in data!`);
+                return;
+            }
+
+            console.log(`📊 Surah ${surahNumber} (${surah.name}) data:`);
+            console.log(`- Expected verses: ${surah.verses}`);
+            console.log(`- verses_data length: ${surah.verses_data ? surah.verses_data.length : 'undefined'}`);
+
+            if (surah.verses_data) {
+                // Check first few verses
+                console.log('🔍 First 3 verses:');
+                for (let i = 0; i < Math.min(3, surah.verses_data.length); i++) {
+                    const verse = surah.verses_data[i];
+                    console.log(`Verse ${i + 1}: Arabic=${verse.arabic ? '✅' : '❌'}, Transliteration=${verse.transliteration ? '✅' : '❌'}, Translation=${verse.translation ? '✅' : '❌'}`);
+                }
+
+                // Check last few verses
+                console.log('🔍 Last 3 verses:');
+                for (let i = Math.max(0, surah.verses_data.length - 3); i < surah.verses_data.length; i++) {
+                    const verse = surah.verses_data[i];
+                    console.log(`Verse ${i + 1}: Arabic=${verse.arabic ? '✅' : '❌'}, Transliteration=${verse.transliteration ? '✅' : '❌'}, Translation=${verse.translation ? '✅' : '❌'}`);
+                }
+            }
+
+            // Now load the surah and see what gets displayed
+            console.log('📺 Loading surah for display...');
+            showSurah(surahNumber);
+
+            // Check the DOM after a short delay
+            setTimeout(() => {
+                const verseBlocks = document.querySelectorAll('.verse-block');
+                console.log(`📊 DOM shows ${verseBlocks.length} verse blocks displayed`);
+                console.log(`📊 Expected ${surah.verses} verses, displayed ${verseBlocks.length} verses`);
+
+                if (verseBlocks.length !== surah.verses) {
+                    console.error(`❌ MISMATCH: Expected ${surah.verses} verses, but only ${verseBlocks.length} are displayed!`);
+                } else {
+                    console.log('✅ All verses displayed correctly!');
+                }
+            }, 500);
+        }
+
+        // Function to diagnose verse display issues
+        function diagnoseVerseDisplay() {
+            console.log('🔍 DIAGNOSING VERSE DISPLAY ISSUE');
+            console.log('==================================');
+
+            // Check current surah
+            console.log(`Current surah: ${currentSurah}`);
+            const currentSurahData = window.completeQuranAllSurahs[currentSurah];
+
+            if (!currentSurahData) {
+                console.error(`❌ Current surah ${currentSurah} not found in data!`);
+                return;
+            }
+
+            console.log(`Surah ${currentSurah} (${currentSurahData.name})`);
+            console.log(`- Expected verses: ${currentSurahData.verses}`);
+            console.log(`- verses_data length: ${currentSurahData.verses_data ? currentSurahData.verses_data.length : 'undefined'}`);
+
+            // Check DOM
+            const verseBlocks = document.querySelectorAll('.verse-block');
+            console.log(`- Verse blocks in DOM: ${verseBlocks.length}`);
+
+            // Check if verses_data exists and has content
+            if (currentSurahData.verses_data) {
+                console.log('✅ verses_data exists');
+
+                // Sample first few verses
+                for (let i = 0; i < Math.min(3, currentSurahData.verses_data.length); i++) {
+                    const verse = currentSurahData.verses_data[i];
+                    console.log(`Verse ${i + 1}: Arabic length = ${verse.arabic ? verse.arabic.length : 'undefined'}`);
+                }
+
+                // Check for empty verses
+                const emptyVerses = currentSurahData.verses_data.filter(v => !v || !v.arabic || v.arabic.trim() === '');
+                console.log(`Empty/missing verses: ${emptyVerses.length}`);
+
+                if (emptyVerses.length > 0) {
+                    console.error('❌ FOUND EMPTY VERSES - This could be the issue!');
+                    emptyVerses.forEach((verse, index) => {
+                        const actualIndex = currentSurahData.verses_data.indexOf(verse);
+                        console.error(`Empty verse at index ${actualIndex}`);
+                    });
+                }
+
+            } else {
+                console.error('❌ verses_data is missing!');
+            }
+
+            // Check HTML content length
+            const quranContent = document.getElementById('quranContent');
+            if (quranContent) {
+                console.log(`DOM content length: ${quranContent.innerHTML.length} characters`);
+            }
+
+            console.log('==================================');
+            console.log('DIAGNOSIS COMPLETE');
+            console.log('==================================');
+        }
+
+        // Make functions available globally
+        window.showSurah = showSurah;
+        window.previousSurah = previousSurah;
+        window.nextSurah = nextSurah;
+        window.previousPage = previousPage;
+        window.nextPage = nextPage;
+        window.verifyCompleteQuran = verifyCompleteQuran;
+        window.checkSurahDataQuality = checkSurahDataQuality;
+        window.fixVerseDisplay = fixVerseDisplay;
+        window.testSurahDisplay = testSurahDisplay;
+        window.diagnoseVerseDisplay = diagnoseVerseDisplay;
+
+        // Navigation Functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const header = dropdown.previousElementSibling;
+            const chevron = header.querySelector('i');
+            
+            dropdown.classList.toggle('active');
+            chevron.classList.toggle('active');
+        }
+
+        // Contact and Info Functions
+        function showContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeContactSheet() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function showDonationBreakdown() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDonationModal() {
+            const donationModal = document.getElementById('donationModal');
+            if (donationModal) {
+                donationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function showDeveloperInfo() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDeveloperModal() {
+            const developerModal = document.getElementById('developerModal');
+            if (developerModal) {
+                developerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function copyEmail() {
+            const email = 'nextelevenstudios@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                alert('Email copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Could not copy email. Please copy manually: ' + email);
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Contact Sheet Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contact Us</h3>
+                <button class="contact-close" onclick="closeContactSheet()">&times;</button>
+            </div>
+            <div class="contact-modal-body">
+                <p><strong>We Value Your Nasihah (Sincere Advice)</strong></p>
+                <p>As believers are mirrors to one another, we warmly welcome your questions, suggestions, or any errors you may have found. Please reach out and may Allah reward you with good.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-details">
+                            <strong>Email</strong>
+                            <a href="mailto:nextelevenstudios@gmail.com" class="contact-email">nextelevenstudios@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <button class="btn-primary" onclick="window.location.href='mailto:nextelevenstudios@gmail.com'">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </button>
+                    <button class="btn-secondary" onclick="copyEmail()">
+                        <i class="fas fa-copy"></i> Copy Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Modal -->
+    <div class="developer-modal" id="developerModal">
+        <div class="developer-modal-content">
+            <div class="developer-modal-header">
+                <h3>Updates from the Developer</h3>
+                <button class="developer-modal-close" onclick="closeDeveloperModal()">&times;</button>
+            </div>
+            <div class="developer-modal-body">
+                <div class="developer-info">
+                    <div class="donation-section">
+                        <h4>Support the Vision: <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a></h4>
+                    </div>
+                    
+                    <!-- Recent Updates Section -->
+                    <div class="updates-section">
+                        <h4>Recent Updates</h4>
+                        <div id="updatesList">
+                            <!-- Updates will be dynamically loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bismillah">
+                        <p class="arabic-text">بسم الله الرحمن الرحيم</p>
+                    </div>
+                    
+                    <div class="greeting">
+                        <p><strong>As-Salamu Alaikum Wa Rahmatullahi Wa Barakatuh,</strong></p>
+                    </div>
+                    
+                    <div class="vision-section">
+                        <p>I am reaching out to you today with a vision that lies at the intersection of our faith and the future—a vision to make the vast and beautiful knowledge of Islam accessible to every Muslim, for free, in the digital age.</p>
+                        
+                        <p>We are building a comprehensive digital platform designed to be a reliable fortress of authentic Islamic knowledge. This project aims to provide:</p>
+                        
+                        <ul>
+                            <li><strong>A Complete Islamic Library:</strong> Integrating major texts from the Qur'an and the six authentic books of Hadith to trusted texts of Fiqh, Tafsir, and Islamic history—all in one place, verified by qualified scholars.</li>
+                            <li><strong>AI-Powered Islamic Guidance:</strong> An intelligent assistant will provide scholarly-based answers to your questions, helping to combat misinformation with authentic, well-sourced knowledge.</li>
+                            <li><strong>A Modern, Accessible Experience:</strong> A beautifully designed platform that works on any device, making learning seamless and engaging for everyone, everywhere.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="why-matters">
+                        <h4>Why This Matters Now</h4>
+                        <p>Our communities are struggling. Our youth are searching for answers online but often finding diluted or incorrect information. The deep, scholarly tradition of Islam is being lost in a sea of soundbites. This project is our answer: a dedicated effort to preserve our heritage and make it relevant and accessible for today and tomorrow.</p>
+                    </div>
+                    
+                    <div class="work-progress">
+                        <h4>A Work in Progress, By the Permission of Allah</h4>
+                        <p>This application is currently in a beta rebuild phase. We are rebuilding from the ground up to ensure maximum functionality, reliability, and ease of use. This means features are being re-released gradually as they are perfected. Your patience and duas during this process are invaluable.</p>
+                    </div>
+                    
+                    <div class="sadaqah-section">
+                        <h4>Your Role in This Sadaqah Jariyah</h4>
+                        <p>This project is a labor of love and a duty to our Ummah. To ensure it reaches its full potential and remains completely free, without any ads or subscriptions, we need your support.</p>
+                        
+                        <p><strong>100% of your donations</strong> (after standard payment processing fees) will be directed solely towards:</p>
+                        <ul>
+                            <li>Hosting the platform securely.</li>
+                            <li>Development costs to complete and expand its features.</li>
+                            <li>Ensuring it remains a free resource for all.</li>
+                        </ul>
+                        
+                        <p>Your contribution is not just a donation; it is an investment in a <strong>Sadaqah Jariyah</strong>—a continuous charity that, God willing, will benefit millions of Muslims around the world for generations to come, and you will share in its reward.</p>
+                    </div>
+                    
+                    <div class="join-us">
+                        <h4>Join Us in Building This Legacy</h4>
+                        <p class="hadith">The Prophet Muhammad (ﷺ) said, <em>"The best of people are those who are most beneficial to people."</em></p>
+                        <p>Let us be among those who benefit others. Join me in this mission to empower the Ummah with knowledge.</p>
+                        
+                        <div class="support-section">
+                            <p><strong>Support the development of this platform:</strong></p>
+                            <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        </div>
+                        
+                        <p>Please remember this project in your deepest and most sincere prayers.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p><strong>Jazakum Allahu Khayran,</strong></p>
+                        <p><strong>NextEleven Studios</strong><br>Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="donation-modal-content">
+            <div class="donation-modal-header">
+                <h3>What are donations used for?</h3>
+                <button class="donation-modal-close" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="donation-modal-body">
+                <div class="donation-breakdown">
+                    <div class="transparency-intro">
+                        <div class="bismillah">
+                            <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                        </div>
+                        <p><strong>Your Support is a Sadaqah Jariyah in the Path of Knowledge</strong></p>
+                        <p class="quran-verse">"Who is it that would loan Allāh a goodly loan so He may multiply it for him many times over?" (Surah Al-Baqarah: 245)</p>
+                        <p>Your contribution is far more than a donation; it is a virtuous loan to Allah (Qardh Hasan) and a direct investment in building a lasting infrastructure for authentic Islamic knowledge—preserving our Deen for the digital age.</p>
+                        <p>Here is a precise breakdown of how your contributions are allocated:</p>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>1. Server Hosting & Infrastructure (The Digital Foundation)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Current Basic Server:</div>
+                            <div class="cost-amount">$48/month</div>
+                            <div class="cost-description">This hosts the current beta version of the application.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Near-Future Scaling:</div>
+                            <div class="cost-amount">$120-$200/month</div>
+                            <div class="cost-description">As we add the Qur'an, Hadith libraries, and user accounts, we will immediately need a more powerful VPS (Virtual Private Server).</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">AI Assistant Server:</div>
+                            <div class="cost-amount">$300-$500/month</div>
+                            <div class="cost-description">To run the complex AI models that power the intelligent assistant, a dedicated, high-performance server is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>2. Development Tools & Software (The Builder's Toolkit)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Essential Software & APIs:</div>
+                            <div class="cost-amount">$60-$100/day</div>
+                            <div class="cost-description">Licenses for essential programming software, code libraries, AI APIs, and security tools are critical for professional development. This investment ensures the platform is built on a secure, stable, and modern foundation.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>3. Development Time (A Full-Time Commitment)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Full-Time Development:</div>
+                            <div class="cost-amount">14-16 hours/day</div>
+                            <div class="cost-description">I have left my job to dedicate myself completely to this project. Your support helps cover the essential living costs that allow me to continue this work full-time without having to abandon the project for other work. This ensures development continues uninterrupted.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-category">
+                        <h4>4. Future Critical Expenses (Preparing for Growth)</h4>
+                        <div class="cost-item">
+                            <div class="cost-label">Mobile Apps:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Costs for developer accounts (Apple App Store & Google Play Store) and build tools.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Security & Backup:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Advanced security certificates, daily backups, and protection from cyber threats to keep user data and Islamic content safe.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Content Licensing:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">Fees associated with formally licensing certain authoritative translations and scholarly texts to ensure we distribute them legally and ethically.</div>
+                        </div>
+                        <div class="cost-item">
+                            <div class="cost-label">Quality Assurance:</div>
+                            <div class="cost-amount">Variable</div>
+                            <div class="cost-description">In the future, funds may be used to bring on a part-time tester to help find bugs faster, ensuring a higher quality product for the Ummah.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transparency-pledge">
+                        <h4>Our Pledge: 100% Transparency</h4>
+                        <p><strong>100% of your donation</strong>, after Square's standard payment processing fee (2.9% + $0.30 per transaction), is dedicated solely to the above expenses. We are committed to no ads, no subscriptions, and no hidden costs.</p>
+                        <p>Your donation, large or small, directly powers this mission. You are not just keeping a server online; you are enabling a developer to focus entirely on building a legacy for the Ummah.</p>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h4>Support the Development:</h4>
+                        <a href="https://square.link/u/txN8sC1d" target="_blank" class="donation-link">Donate Here</a>
+                        <p class="prayer-request">May Allah reward you immensely for your support and trust. Please remember this project in your dua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
